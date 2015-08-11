@@ -18,7 +18,7 @@ void RecupHebergeursIcones::demarrage()
     m_networkAccessManager = new QNetworkAccessManager(this);
 }
 
-void RecupHebergeursIcones::downloadUrl(const QUrl url, const int id)
+void RecupHebergeursIcones::downloadUrl(const QUrl url)
 {
     // Récupération sur le site des icones des hebergeurs...
 
@@ -36,10 +36,14 @@ void RecupHebergeursIcones::downloadUrl(const QUrl url, const int id)
     // Miracle des tables de hashage ! On associe à chaque requête l'id de l'hébergeur associé pour le retrouver lors de la réception de la requête.
     // http://www.siteduzero.com/forum/sujet/qt-qnetworkrequest-27057
 
-    // Stockage de la requête
+    // Stockage de la requête (autant d'icone que d'hébergeur)
+
+    static int i = 0;
+    m_hash.insert(reply, i); // méthode plus mieux..
     //m_hash[reply] = id;
-    m_hash.insert(reply, id); // méthode plus mieux..
     //si on utilise l'opérateur [] pour autre chose que l'insertion ça insert silencieusement des paires non désirée.. habitude à prendre !
+
+    i++;
 }
 
 void RecupHebergeursIcones::finRecupHebergeurIcone()

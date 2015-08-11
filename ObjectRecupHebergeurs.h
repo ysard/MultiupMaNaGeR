@@ -30,10 +30,11 @@ private slots:
     void finRecupHebergeurs();
 
 signals:
-    void emissionUrlIcone(QUrl url, int id);
+    void emissionUrlIcone(QUrl url);
     void emissionRecupHebergeursEtat(int etatConnexion);
-    void emissionRecupHebergeursHebergeurs(QString, QString);
+    void emissionRecupHebergeursHebergeurs(QString, QString, bool);
     void emissionRecupHebergeursIcones(QByteArray, int);
+    void emissionMaxSelectionHebergeurs(int);
     void finished();
 
 private:

@@ -117,7 +117,7 @@ public slots:
     void receptionUpCurlLienEtStats(QString lien, double averageSpeed, double dureeTransfert);
     void receptionUpCurlEtat(int etatUpCurl);
     void receptionRecupHebergeursEtat(int etatRecupHebergeurs);
-    void receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte);
+    void receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection);
     void receptionRecupHebergeursIcones(QByteArray icone, int id);
     void receptionUpCurlProgression(double TotalToUpload, double NowUploaded);
     void upCurlUnpause();

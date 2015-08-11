@@ -40,7 +40,7 @@ void RecupHebergeurs::demarrage()
     m_test->moveToThread(m_thread);
 
     connect(m_thread, SIGNAL(started()), m_test, SLOT(demarrage()));
-    connect(this, SIGNAL(emissionUrlIcone(QUrl, int)), m_test, SLOT(downloadUrl(QUrl, int)));
+    connect(this, SIGNAL(emissionUrlIcone(QUrl)), m_test, SLOT(downloadUrl(QUrl)));
     connect(m_test, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
     connect(m_test, SIGNAL(finished()), m_thread, SLOT(quit()));
     connect(m_test, SIGNAL(finished()), m_test, SLOT(deleteLater()));
@@ -101,10 +101,45 @@ void RecupHebergeurs::finRecupHebergeurs()
 
     // V3
     //{"error":"success","hosts":{"rapidshare.com":2048,"dl.free.fr":1024,"depositfiles.com":2048,"uptobox.com":2048,"uploadhero.com":2048,"uploaded.net":2048,"filecloud.io":2040,"1fichier.com":2048,"turbobit.net":2048,"putlocker.com":2048,"1st-files.com":2048,"hugefiles.net":2048,"rapidgator.net":2048,"billionuploads.com":2048}}
-
-
-    QJsonDocument loadDoc(
-                QJsonDocument::fromJson(temp));
+    /* V4
+    {
+        "error":"success",
+        "hosts":
+                {
+                    "1fichier.com": {
+                                        "selected":"true",
+                                        "size":5120
+                                    },
+                    "easybytez.com":{
+                                        "selected":"false",
+                                        "size":5120
+                                    }
+                },
+        "default":
+                [
+                    "dl.free.fr",
+                    "uptobox.com",
+                    "uploaded.net",
+                    "ezfile.ch",
+                    "1fichier.com",
+                    "turbobit.net",
+                    "hugefiles.net",
+                    "rapidgator.net",
+                    "mega.co.nz",
+                    "zippyshare.com",
+                    "2shared.com",
+                    "filesupload.org",
+                    "uplea.com",
+                    "clicknupload.com",
+                    "uploadable.ch",
+                    "oboom.com",
+                    "filerio.in",
+                    "userscloud.com"
+                ],
+        "maxHosts":18
+    }
+    */
+    QJsonDocument loadDoc(QJsonDocument::fromJson(temp));
 
     if (!loadDoc.isNull()) { // Test de validité
 
@@ -113,34 +148,46 @@ void RecupHebergeurs::finRecupHebergeurs()
         if (connexionObj["error"].toString() == "success") {
             // Succès certain
 
-            // Récupération de l'objet hosts
+            // Récupération de l'objet liste de hosts
             QJsonObject hosts(connexionObj["hosts"].toObject());
-
-            int j = 0;
 
             //Here's how to iterate over a QMap<QString, int> using an iterator
             //http://qt-project.org/doc/qt-4.8/qmap.html
             // http://doc.qt.io/qt-5/containers.html#stl-style-iterators
-            QJsonObject::const_iterator it = hosts.constBegin();
-            while (it != hosts.constEnd()) {
-                qDebug() << it.key() << ":" << it.value();
+            QJsonObject::const_iterator hosts_it = hosts.constBegin();
+            while (hosts_it != hosts.constEnd()) {
 
-                // Stockage du texte affiché sur la checkbox
-                QString nom = it.key();
+                // Objet host
+                QJsonObject host(hosts[hosts_it.key()].toObject());
+                qDebug() << hosts_it.key() << ":" << host;
+
+                // Stockage du texte affiché sur la checkbox => nom du host
+                QString nom = hosts_it.key();
                 nom[0] = nom.at(0).toUpper();
 
-                emit this->emissionRecupHebergeursHebergeurs(it.key(),
-                                                             nom + " (" + QString::number(it.value().toInt(0)) + " Mo)");
+                // Etat de sélection
+                bool etat_selection = (host["selected"] == "true") ? true : false;
 
-                QUrl url(URL_RECUPERATION_ICONES + it.key() + ".png");
-                emit this->emissionUrlIcone(url, j);
+                // Création checkbox
+                emit this->emissionRecupHebergeursHebergeurs(
+                            hosts_it.key(),
+                            nom + " (" + QString::number(host["size"].toInt(0)) + " Mo)",
+                            etat_selection);
 
-                ++it;
-                j++;
+                // Récupération de l'icone via son URL
+                QUrl url(URL_RECUPERATION_ICONES + hosts_it.key() + ".png");
+                emit this->emissionUrlIcone(url);
+
+                ++hosts_it;
             }
             // Permet l'émission du signal avec le paramètre 1 = réussite
             // Voir finProcedure()
             m_statutConnexion = Ok;
+
+            // Nombre maximal d'hébergeurs à sélectionner
+            int maxHosts = connexionObj["maxHosts"].toInt();
+            qDebug() << maxHosts;
+            emit this->emissionMaxSelectionHebergeurs(maxHosts);
         }
 
         // Echec certain

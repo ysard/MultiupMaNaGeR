@@ -14,7 +14,7 @@ public:
 
 public slots:
     void demarrage();
-    void downloadUrl(const QUrl url, const int id);
+    void downloadUrl(const QUrl url);
 
 private slots:
     void finRecupHebergeurIcone();

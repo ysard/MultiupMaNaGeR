@@ -1345,7 +1345,7 @@ void MainWindow::rechercheHebergeurs()
     connect(thread, SIGNAL(started()), m_recupHebergeurs, SLOT(demarrage()));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursEtat(int)), this, SLOT(receptionRecupHebergeursEtat(int)));
 
-    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString)));
+    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool)));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, int)));
     connect(m_recupHebergeurs, SIGNAL(finished()), thread, SLOT(quit()));
 
@@ -1374,7 +1374,7 @@ void MainWindow::receptionRecupHebergeursEtat(int etatRecupHebergeurs)
         QMessageBox::information(this, tr("Erreur"), tr("Echec de récupération des hébergeurs !\nVeuillez relancer le logiciel."));
 }
 
-void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte)
+void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection)
 {
     // Fonction assurant la disposition des hébergeurs sur l'interface et le mappage des signaux
 
@@ -1393,7 +1393,7 @@ void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString h
 
     // Mise en place de la checkbox
     QCheckBox *checkbox = new QCheckBox(hebergeurTexte);
-    checkbox->setChecked(true);
+    checkbox->setChecked(etat_selection);
 
     // Ajout de la checkbox à la liste des checkbox et au GridLayout
     m_listCheckBoxHebergeurs.insert(checkbox, i);
