@@ -31,7 +31,7 @@ unix:LIBS += -lcurl
 # A VOIR 
 
 
-
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 SOURCES += main.cpp\
         mainwindow.cpp \
