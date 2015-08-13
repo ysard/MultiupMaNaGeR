@@ -990,7 +990,8 @@ void MainWindow::on_boutonSavIdentifiants_clicked()
         QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
     #endif
     #ifdef LINUX
-        QSettings settings(QApplication::applicationDirPath() + "/config.ini", QSettings::IniFormat);
+        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
+        qWarning() << settings.fileName();
     #endif
 
     if (m_configIdentifiants == true) // Le fichier a déjà été sauvegardé, on recharge les paramètres
@@ -1022,7 +1023,7 @@ void MainWindow::on_boutonSavParametres_clicked()
         QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
     #endif
     #ifdef LINUX
-        QSettings settings(QApplication::applicationDirPath() + "/config.ini", QSettings::IniFormat);
+        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
     #endif
 
     if (m_configParametres == true) // Le fichier a déjà été sauvegardé, on recharge les paramètres
@@ -1070,7 +1071,7 @@ void MainWindow::rappelIdentifiants()
         QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
     #endif
     #ifdef LINUX
-        QSettings settings(QApplication::applicationDirPath() + "/config.ini", QSettings::IniFormat);
+        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
     #endif
 
     m_login->setText(settings.value("Identifiants/Login").toString());

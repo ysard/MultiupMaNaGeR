@@ -22,4 +22,9 @@
 // --- ObjectRecupIcones.cpp
 #define URL_RECUPERATION_ICONES "http://www.multiup.org/bundles/multiupsite/img/hosts/"
 
+// --- Custom directory for the application on Linux
+#ifdef LINUX
+    #define APP_DIR "Multiupv2"
+#endif
+
 #endif // CONFIG_H
