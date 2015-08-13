@@ -8,7 +8,7 @@
 #endif
 //#define LINUX_ANDROID
 
-#define VERSION "0.4"
+#define VERSION "0.4.2"
 
 // --- ObjectMiseAJour.cpp
 #define URL_MAJ_LINUX "http://hotspot.fr/version_linux.txt"
