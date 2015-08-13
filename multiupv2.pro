@@ -4,65 +4,55 @@
 #
 #-------------------------------------------------
 
-QT += core gui
+QT += core gui widgets
 QT += network
 
 TARGET = multiupv2
 TEMPLATE = app
 
-# Supprimer tous les Debugs
+# Supprimer tous les messages de Debug
 DEFINES += QT_NO_DEBUG_OUTPUT
 
 
 #CURL unix
 #unix:INCLUDEPATH += /usr/include/curl
-unix:INCLUDEPATH += ./dependances-developpement/curl-7.28.1-devel-unix-static/include
-unix:LIBS += -L./dependances-developpement/curl-7.28.1-devel-unix-static/lib
-unix:LIBS += -lcurl -lz -lidn -lssl -lcrypto
+unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include
+unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include/curl
+unix:LIBS += -L/media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/lib
+unix:LIBS += -lcurl
 #-lidn -lssl -lcrypto -lrt -lssl -lz -lrtmp (selon les restrictions lors de la compilation de curl..)
 
 
 #CURL windows
 # Avec mingw32 :
-win32:INCLUDEPATH += .\dependances-developpement\curl-7.28.1-devel-mingw32\include
+win32:INCLUDEPATH += D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\include \
+win32:INCLUDEPATH += D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\include\curl
 
 # Avec msvc :
-#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc
+#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc \
+#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\include\curl \
 #win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\lib\Release
 
-win32:LIBS += -L".\dependances-developpement\curl-7.28.1-devel-mingw32\lib"
+win32:LIBS += -L"D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\lib"
 #revoir la lib ici..-lws2_32  ptetre aussi... -lwldap32 ??
 win32:LIBS += -lcurl -lwldap32 -lws2_32
 
-# Pour les libraries CURL en static
-DEFINES += CURL_STATICLIB
-DEFINES += HTTP_ONLY
-
-
-
-
-#QJSON
-DEFINES += QJSON_STATIC
-#DEFINES += QJSON_MAKEDLL
-
-unix:INCLUDEPATH += ./dependances-developpement/qjson-unix-static/include
-unix:LIBS += -L./dependances-developpement/qjson-unix-static/lib -lqjson
-
-win32:INCLUDEPATH += .\dependances-developpement\qjson-win32-static\include
-win32:LIBS += -L".\dependances-developpement\qjson-win32-static\lib" -lqjson
+# Pour les libraries CURL en static Windows/Linux
+win32:DEFINES += CURL_STATICLIB
+win32:DEFINES += HTTP_ONLY
 
 
 
 
 #QT
 # A VOIR 
-#win32:LIBS += -L"G:\QtSDK\mingw\lib" 
-CONFIG += static
-QMAKESPEC=win32-g++
-QMAKE_LFLAGS += -static-libgcc
+##win32:LIBS += -L"G:\QtSDK\mingw\lib" 
+#CONFIG += static
+#QMAKESPEC=win32-g++
+#QMAKE_LFLAGS += -static-libgcc
 
 
-
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 SOURCES += main.cpp\
         mainwindow.cpp \
