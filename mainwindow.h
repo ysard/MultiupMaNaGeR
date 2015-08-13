@@ -28,6 +28,7 @@
 #include "ObjectUpCurl.h"
 #include "ObjectRecupHebergeurs.h"
 
+
 #include "ui_mainwindow.h"
 
 
@@ -36,11 +37,13 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
     Q_OBJECT
 
 public:
+    //Statuts possibles des fichiers
     enum EtatFichier
     {
         STOPED, REMOVED, FAILED_e, FINISHED, PREPROCESSING, READY, UPLOADING
     };
 
+    //Statuts possibles pour la manipulation des données du tableau
     enum EtatTableau
     {
         AJOUT, RETRAIT, RAZ
@@ -105,7 +108,7 @@ public slots:
 
     void rechercheHebergeurs();
     void checkboxHebergeursClicked(QString hebergeur);
-
+    bool regulationMaxSelectedHosts();
 
     void on_boutonUpload_clicked();
 
@@ -119,6 +122,7 @@ public slots:
     void receptionRecupHebergeursEtat(int etatRecupHebergeurs);
     void receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection);
     void receptionRecupHebergeursIcones(QByteArray icone, int id);
+    void receptionMaxSelectionHebergeurs(int);
     void receptionUpCurlProgression(double TotalToUpload, double NowUploaded);
     void upCurlUnpause();
 
@@ -152,6 +156,7 @@ private:
     QSignalMapper           *m_signalMapper; // mappage des signaux des checkbox
     //QList<QCheckBox*>        m_listCheckBoxHebergeurs;
     QHash<QCheckBox*, int>  m_listCheckBoxHebergeurs;
+    int                     m_maxHosts;
 
     QLabel                  *m_labelExtinction;
     QLabel                  *m_labelReprise;

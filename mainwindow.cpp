@@ -180,8 +180,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_sizeTot       = 0;        //Taille totale des fichiers à up => sert pour la barre de progression
     m_sizeFaite     = 0;        //Taille totale des fichiers déjà envoyés => sert pour la barre de progression
 
-    typedef enum EtatFichier EtatFichier; //Statuts possibles des fichiers
-    typedef enum EtatTableau EtatTableau; //Statuts possibles pour la manipulation des données du tableau
+//    typedef enum EtatFichier EtatFichier; //Statuts possibles des fichiers
+//    typedef enum EtatTableau EtatTableau; //Statuts possibles pour la manipulation des données du tableau
 
     // Initialisation des pointeurs persos!
     //évite de mauvaises surprises... La même chose est faite dans tous les slots publics finThreadXXX()
@@ -1347,6 +1347,7 @@ void MainWindow::rechercheHebergeurs()
 
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool)));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, int)));
+    connect(m_recupHebergeurs, SIGNAL(emissionMaxSelectionHebergeurs(int)), this, SLOT(receptionMaxSelectionHebergeurs(int)));
     connect(m_recupHebergeurs, SIGNAL(finished()), thread, SLOT(quit()));
 
     connect(m_recupHebergeurs, SIGNAL(finished()), m_recupHebergeurs, SLOT(deleteLater()));
@@ -1421,9 +1422,61 @@ void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
     }
 }
 
+void MainWindow::receptionMaxSelectionHebergeurs(int maxHosts)
+{
+    // Memorise le nombre max d'hébergeurs autorisés
+    m_maxHosts = maxHosts;
+}
+
+bool MainWindow::regulationMaxSelectedHosts()
+{
+    // Retourne true si la sélection est autorisée, false sinon
+    // (Prend en compte le nombre max d'hébergeurs autorisés)
+    qDebug() << "total checkbox:" << gridLayoutHebergeurs->count();
+
+    // http://qt-project.org/doc/qt-5/qobject.html#findChildren
+    QList<QCheckBox*> allCheckbox = findChildren<QCheckBox*>();
+
+    int nb_checked = 0;
+
+    Q_FOREACH(QCheckBox *checkbox, allCheckbox) {
+        qDebug() << checkbox->text() << "checked ?" << checkbox->isChecked();
+        nb_checked = (checkbox->isChecked()) ? nb_checked + 1 : nb_checked;
+    }
+
+    return (nb_checked > m_maxHosts) ? false : true;
+}
+
 void MainWindow::checkboxHebergeursClicked(QString hebergeur)
 {
-    //qDebug() << "chechbox" << hebergeur << "cliquée !";
+    qDebug() << "checkbox" << hebergeur << "cliquée !";
+
+    // Moyen de récup l'objet à l'origine de l'envoi d'un signal
+    //QSignalMapper* pCheckBox = qobject_cast<QSignalMapper*>(sender());
+    // voir réimplémentation QSignalMapper ou fonction lambda en Qt5
+    // http://stackoverflow.com/questions/13989297/how-to-keep-the-source-signals-parameters-while-using-qsignalmapper?rq=1
+
+    if (regulationMaxSelectedHosts() == false) {
+        // Trop d'hébergeurs sélectionnés
+
+        // Récupération de la checkbox
+        QCheckBox *chk = qobject_cast<QCheckBox*>(m_signalMapper->mapping(hebergeur));
+        if (chk) {
+            // Message
+            QMessageBox::information(this,
+                                     tr("Trop d'hébergeurs !"),
+                                     tr("Vous avez dépassé la limite du nombre d'hébergeurs autorisés (") + QString::number(m_maxHosts) + tr(").\n\"") +
+                                     chk->text() + tr("\", ne sera pas conservé."));
+            qDebug() << "Trop d'hébergeurs selectionnés" << chk->text();
+
+            // Désélection
+            chk->setChecked(false);
+
+            // On s'arrete là
+            return;
+        }
+    }
+
 
     if (m_hebergeursListe.contains(hebergeur) == false) {  // Pas trouvé
         // On ajoute
