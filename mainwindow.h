@@ -32,6 +32,10 @@
 #include "ui_mainwindow.h"
 
 
+// Fix Unused variable warning, usage: UNUSED(x);
+#define UNUSED(x) (void)(x)
+
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT

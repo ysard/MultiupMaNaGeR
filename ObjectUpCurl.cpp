@@ -201,6 +201,9 @@ int UpCurl::progress_func(void *ptr, double TotalToDownload, double NowDownloade
 
     //appeler une structure statique contenant ces variables
     //les valeurs sont envoyées à l'objet MainWindow régulièrement par un Qtimer
+    UNUSED(ptr);
+    UNUSED(TotalToDownload);
+    UNUSED(NowDownloaded);
 
     bricolo.upTotal     = TotalToUpload;
     bricolo.upFait      = NowUploaded;
@@ -212,6 +215,8 @@ size_t UpCurl::write_data(void *buffer, size_t size, size_t nmemb, void *userdat
 {
     //PS: fonction statique => on ne peut pas se servir des attributs/fonctions/signaux de la classe en cours..
     // Obligé de faire appel à une structure statique pour la remplir et s'en servir...
+    UNUSED(userdata);
+
     stringstream strmResponse;
     size_t nReal = size * nmemb;
     strmResponse << string((char*)buffer, size*nmemb);

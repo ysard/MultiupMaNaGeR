@@ -9,7 +9,7 @@ Connexion::Connexion(const QString &login, const QString &password, QObject *par
 
     m_etape     = 0;
 
-    typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
+    //typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
     //m_statutConnexion = BAD; // Par défaut la connexion est un échec.
 
     //PS: Rien d'autre ne peut être initialisé ici...

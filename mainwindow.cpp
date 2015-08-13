@@ -2134,6 +2134,8 @@ void MainWindow::receptionUpCurlLienEtStats(QString lien, double averageSpeed, d
 {
     qDebug() << "Curl :: Récupération du lien :" << lien;
 
+    UNUSED(dureeTransfert);
+
     // Update de l'affichage du lien dans l'interface et dans la grille
     m_liensFichiers[m_row] = lien;
     remplissageTableau(m_row, 5, lien);

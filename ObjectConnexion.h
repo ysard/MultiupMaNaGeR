@@ -14,6 +14,7 @@ class Connexion : public QObject
     Q_OBJECT
 
 public:
+    // Statut de la connexion BAD,OK,ERROR
     enum EtatConnexion
     {
         Bad, Ok, Error

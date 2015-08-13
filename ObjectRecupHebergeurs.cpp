@@ -5,7 +5,7 @@ RecupHebergeurs::RecupHebergeurs(QObject *parent): QObject(parent)
     //qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
 
-    typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
+    //typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
     //m_statutConnexion = BAD; // Par défaut la connexion est un échec.
 
     //qRegisterMetaType<QList<QByteArray> >("QList<QByteArray>");
@@ -186,7 +186,7 @@ void RecupHebergeurs::finRecupHebergeurs()
 
             // Nombre maximal d'hébergeurs à sélectionner
             int maxHosts = connexionObj["maxHosts"].toInt();
-            qDebug() << maxHosts;
+            qDebug() << "RecupHebergeurs :: Nombre max d'hébergeurs autorisés: " << maxHosts;
             emit this->emissionMaxSelectionHebergeurs(maxHosts);
         }
 
