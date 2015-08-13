@@ -2,27 +2,7 @@
     <qresource prefix="/">
         <file>img/favicon.png</file>
     </qresource>
-    <qresource prefix="/hosts">
-        <file>img/hosts/dl.free.fr.png</file>
-        <file>img/hosts/ifile.it.png</file>
-        <file>img/hosts/load.to.png</file>
-        <file>img/hosts/rapidshare.com.png</file>
-        <file>img/hosts/ultraup.org.png</file>
-        <file>img/hosts/uploading.com.png</file>
-        <file>img/hosts/bayfiles.com.png</file>
-        <file>img/hosts/uptobox.com.png</file>
-        <file>img/hosts/sendshack.com.png</file>
-        <file>img/hosts/uploadhero.com.png</file>
-        <file>img/hosts/jumbofiles.com.png</file>
-        <file>img/hosts/debridpowa.com.png</file>
-        <file>img/hosts/1fichier.com.png</file>
-        <file>img/hosts/depositfiles.com.png</file>
-        <file>img/hosts/filecloud.io.png</file>
-        <file>img/hosts/partagefacile.com.png</file>
-        <file>img/hosts/uploaded.net.png</file>
-        <file>img/hosts/turbobit.net.png</file>
-        <file>img/hosts/putlocker.com.png</file>
-    </qresource>
+    <qresource prefix="/hosts"/>
     <qresource prefix="/interface">
         <file>img/interface/menu_add.png</file>
         <file>img/interface/menu_paste.png</file>
