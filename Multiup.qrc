@@ -2,7 +2,9 @@
     <qresource prefix="/">
         <file>img/favicon.png</file>
     </qresource>
-    <qresource prefix="/hosts"/>
+    <qresource prefix="/hosts">
+        <file>img/hosts/debridpowa.com.png</file>
+    </qresource>
     <qresource prefix="/interface">
         <file>img/interface/menu_add.png</file>
         <file>img/interface/menu_paste.png</file>
