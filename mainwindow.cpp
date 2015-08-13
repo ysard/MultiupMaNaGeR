@@ -984,7 +984,7 @@ void MainWindow::on_boutonSavIdentifiants_clicked()
     // Ecrit les paramètres dans le fichier de config.ini suite au clic sur le bouton de sauvegarde
 
     //qDebug() << "Sauvegarde des identifiants en cours...";
-    //qDebug() << QApplication::applicationDirPath() + "/config.ini";
+
 
     #ifdef WINDOWS
         QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
@@ -1058,7 +1058,7 @@ void MainWindow::rappelIdentifiants()
     // Récupère le contenu des clés du fichier config.ini situé dans le répertoire de l'application et remplit les champs et valeurs
 
     //qDebug() << "Dossier courant : " << QApplication::applicationDirPath();
-    //QMessageBox::information(this, "Test", "Chemin fichier config : " + QApplication::applicationDirPath() + "/config.ini");
+
 
 //On peut tester l'ouverture du fichier. Voir si le fait de modifier ces champs active les slots de détection de modification.
 //Si oui il faut décommenter le test pour éviter cela
@@ -1080,7 +1080,6 @@ void MainWindow::rappelIdentifiants()
     m_cheminWinRar = settings.value("Compression/rar").toString();
     lineEditCompressDest->setText(settings.value("Compression/Dossier_Sortie").toString());
     lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
-
     //qDebug() << "Resultats : " << m_login->text() << m_password->text() << m_cheminWinRar;
 }
 
@@ -1291,8 +1290,14 @@ void MainWindow::receptionCompressionEtat(bool etatCompression)
                 liste << lineEditCompressDest->text() + "/" + lineEditCompressNom->text() + ".rar";
             #endif
         }
+
         // Ajout dans le fichier journal
-        enregistrement(QApplication::applicationDirPath(), lineEditCompressSrc->text() + "\n" + liste.join("\n"));
+        #ifdef WINDOWS
+            enregistrement(QApplication::applicationDirPath(), lineEditCompressSrc->text() + "\n" + liste.join("\n"));
+        #endif
+        #ifdef LINUX
+            enregistrement(QDir::homePath() + "/" + APP_DIR, lineEditCompressSrc->text() + "\n" + liste.join("\n"));
+        #endif
 
         // Ajout dans le tableau
         creationTableau(AJOUT, liste);
@@ -1886,7 +1891,13 @@ void MainWindow::receptionSelectionServeurEtat(int etatSelectionServeur)
     m_liens += m_liensFichiers.at(m_row) + "\n";
 
     // Ajoute l'erreur au fichier de sauvegarde
-    enregistrement(QApplication::applicationDirPath(), m_liensFichiers.at(m_row));
+    #ifdef WINDOWS
+        enregistrement(QApplication::applicationDirPath(), m_liensFichiers.at(m_row));
+    #endif
+    #ifdef LINUX
+        enregistrement(QDir::homePath() + "/" + APP_DIR, m_liensFichiers.at(m_row));
+    #endif
+
 }
 
 void MainWindow::finThreadSelectionServeur()
@@ -2195,7 +2206,13 @@ void MainWindow::finThreadUpCurl()
     }
 
      // Ajoute le résultat (lien + effacement) au fichier de sauvegarde
-    enregistrement(QApplication::applicationDirPath(), resultat);
+    #ifdef WINDOWS
+        enregistrement(QApplication::applicationDirPath(), resultat);
+    #endif
+    #ifdef LINUX
+        enregistrement(QDir::homePath() + "/" + APP_DIR, resultat);
+    #endif
+
 
     m_row++;
 

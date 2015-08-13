@@ -88,7 +88,7 @@ void FenLiens::chargerLog()
     #endif
     #ifdef LINUX
         qDebug() << "Chemin fichier liens :" << QApplication::applicationDirPath() << "/liens_multiup.txt";
-        QFile file(QApplication::applicationDirPath() + "/liens_multiup.txt");
+        QFile file(QDir::homePath() + "/" + APP_DIR + "/liens_multiup.txt");
     #endif
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
