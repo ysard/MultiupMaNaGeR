@@ -1042,7 +1042,7 @@ void MainWindow::on_boutonSavParametres_clicked()
         settings.setValue("Compression/rar", "\"C:\\Program Files\\WinRAR\\Rar.exe\"");
     #endif
     #ifdef LINUX
-        settings.setValue("Compression/rar", "/usr/local/bin/rar");
+        settings.setValue("Compression/rar", "/usr/bin/rar");
     #endif
 
     settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
