@@ -5,10 +5,9 @@ FenLiens::FenLiens(const QString &code, QWidget *parent = 0) : QDialog(parent)
     m_code      = code;
     m_switchLog = false;
 
-    QWidget *page1 = new QWidget(this);
-    this->setWindowTitle(tr("Visualisation des liens"));
 
-    page1->resize(750, 450);
+    this->setWindowTitle(tr("Visualisation des liens"));
+    this->resize(750, 450);
 
         QVBoxLayout *m_vText = new QVBoxLayout;
 
@@ -36,7 +35,7 @@ FenLiens::FenLiens(const QString &code, QWidget *parent = 0) : QDialog(parent)
 
         m_vText->addLayout(m_hText);
 
-    page1->setLayout(m_vText);
+    this->setLayout(m_vText);
 
     QObject::connect(m_boutonSwitchLog, SIGNAL(clicked()), this, SLOT(chargerLog()));
     QObject::connect(m_rec, SIGNAL(clicked()), this, SLOT(enregistrer()));
