@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#if defined (Q_WS_WIN)
+#ifdef Q_OS_WIN
     #define WINDOWS
 #else
     #define LINUX
