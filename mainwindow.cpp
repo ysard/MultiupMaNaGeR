@@ -1091,7 +1091,7 @@ void MainWindow::on_boutonSavParametres_clicked()
         settings.setValue("Compression/rar", "\"C:\\Program Files\\WinRAR\\Rar.exe\"");
     #endif
     #ifdef LINUX
-        settings.setValue("Compression/rar", "/usr/bin/rar");
+        settings.setValue("Compression/rar", "rar");
     #endif
 
     settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
@@ -1211,6 +1211,11 @@ void MainWindow::on_boutonCompress_clicked()
 
     bool mdp = false;
 
+    if (m_cheminWinRar.isEmpty()) {
+        QMessageBox::information(this, tr("Erreur"), tr("Vous devez spécifier le chemin de l'application 'rar' dans config.ini !\n"
+                                                        "(Cliquez sur \"Sauvegarder les paramètres\" pour y enregistrer un exemple de configuration."));
+        return;
+    }
     if (lineEditCompressSrc->text() == "") {
         QMessageBox::information(this, tr("Erreur"), tr("Veuillez choisir un fichier source !"));
         return;
@@ -1452,7 +1457,7 @@ void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString h
 
     // Ajout de la checkbox à la liste des checkbox et au GridLayout
     m_listCheckBoxHebergeurs.insert(checkbox, i);
-    gridLayoutHebergeurs->addWidget(checkbox, i / 3, i % 3);
+    gridLayoutHebergeurs->addWidget(checkbox, i / 4, i % 4);
 
     // Mappage du signal
     m_signalMapper->setMapping(checkbox, hebergeur);
