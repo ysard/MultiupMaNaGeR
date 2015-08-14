@@ -6,6 +6,7 @@
 
 QT += core gui widgets
 QT += network
+win32:QT += winextras
 
 TARGET = multiupv2
 TEMPLATE = app
@@ -66,7 +67,8 @@ HEADERS  += mainwindow.h \
     FenDemandeMiseAJour.h \
     Config.h \
     ObjectRecupHebergeurs.h \
-    ObjectRecupHebergeursIcones.h
+    ObjectRecupHebergeursIcones.h \
+    version.h
 
 FORMS    += mainwindow.ui \
     fenvoirmiseajour.ui \
