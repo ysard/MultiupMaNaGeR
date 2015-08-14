@@ -22,6 +22,11 @@
 #include "FenLiens.h"
 #include "Config.h"
 
+#ifdef WINDOWS
+    #include <QWinTaskbarProgress>
+    #include <QWinTaskbarButton>
+#endif
+
 #include "ObjectConnexion.h"
 #include "ObjectCompression.h"
 #include "ObjectSelectionServeur.h"
@@ -139,6 +144,7 @@ public slots:
 
     void emissionProgressionSlot();
 
+
 signals:
     void emissionDemandeArretCurl(); // Marche pas
 
@@ -168,6 +174,10 @@ private:
     QLabel                  *m_labelPrez;
     QLabel                  *m_labelAuteurs;
 
+    #ifdef WINDOWS
+        QWinTaskbarButton   *m_taskbarButton;
+        QWinTaskbarProgress *m_taskbarProgress;
+    #endif
 
     QSystemTrayIcon         *m_sticon;
     QMenu                   *m_stmenu;
@@ -218,6 +228,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void closeEvent(QCloseEvent* event);
+    void showEvent(QShowEvent *event);
 };
 
 #endif // MAINWINDOW_H

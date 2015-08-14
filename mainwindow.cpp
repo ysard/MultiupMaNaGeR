@@ -166,6 +166,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(actionSysTrayArreter, SIGNAL(triggered()), this, SLOT(actionSysTrayArreter_triggered()));
     connect(actionSysTrayQuitter, SIGNAL(triggered()), this, SLOT(close()));
 
+
+    // Qt Win Extras
+    #ifdef WINDOWS
+        /* Ce comportement est donné en exemple dans http://doc.qt.io/qt-5/qwintaskbarbutton.html
+         * La simple instanciation de QTaskbarProgress sans le QWinTaskbarButton est impossible.
+         * On a beau afficher avec .show(), la barre ne s'affiche pas.
+         *
+         * Mais même en ajoutant le QWinTaskbarButton, cela ne marche pas:
+         *
+         * In fact, it seems like calling
+         * button->setWindow(widget->windowHandle());
+         * in QMainWindow constructor doesn't work and QWinTaskbarProgress
+         * won't show at all even after calling setVisible(true) or show().
+         *
+         * If created in the QMainWindow constructor it has to be called once the Window is shown like in:
+         * => réimplémentation de showEvent()
+         *
+         * En fait l'affichage doit se faire quand la fenêtre principale est déjà affichée.
+         * => pas dans le constructeur donc.
+         */
+
+        m_taskbarButton = new QWinTaskbarButton(this);
+        //m_taskbarButton->setWindow(windowHandle());
+        m_taskbarProgress = m_taskbarButton->progress();
+    #endif
+
+
+
     // Connect du menu contextuel sur le tableWidget
     //PS: crées ici et non dans l'event on_tableWidget_customContextMenuRequested() car sinon le truc tourne en boucle et "superpose" à  chaque fois les actions sur le menu...
     //Ce qui était à  l'origine du foirage au premier clic et d'une multitude d'appels pour les clics suivants
@@ -353,6 +381,16 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
     else // Si pas d'up en cours => fermeture
         event->accept();
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    // Réimplémentation de showEvent pour l'affichage de QWinTaskbarProgress
+    #ifdef WINDOWS
+        m_taskbarButton->setWindow(windowHandle());
+    #endif
+
+    event->accept();
 }
 
 void MainWindow::on_tableWidget_customContextMenuRequested(QPoint point)
@@ -595,9 +633,19 @@ void MainWindow::on_checkBoxRegVitesse_clicked()
     //Le booléen et l'état de l'upload
     if (checkBoxRegVitesse->isChecked()) {
         m_regVitesse = true;
+
+        // Changement de couleur de la taskbar
+        #ifdef WINDOWS
+            m_taskbarProgress->setPaused(true);
+        #endif
     }
     else {
         m_regVitesse = false;
+
+        // Changement de couleur de la taskbar
+        #ifdef WINDOWS
+            m_taskbarProgress->setPaused(false);
+        #endif
 
         if ((m_upEnCours == true) && (m_upCurl != NULL)) { // ssi un up est en cours et l'objet dans le thread d'up est valide
             // On s'assure que unpause sera appelé
@@ -1699,6 +1747,10 @@ void MainWindow::interfaceUpdate()
 
         //Réinitialisation de la barre de progression
         progressBar->setValue(0);
+        #ifdef WINDOWS
+            m_taskbarProgress->setVisible(true);
+            m_taskbarProgress->setValue(0);
+        #endif
     }
     else {
         m_login->setEnabled(true);
@@ -1722,6 +1774,10 @@ void MainWindow::interfaceUpdate()
 
         //Réinitialisation de la barre de progression
         progressBar->setValue(100);
+        #ifdef WINDOWS
+            m_taskbarProgress->setValue(100);
+            m_taskbarProgress->setVisible(false);
+        #endif
     }
 }
 
@@ -2037,6 +2093,9 @@ void MainWindow::receptionUpCurlProgression(double TotalToUpload, double NowUplo
 
         // Barre de progression gnrale
         progressBar->setValue(progressionTotale);
+        #ifdef WINDOWS
+            m_taskbarProgress->setValue(progressionTotale);
+        #endif
 
         // Actualisation des colonnes "Taille" et "Vitesse"
         remplissageTableau(m_row, 3, QString::number(NowUploaded / (1024 * 1024), 'f', 1) + "/" + QString::number(TotalToUpload / (1024 * 1024), 'f', 1));
