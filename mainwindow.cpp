@@ -246,8 +246,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     // Rappel des identifiants
     rappelIdentifiants();
+
     // Actualisation des champs et auto-connexion
-    this->on_boutonConnexion_clicked();
+    // Pas d'alerte si l'utilisateur n'a pas configuré config.ini
+    if (!m_login->text().isEmpty())
+        this->on_boutonConnexion_clicked();
 
     //récupération des paramètres passés à  l'application
     parametres();
@@ -1588,7 +1591,7 @@ void MainWindow::on_boutonConnexion_clicked()
 {
     // Fonction pr se loguer, récupérer le cookie de connexion ssi le champ de login n'est pas vide,
     if (m_login->text().isEmpty() || m_password->text().isEmpty()) {
-        QMessageBox::information(this, tr("Erreur"), tr("Veuillez remplir tous les champs !"));
+        QMessageBox::information(this, tr("Erreur login"), tr("Veuillez remplir tous les champs pour vous connecter !"));
         return;
     }
 
