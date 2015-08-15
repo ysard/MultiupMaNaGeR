@@ -22,6 +22,14 @@ RecupHebergeurs::RecupHebergeurs(QObject *parent): QObject(parent)
 
 }
 
+RecupHebergeurs::RecupHebergeurs(const QString &login, const QString &password, QObject *parent): QObject(parent)
+{
+    // Constructeur appelé en cas de récupération des hébergeurs avec le login
+
+    m_login     = login;
+    m_password  = password;
+}
+
 RecupHebergeurs::~RecupHebergeurs()
 {
     qDebug() << "RecupHebergeurs :: Destruction en cours...";
@@ -30,20 +38,20 @@ RecupHebergeurs::~RecupHebergeurs()
 void RecupHebergeurs::demarrage()
 {
     // !!!! Slot appelé lorsque on s'est assuré que le thread acceuillant cette classe dérivée de QObject est lancé !!!!
-    //qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
+    qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
     // Initialisation du thread des icones
     m_thread = new QThread(this);
 
     // Création et envoi de l'objet dans le thread
-    m_test = new RecupHebergeursIcones(NULL);
-    m_test->moveToThread(m_thread);
+    m_threadRecupIcones = new RecupHebergeursIcones(NULL);
+    m_threadRecupIcones->moveToThread(m_thread);
 
-    connect(m_thread, SIGNAL(started()), m_test, SLOT(demarrage()));
-    connect(this, SIGNAL(emissionUrlIcone(QUrl)), m_test, SLOT(downloadUrl(QUrl)));
-    connect(m_test, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
-    connect(m_test, SIGNAL(finished()), m_thread, SLOT(quit()));
-    connect(m_test, SIGNAL(finished()), m_test, SLOT(deleteLater()));
+    connect(m_thread, SIGNAL(started()), m_threadRecupIcones, SLOT(demarrage()));
+    connect(this, SIGNAL(emissionUrlIcone(QUrl)), m_threadRecupIcones, SLOT(downloadUrl(QUrl)));
+    connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
+    connect(m_threadRecupIcones, SIGNAL(finished()), m_thread, SLOT(quit()));
+    connect(m_threadRecupIcones, SIGNAL(finished()), m_threadRecupIcones, SLOT(deleteLater()));
     connect(m_thread, SIGNAL(finished()), m_thread, SLOT(deleteLater()));
     connect(m_thread, SIGNAL(destroyed()), this, SIGNAL(finished()));
     m_thread->start();
@@ -53,21 +61,28 @@ void RecupHebergeurs::demarrage()
     requete.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
     requete.setRawHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
     requete.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-    //pour Qt 4.7.x :
     requete.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    //pour Qt 4.7.8 :
-    //requete.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    requete.setUrl(QUrl(URL_RECUPERATION_DROITS));
 
     qDebug() << "RecupHebergeurs :: Recuperation des hebergeurs en cours...";
-
-    const QUrl url = QUrl(URL_RECUPERATION_DROITS);
-    requete.setUrl(url);
 
     // Initialisation du QNetworkAccessManager
     m_networkAccessManager = new QNetworkAccessManager(this);
 
-    // la requête get suffit ici
-    QNetworkReply *r = m_networkAccessManager->get(requete);
+    QNetworkReply *r = NULL;
+
+    if (m_login.isEmpty() || m_password.isEmpty()) {
+        // La requête GET suffit ici (pas de login spécifié)
+        // en cas d'upload anonyme => pas de récupération des hébergeurs avec le login
+        r = m_networkAccessManager->get(requete);
+    } else {
+        // en cas d'upload connecté => récupération des hébergeurs avec le login
+        r = m_networkAccessManager->post(requete, QString("username=" +
+                                                          m_login +
+                                                          "&password=" +
+                                                          m_password
+                                                          ).toLatin1());
+    }
 
     connect(r, SIGNAL(finished()), this, SLOT(finRecupHebergeurs()));
 }

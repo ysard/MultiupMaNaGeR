@@ -39,12 +39,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // On crée la fenêtre
     setupUi(this);
 
-    #ifdef LINUX_ANDROID
-    this->setGeometry(0,0,320,480);
-    #endif
-
     this->setWindowIcon(QIcon(":/img/favicon.png"));
-    this->setWindowTitle( QString("MultiUp MaNaGeR v" + QString(VERSION) + tr(" Fr")));
+    this->setWindowTitle(QString("MultiUp MaNaGeR v" + QString(VERSION) + tr(" Fr")));
 
     // Rajout du champ de login
     m_login = new QLineEdit;
@@ -55,11 +51,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 
     // Ajout checkbox multiples
-    //penser à mettre à jour les macros ADD_CHECKBOX_SLOT et ADD_CHECKBOX_TO_GRIDLAYOUT;
-    //Ainsi que les prototypes de "private slots" dans mainwindow.h et les attributs privés via la macro ADD_CHECKBOX.
-    //En rajouter si nécessaire !
-    //Noter que Debridpowa N'EST PAS PRESENT dans cette liste. En effet la checkbox est décochée par defaut. Les autres non !
-
     // Initialisation du QSignalMapper
     m_signalMapper = new QSignalMapper(this);
     connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(checkboxHebergeursClicked(QString)));
@@ -114,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     tableWidget->setAcceptDrops(true); //Active le dragdrop sur le tablewidget
     groupBoxCompression->setAcceptDrops(true);
     this->setAcceptDrops(true); //Active le dragdrop sur la fenetre principale
-    //PS: si on active pour les 2 => Ã§a génère 1 évènement à  chaque fois : 1 pr la fenetre + 1 pr le widget
+    //PS: si on active pour les 2 => ça génère 1'évènement à  chaque fois : 1 pr la fenetre + 1 pr le widget
     //si on active que pour le widget et pas la fenetre => ne marche pas
 
     // Réglages des boutons
@@ -208,13 +199,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_sizeTot       = 0;        //Taille totale des fichiers à up => sert pour la barre de progression
     m_sizeFaite     = 0;        //Taille totale des fichiers déjà envoyés => sert pour la barre de progression
 
-//    typedef enum EtatFichier EtatFichier; //Statuts possibles des fichiers
-//    typedef enum EtatTableau EtatTableau; //Statuts possibles pour la manipulation des données du tableau
-
     // Initialisation des pointeurs persos!
     //évite de mauvaises surprises... La même chose est faite dans tous les slots publics finThreadXXX()
-    m_connexion      = NULL;
-    m_compression    = NULL;
+    m_connexion     = NULL;
+    m_compression   = NULL;
     m_selectionServeur = NULL;
     m_upCurl        = NULL;
 
@@ -1400,7 +1388,14 @@ void MainWindow::rechercheHebergeurs()
     QThread *thread = new QThread(this);
 
     // Création et envoi de l'objet dans le thread
-    m_recupHebergeurs = new RecupHebergeurs(NULL);
+    // Démarre la récupération des hébergeurs selon l'état de la connexion au site
+    // anonyme / connecté
+    m_recupHebergeurs = NULL;
+    if (m_connecte)
+        m_recupHebergeurs = new RecupHebergeurs(m_login->text(), m_password->text());
+    else
+        m_recupHebergeurs = new RecupHebergeurs(NULL);
+
     m_recupHebergeurs->moveToThread(thread);
 
 
@@ -1607,21 +1602,19 @@ void MainWindow::on_boutonConnexion_clicked()
     // Création d'une nouvelle instance de thread
     QThread *thread = new QThread(this);
 
-    QString a = m_login->text();
-    QString b = m_password->text();
-
     // Création et envoi de l'objet dans le thread
-    m_connexion = new Connexion(a, b, NULL);
+    m_connexion = new Connexion(m_login->text(), m_password->text(), NULL);
     m_connexion->moveToThread(thread);
 
 
     connect(thread, SIGNAL(started()), m_connexion, SLOT(demarrage()));
     connect(m_connexion, SIGNAL(emissionLoginEtat(int)), this, SLOT(receptionLoginEtat(int)));
     connect(m_connexion, SIGNAL(emissionLoginId(QString)), this, SLOT(receptionLoginId(QString)));
-    connect(m_connexion, SIGNAL(emissionDroitsServeurWwpw(bool)), this, SLOT(receptionServeurWwpw(bool)));
+    //connect(m_connexion, SIGNAL(emissionDroitsServeurWwpw(bool)), this, SLOT(receptionServeurWwpw(bool)));
     connect(m_connexion, SIGNAL(finished()), thread, SLOT(quit()));
 
-    // Attention : rétablir la possibilité de cliquer à  nouveau sur le bouton de connexion ssi on s'est assuré que l'objet connexion et son thread sont détruits !
+    // Attention : rétablir la possibilité de cliquer à  nouveau sur le bouton de connexion
+    //ssi on s'est assuré que l'objet connexion et son thread sont détruits !
     connect(m_connexion, SIGNAL(finished()), m_connexion, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     connect(thread, SIGNAL(destroyed()), this, SLOT(finThreadConnexion()));
@@ -1649,7 +1642,7 @@ void MainWindow::receptionLoginEtat(int etatConnexion)
     switch(etatConnexion)
     {
         case 0:     QMessageBox::information(this, tr("Authentification échouée"), tr("Mauvais login ou mauvais mot de passe"));
-                    labelNomUtilisateur->setText("Upload Anonyme");
+                    labelNomUtilisateur->setText(tr("Upload Anonyme"));
                     m_connecte = false;
                     break;
 

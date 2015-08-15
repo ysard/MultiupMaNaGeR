@@ -22,6 +22,7 @@ public:
     };
 
     RecupHebergeurs(QObject* parent = NULL);
+    RecupHebergeurs(const QString &login, const QString &password, QObject* parent = NULL);
     virtual ~RecupHebergeurs();
 
 public slots:
@@ -43,8 +44,11 @@ private:
     QNetworkAccessManager   *m_networkAccessManager;
     EtatConnexion           m_statutConnexion;
 
-    RecupHebergeursIcones   *m_test;
+    RecupHebergeursIcones   *m_threadRecupIcones;
     QThread                 *m_thread;
+
+    QString                 m_login;
+    QString                 m_password;
 };
 
 #endif // OBJECTRECUPHEBERGEURS_H
