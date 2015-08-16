@@ -97,6 +97,22 @@
            <item row="0" column="0">
             <layout class="QGridLayout" name="gridLayoutHebergeurs"/>
            </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
