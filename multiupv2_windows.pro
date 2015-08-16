@@ -41,6 +41,8 @@ win32:LIBS += -lcurl -lwldap32 -lws2_32
 #QMAKESPEC=win32-g++
 #QMAKE_LFLAGS += -static-libgcc
 
+DEFINES += QT_NO_DEBUG_OUTPUT
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     Outils.cpp \

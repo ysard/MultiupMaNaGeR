@@ -6,7 +6,6 @@
 #else
     #define LINUX
 #endif
-//#define LINUX_ANDROID
 
 #define VERSION "0.4.2"
 
