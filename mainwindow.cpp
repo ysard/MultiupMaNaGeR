@@ -55,18 +55,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_signalMapper = new QSignalMapper(this);
     connect(m_signalMapper, SIGNAL(mapped(QString)), this, SLOT(checkboxHebergeursClicked(QString)));
 
-    rechercheHebergeurs();
-
-
-    // Ajout checkbox supplémentaire wawapowa
-    m_checkBox_Wwpw = new QCheckBox("DebridPowa.com (5120 Mo)", this);
-    m_checkBox_Wwpw->setIcon(QIcon(":/hosts/img/hosts/debridpowa.com.png"));
-    m_checkBox_Wwpw->setHidden(true);
-    //gridLayoutHebergeurs->addWidget(m_checkBox_Wwpw); // reporté à la suite de l'ajout dynamique des checkbox..
-    //connect(m_checkBox_Wwpw, SIGNAL(clicked()), this, SLOT(m_checkBox_Wwpw_clicked())); // Modifié suite au mappage des signaux
-    // Mappage du signal
-    m_signalMapper->setMapping(m_checkBox_Wwpw, "debridpowa.com");
-    connect(m_checkBox_Wwpw, SIGNAL(clicked()), m_signalMapper, SLOT(map()));
+//    rechercheHebergeurs();
 
 
     // Ajout des labels normaux (pas permanents) à  la statusBar
@@ -228,16 +217,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     //voir si le signal textEdited ne serait pas mieux.. mais il se délenche à chaque lettre entrée..
     //editingFinished ne se délenche que si le widget perd le focus
-    connect(m_login, SIGNAL(editingFinished()), this, SLOT(changementsDroitsServeurWwpw()));
-    connect(m_password, SIGNAL(editingFinished()), this, SLOT(changementsDroitsServeurWwpw()));
+    connect(m_login, SIGNAL(editingFinished()), this, SLOT(editionLogin()));
+    connect(m_password, SIGNAL(editingFinished()), this, SLOT(editionLogin()));
     connect(boutonAProposQt, SIGNAL(clicked()), qApp, SLOT(aboutQt()));
+
+    // Affichage loader/spinbox (gif animé)
+    QMovie *movie = new QMovie(":/interface/img/interface/spinload.gif");
+    label_8->setMovie(movie);
+    movie->start();
 
     // Rappel des identifiants
     rappelIdentifiants();
 
     // Actualisation des champs et auto-connexion
     // Pas d'alerte si l'utilisateur n'a pas configuré config.ini
-    if (!m_login->text().isEmpty())
+    if (m_login->text().isEmpty())
+        rechercheHebergeurs();
+    else
         this->on_boutonConnexion_clicked();
 
     //récupération des paramètres passés à  l'application
@@ -1384,6 +1380,37 @@ void MainWindow::finThreadCompression()
 
 void MainWindow::rechercheHebergeurs()
 {
+    ///////////////////////////////////////////////////////////////////
+    // Modification de l'interface
+
+    // On bloque temporairement la capacité de m_login et m_pasword à envoyer des signaux editingFinished
+    // => evite de multiples récupérations d'icones lors de l'édition
+    // => évite le plantage de l'app
+    // On débloque les signaux à la fin de la récupération des hébergeurs
+    m_login->blockSignals(true);
+    m_password->blockSignals(true);
+
+    // On RAZ la liste des hébergeurs prêts à l'upload en mémoire
+    m_hebergeursListe.clear();
+
+    // Réinitialisation du gridboxlayout
+    // supprimer de manière récursive le contenu d'un QLayoutItem:
+    // http://stackoverflow.com/questions/5395266/removing-widgets-from-qgridlayout
+    //qDebug()<< "items en mémoire:" << gridLayoutHebergeurs->count();
+    while (gridLayoutHebergeurs->count() > 0) {
+        QLayoutItem *item = gridLayoutHebergeurs->takeAt(0);
+
+        delete item->widget();
+        delete item;
+        //qDebug()<< "plus que:" << gridLayoutHebergeurs->count();
+    }
+    qDebug()<< "Reinitialisation gridboxlaout: items toujours en mémoire:" << gridLayoutHebergeurs->count();
+
+    // Ajout du loader/spinbox
+    label_8->movie()->start();
+    label_8->show();
+
+    ///////////////////////////////////////////////////////////////////
     // Création d'une nouvelle instance de thread
     QThread *thread = new QThread(this);
 
@@ -1402,7 +1429,7 @@ void MainWindow::rechercheHebergeurs()
     connect(thread, SIGNAL(started()), m_recupHebergeurs, SLOT(demarrage()));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursEtat(int)), this, SLOT(receptionRecupHebergeursEtat(int)));
 
-    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool)));
+    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool, int)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool, int)));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, int)));
     connect(m_recupHebergeurs, SIGNAL(emissionMaxSelectionHebergeurs(int)), this, SLOT(receptionMaxSelectionHebergeurs(int)));
     connect(m_recupHebergeurs, SIGNAL(finished()), thread, SLOT(quit()));
@@ -1418,10 +1445,33 @@ void MainWindow::rechercheHebergeurs()
 void MainWindow::finThreadRecupHebergeurs()
 {
     // Rétablissement interface
+    qDebug() << "RecupHebergeurs :: Retablissement de l'interface";
+
     m_recupHebergeurs = NULL;
 
-    // Ajout de la checkbox wwpw à la suite..
-    gridLayoutHebergeurs->addWidget(m_checkBox_Wwpw);
+    // Retrait du loader/spinbox
+    label_8->movie()->stop();
+    label_8->hide();
+
+    // On affiche les checkbox dans un ordre harmonieux (les déjà cochées en premier)
+    for(int i = 0; i < m_sortedListCheckBox.count(); i++) {
+        gridLayoutHebergeurs->addWidget(m_sortedListCheckBox.at(i), i / 4, i % 4);
+    }
+    m_sortedListCheckBox.clear();
+
+
+    // On rétablit la possibilité d'édition des champs
+    m_login->setEnabled(true);
+    m_password->setEnabled(true);
+    boutonConnexion->setEnabled(true);
+    boutonSavIdentifiants->setEnabled(true);
+
+    // On avait bloqué temporairement la capacité de m_login et m_pasword à envoyer des signaux editingFinished
+    // => evite de multiples récupérations d'icones lors de l'édition
+    // => évite le plantage de l'app
+    // On débloque les signaux à la fin de la récupération des hébergeurs
+    m_login->blockSignals(false);
+    m_password->blockSignals(false);
 
     qDebug() << "RecupHebergeurs :: Fin";
 }
@@ -1432,50 +1482,79 @@ void MainWindow::receptionRecupHebergeursEtat(int etatRecupHebergeurs)
         QMessageBox::information(this, tr("Erreur"), tr("Echec de récupération des hébergeurs !\nVeuillez relancer le logiciel."));
 }
 
-void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection)
+void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection, int id)
 {
     // Fonction assurant la disposition des hébergeurs sur l'interface et le mappage des signaux
+    // etat_selection = 1 => cochée
 
     //qDebug() << "RecupHebergeurs :: Reception de l'hebergeur...";
 
-    // Mise en mémoire de la liste des hébergeurs
-    //m_hebergeursListe = liste;
-    m_hebergeursListe.append(hebergeur);
+    // Mise en mémoire de l'hébergeur dans la liste des hébergeurs prêts à être utilisés
+    // ssi son état de sélection est à true
 
-    //Mise en place des hebergeurs sur l'interface
-    // PS : le QSignalMapper est initialisé dans le constructeur
+    if (etat_selection)
+        m_hebergeursListe.append(hebergeur);
 
+    // Mise en place des hebergeurs sur l'interface
     // Création d'autant de checkbox que d'hébergeurs récupérés
 
-    static int i = 0;
+    //qDebug() << "nouvel id chk:" << id;
 
     // Mise en place de la checkbox
     QCheckBox *checkbox = new QCheckBox(hebergeurTexte);
     checkbox->setChecked(etat_selection);
 
-    // Ajout de la checkbox à la liste des checkbox et au GridLayout
-    m_listCheckBoxHebergeurs.insert(checkbox, i);
-    gridLayoutHebergeurs->addWidget(checkbox, i / 4, i % 4);
+    // Ajout de la checkbox à la liste des checkbox
+    m_listCheckBoxHebergeurs.insert(checkbox, id);
+
+    // On prépare les checkbox dans un ordre harmonieux (les déjà cochées en premier)
+    // => affichage final dans finThreadRecupHebergeurs()
+    // Contrairement à un QVector:
+    //prepend(): This operation is usually very fast (constant time),
+    //because QList preallocates extra space on both sides of its
+    //internal buffer to allow for fast growth at both ends of the list.
+    (etat_selection) ? m_sortedListCheckBox.prepend(checkbox) : m_sortedListCheckBox.append(checkbox);
 
     // Mappage du signal
     m_signalMapper->setMapping(checkbox, hebergeur);
-
     connect(checkbox, SIGNAL(clicked()), m_signalMapper, SLOT(map()));
-
-    i++;
 }
 
 void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
 {
     //qDebug() << "RecupHebergeurs :: Reception de l'icone et affichage...";
 
-// Gérer les exceptions ici.. on sait jamais.. l'accès à la checkbox n'est peut être pas très sûr..
-    QPixmap pixmap;
-    if(pixmap.loadFromData(icone) == true) { // Réussite dans la lecture du QByteArray
-        QCheckBox *checkbox = m_listCheckBoxHebergeurs.key(id);
-        checkbox->setIcon(pixmap);
-        // Retrait
-        m_listCheckBoxHebergeurs.remove(checkbox);
+    //qDebug() << "nouvel id ico:" << id;
+    m_listIconesHebergeurs.insert(icone, id);
+
+    QHashIterator<QCheckBox *, int> itCheckbox(m_listCheckBoxHebergeurs);
+    while (itCheckbox.hasNext()) {
+        itCheckbox.next();
+
+        //itCheckbox.key(value) => recup la clé avec une valeur
+        //itCheckbox.value(key) => recup la valeur avec une clé
+
+        QHashIterator<QByteArray, int> itIcone(m_listIconesHebergeurs);
+        while(itIcone.hasNext()) {
+
+            itIcone.next();
+            if (itIcone.value() == itCheckbox.value()) {
+                // Lecture du QByteArray
+                QPixmap pixmap;
+                if(pixmap.loadFromData(itIcone.key()) == true) {
+
+                    itCheckbox.key()->setIcon(pixmap);
+                } else {
+                    qWarning() << "Mauvaise conversion QByteArray => QPixmap";
+                }
+
+                // Retraits
+                //qDebug() << "avant chk" << m_listCheckBoxHebergeurs.count() << "ico" << m_listIconesHebergeurs.count();
+                m_listCheckBoxHebergeurs.remove(itCheckbox.key());
+                m_listIconesHebergeurs.remove(itIcone.key());
+                //qDebug() << "apres chk" << m_listCheckBoxHebergeurs.count() << "ico" << m_listIconesHebergeurs.count();
+            }
+        }
     }
 }
 
@@ -1492,14 +1571,30 @@ bool MainWindow::regulationMaxSelectedHosts()
     qDebug() << "total checkbox:" << gridLayoutHebergeurs->count();
 
     // http://qt-project.org/doc/qt-5/qobject.html#findChildren
-    QList<QCheckBox*> allCheckbox = findChildren<QCheckBox*>();
+    // http://stackoverflow.com/questions/4065378/qt-get-children-from-layout
+    // The key point is that a layout can become a child of a widget (because they both inherit QObject),
+    //but a widget cannot become a child of a layout.
+    //A widget must have another widget as a parent, and QLayout does not inherit QWidget
+    // En bref:
+    // Possible mais récupère toutes les checkbox de l'appli:
+    // QList<QCheckBox*> allCheckbox = parentWidget->findChildren<QCheckBox*>();
+    // Pas possible:
+    // QList<QCheckBox*> allCheckbox = gridLayoutHebergeurs->findChildren<QCheckBox*>();
+
 
     int nb_checked = 0;
+    for (int i = 0; i < gridLayoutHebergeurs->count(); i++) {
+        // Récupération du QLayoutItem dans le QGridLayout et transtypage en QCheckBox
+        // widget() : If this item is a QWidget, it is returned as a QWidget; otherwise 0 is returned.
+        QCheckBox *checkbox = qobject_cast<QCheckBox*>(gridLayoutHebergeurs->itemAt(i)->widget());
 
-    Q_FOREACH(QCheckBox *checkbox, allCheckbox) {
-        qDebug() << checkbox->text() << "checked ?" << checkbox->isChecked();
-        nb_checked = (checkbox->isChecked()) ? nb_checked + 1 : nb_checked;
+        if (checkbox) {
+            qDebug() << checkbox->text() << "checked ?" << checkbox->isChecked();
+            nb_checked = (checkbox->isChecked()) ? nb_checked + 1 : nb_checked;
+        }
     }
+
+    qDebug() << "nb checked:" << nb_checked;
 
     return (nb_checked > m_maxHosts) ? false : true;
 }
@@ -1513,6 +1608,7 @@ void MainWindow::checkboxHebergeursClicked(QString hebergeur)
     // voir réimplémentation QSignalMapper ou fonction lambda en Qt5
     // http://stackoverflow.com/questions/13989297/how-to-keep-the-source-signals-parameters-while-using-qsignalmapper?rq=1
 
+    qDebug() << "liste hébergeurs" << m_hebergeursListe.count() << m_hebergeursListe;
     if (regulationMaxSelectedHosts() == false) {
         // Trop d'hébergeurs sélectionnés
 
@@ -1547,25 +1643,19 @@ void MainWindow::checkboxHebergeursClicked(QString hebergeur)
     }
 }
 
-void MainWindow::changementsDroitsServeurWwpw()
+void MainWindow::editionLogin()
 {
     qDebug() << "Edition des logins en cours... (Déconnexion)";
 
     // Dans tous les cas: Edition des logins = Déconnexion du serveur
     labelNomUtilisateur->setText("Upload Anonyme");
 
-    // Statut changé en déconnecté
-    m_connecte = false;
+    if (m_connecte) {
+        // Statut changé en déconnecté
+        m_connecte = false;
 
-    // Si la checkbox est affichée, vu que les logins sont changés, on la cache en attendant 1 nouvelle connexion.
-    //fait un peu doublon avec receptionServeurWwpw(bool droitsServeurWwpw) ...
-    if (m_checkBox_Wwpw->isHidden() == false) {
-        m_checkBox_Wwpw->setHidden(true);
-        //on décoche la checkbox
-        m_checkBox_Wwpw->setChecked(false);
-        //on appelle une fonction pour le retrait éventuel dans la liste des hébergeurs
-        QString texte("debridpowa.com");
-        rechercheRetraitListe(texte);
+        // Vu que les logins sont changés, on RAZ la liste des hébergeurs et on passe en anonyme
+        rechercheHebergeurs();
     }
 }
 
@@ -1610,7 +1700,6 @@ void MainWindow::on_boutonConnexion_clicked()
     connect(thread, SIGNAL(started()), m_connexion, SLOT(demarrage()));
     connect(m_connexion, SIGNAL(emissionLoginEtat(int)), this, SLOT(receptionLoginEtat(int)));
     connect(m_connexion, SIGNAL(emissionLoginId(QString)), this, SLOT(receptionLoginId(QString)));
-    //connect(m_connexion, SIGNAL(emissionDroitsServeurWwpw(bool)), this, SLOT(receptionServeurWwpw(bool)));
     connect(m_connexion, SIGNAL(finished()), thread, SLOT(quit()));
 
     // Attention : rétablir la possibilité de cliquer à  nouveau sur le bouton de connexion
@@ -1625,16 +1714,14 @@ void MainWindow::on_boutonConnexion_clicked()
 
 void MainWindow::finThreadConnexion()
 {
-    // Rétablissement interface
-    // On rétablit la possibilité d'édition des champs
-    qDebug() << "Connexion :: Rétablissement interface après connexion et récupération des droits";
-
+    // Rétablissement interface => déplacée dans finThreadRecupHebergeurs()
+    // Une connexion entrainant systématiquement l'actualisation des hébergeurs.
     m_upCurl = NULL;
-    m_login->setEnabled(true);
-    m_password->setEnabled(true);
-    boutonConnexion->setEnabled(true);
-    boutonSavIdentifiants->setEnabled(true);
+
     qDebug() << "Connexion :: Fin";
+
+    // Récupération des hébergeurs
+    rechercheHebergeurs();
 }
 
 void MainWindow::receptionLoginEtat(int etatConnexion)
@@ -1647,7 +1734,6 @@ void MainWindow::receptionLoginEtat(int etatConnexion)
                     break;
 
         case 1:     labelNomUtilisateur->setText(tr("Upload en tant que ") + m_login->text());
-                    // Pas de destruction car le processus va tenter de lui meme une obtention des droits sur debridpowa
                     m_connecte = true;
                     break;
 
@@ -1663,27 +1749,6 @@ void MainWindow::receptionLoginId(QString id)
     // Reception de l'id
     qDebug() << "Connexion :: Réception de l'ID...";
     m_loginId = id;
-}
-
-void MainWindow::receptionServeurWwpw(bool droitsServeurWwpw)
-{
-    // Fonction permettant l'apparition (si disponible) de la checkBox Serveur privé wawapowa
-    // L'appel des droits d'up sur Debridpowa a été fait dans le thread hébergeant l'objet Connexion
-
-    if (droitsServeurWwpw == true) {
-        // Activation de la checkbox cachée
-        m_checkBox_Wwpw->setHidden(false);
-    }
-    else {
-        m_checkBox_Wwpw->setHidden(true);
-    }
-
-    // On décoche la checkbox
-    m_checkBox_Wwpw->setChecked(false);
-
-    // On appelle une fonction pour le retrait éventuel dans la liste des hébergeurs
-    QString texte("debridpowa.com");
-    rechercheRetraitListe(texte);
 }
 
 void MainWindow::on_boutonUpload_clicked()

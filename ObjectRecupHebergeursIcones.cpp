@@ -18,7 +18,7 @@ void RecupHebergeursIcones::demarrage()
     m_networkAccessManager = new QNetworkAccessManager(this);
 }
 
-void RecupHebergeursIcones::downloadUrl(const QUrl url)
+void RecupHebergeursIcones::downloadUrl(const QUrl url, int id)
 {
     // Récupération sur le site des icones des hebergeurs...
 
@@ -39,7 +39,7 @@ void RecupHebergeursIcones::downloadUrl(const QUrl url)
     // Stockage de la requête (autant d'icone que d'hébergeur)
 
     static int i = 0;
-    m_hash.insert(reply, i); // méthode plus mieux..
+    m_hash.insert(reply, id); // méthode plus mieux..
     //m_hash[reply] = id;
     //si on utilise l'opérateur [] pour autre chose que l'insertion ça insert silencieusement des paires non désirée.. habitude à prendre !
 

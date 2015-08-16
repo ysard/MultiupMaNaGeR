@@ -29,14 +29,11 @@ public slots:
 
 private slots:
     void finLogin();
-    void finServeurWwpw();
     //void erreur(QNetworkReply::NetworkError);
 
 signals:
     void emissionLoginEtat(int etatConnexion);
     void emissionLoginId(QString id);
-    //void emissionLoginCookies(QList<QNetworkCookie> cookieListe);
-    void emissionDroitsServeurWwpw(bool droitsServeurWwpw);
     void finished();
 
 private:
@@ -44,11 +41,8 @@ private:
     QNetworkAccessManager   *m_networkAccessManager;
     QString                 m_login;
     QString                 m_password;
-    //QList<QNetworkCookie>   m_cookieListe;
 
     EtatConnexion           m_statutConnexion;
-
-    int                     m_etape; // Disons 0 = connexion, 1 = droits wwpw
 
 };
 

@@ -48,7 +48,7 @@ void RecupHebergeurs::demarrage()
     m_threadRecupIcones->moveToThread(m_thread);
 
     connect(m_thread, SIGNAL(started()), m_threadRecupIcones, SLOT(demarrage()));
-    connect(this, SIGNAL(emissionUrlIcone(QUrl)), m_threadRecupIcones, SLOT(downloadUrl(QUrl)));
+    connect(this, SIGNAL(emissionUrlIcone(QUrl, int)), m_threadRecupIcones, SLOT(downloadUrl(QUrl, int)));
     connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
     connect(m_threadRecupIcones, SIGNAL(finished()), m_thread, SLOT(quit()));
     connect(m_threadRecupIcones, SIGNAL(finished()), m_threadRecupIcones, SLOT(deleteLater()));
@@ -166,6 +166,7 @@ void RecupHebergeurs::finRecupHebergeurs()
             // Récupération de l'objet liste de hosts
             QJsonObject hosts(connexionObj["hosts"].toObject());
 
+            int numero_host = 0;
             //Here's how to iterate over a QMap<QString, int> using an iterator
             //http://qt-project.org/doc/qt-4.8/qmap.html
             // http://doc.qt.io/qt-5/containers.html#stl-style-iterators
@@ -187,13 +188,15 @@ void RecupHebergeurs::finRecupHebergeurs()
                 emit this->emissionRecupHebergeursHebergeurs(
                             hosts_it.key(),
                             nom + " (" + QString::number(host["size"].toInt(0)) + " Mo)",
-                            etat_selection);
+                            etat_selection,
+                            numero_host);
 
                 // Récupération de l'icone via son URL
                 QUrl url(URL_RECUPERATION_ICONES + hosts_it.key() + ".png");
-                emit this->emissionUrlIcone(url);
+                emit this->emissionUrlIcone(url, numero_host);
 
                 ++hosts_it;
+                numero_host++;
             }
             // Permet l'émission du signal avec le paramètre 1 = réussite
             // Voir finProcedure()

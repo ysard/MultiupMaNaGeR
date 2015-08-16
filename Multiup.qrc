@@ -2,9 +2,6 @@
     <qresource prefix="/">
         <file>img/favicon.png</file>
     </qresource>
-    <qresource prefix="/hosts">
-        <file>img/hosts/debridpowa.com.png</file>
-    </qresource>
     <qresource prefix="/interface">
         <file>img/interface/menu_add.png</file>
         <file>img/interface/menu_paste.png</file>
@@ -22,5 +19,6 @@
         <file>img/interface/status_editing.png</file>
         <file>img/interface/mise_a_jour.png</file>
         <file>img/interface/firefox_logo.png</file>
+        <file>img/interface/spinload.gif</file>
     </qresource>
 </RCC>

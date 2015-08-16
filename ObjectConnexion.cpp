@@ -7,8 +7,6 @@ Connexion::Connexion(const QString &login, const QString &password, QObject *par
     m_login     = login;
     m_password  = password;
 
-    m_etape     = 0;
-
     //typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
     //m_statutConnexion = BAD; // Par défaut la connexion est un échec.
 
@@ -39,55 +37,33 @@ void Connexion::demarrage()
     requete.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
     requete.setRawHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
     requete.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-    //pour Qt 4.7.x :
     requete.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     //pour Qt 4.7.8 :
     //requete.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    if (m_etape == 0) {
-        qDebug() << "Connexion :: Connexion en cours...";
+    qDebug() << "Connexion :: Connexion en cours...";
 
-        const QUrl url = QUrl(URL_CONNEXION_UTILISATEUR);
-        requete.setUrl(url);
+    const QUrl url = QUrl(URL_CONNEXION_UTILISATEUR);
+    requete.setUrl(url);
 
-        //initialisation du QNetworkAccessManager
-        m_networkAccessManager = new QNetworkAccessManager;
+    //initialisation du QNetworkAccessManager
+    m_networkAccessManager = new QNetworkAccessManager;
 
-        // Méthode post() pour poster le contenu de notre requête.
-        //v1
-        //_method=POST&data%5BUtilisateur%5D%5Butilisateur%5D=NOM&data%5BUtilisateur%5D%5BmotDePasse%5D=MDP
-        //v2
-        //_csrf_token=69b27426be5296fef27a1817f0b022ea9c2cc6e3&_username=login&_password=pass&_submit=Login
-        QNetworkReply *r = m_networkAccessManager->post(requete, QString("username=" +
-                                                    m_login +
-                                                    "&password=" +
-                                                    m_password
-                                                    ).toLatin1());
+    // Méthode post() pour poster le contenu de notre requête.
+    //v1
+    //_method=POST&data%5BUtilisateur%5D%5Butilisateur%5D=NOM&data%5BUtilisateur%5D%5BmotDePasse%5D=MDP
+    //v2
+    //_csrf_token=69b27426be5296fef27a1817f0b022ea9c2cc6e3&_username=login&_password=pass&_submit=Login
+    QNetworkReply *r = m_networkAccessManager->post(requete, QString("username=" +
+                                                m_login +
+                                                "&password=" +
+                                                m_password
+                                                ).toLatin1());
 
-        connect(r, SIGNAL(finished()), this, SLOT(finLogin()));
-        // Voir explications sur la désactivation dans la fonction :
-        //connect(r, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(erreur(QNetworkReply::NetworkError)));
-    }
-    else if (m_etape == 1) {
-        qDebug() << "Connexion :: Récupération des droits en cours...";
+    connect(r, SIGNAL(finished()), this, SLOT(finLogin()));
+    // Voir explications sur la désactivation dans la fonction :
+    //connect(r, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(erreur(QNetworkReply::NetworkError)));
 
-        const QUrl url = QUrl(URL_RECUPERATION_DROITS);
-        requete.setUrl(url);
-
-        // Pas d'initialisation du QNetworkAccessManager (déjà fait dans l'étape 0) => pas de vérification de sa présence ?
-        //V1
-        //QNetworkReply *r = m_networkAccessManager->get(requete);
-        //V2
-        QNetworkReply *r = m_networkAccessManager->post(requete, QString("username=" +
-                                                                         m_login +
-                                                                         "&password=" +
-                                                                         m_password
-                                                                         ).toLatin1());
-
-        connect(r, SIGNAL(finished()), this, SLOT(finServeurWwpw()));
-        // Voir explications sur la désactivation dans la fonction :
-        //connect(r, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(erreur(QNetworkReply::NetworkError)));
-    }
 }
 
 void Connexion::finLogin()
@@ -169,53 +145,6 @@ void Connexion::finLogin()
     this->finProcedure();
 }
 
-void Connexion::finServeurWwpw()
-{
-    QNetworkReply *r = qobject_cast<QNetworkReply*>(sender());
-
-    qDebug() << "Connexion :: Récupération de la page de droits...";
-
-    // Récupération de la page
-    QString temp = r->readAll();
-    //qDebug() << temp;
-
-    // Traitement des erreurs éventuelles
-    switch (r->error()) {
-        // Doc de l'énumération : http://qt.developpez.com/doc/4.7/qnetworkreply/#networkerror-enum
-        case QNetworkReply::NoError :   qDebug() << "Connexion :: Pas d'erreurs, poursuite";
-                                        r->deleteLater();
-                                        m_statutConnexion = Bad; // A la base il n'y a pas de droits (doublon avec le else plus bas)
-                                        break;
-
-        default :                       qDebug() << "Connexion :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
-                                        r->deleteLater();
-                                        m_statutConnexion = Error;
-                                        this->finProcedure();
-                                        return;
-                                        break;
-    }
-
-    // V2
-    //???
-
-    // V1
-    // Détection de la présence de ce mot clé sur la page
-    QRegExp rx("(debridpowa.com)");
-
-    if (rx.indexIn(temp) != -1) {
-        qDebug() << "Connexion :: Nb d'occurences trouvées :" << rx.captureCount();
-        // Emission du signal permettant l'affichage de la checkbox cachée
-        m_statutConnexion = Ok;
-    }
-    else {
-        qDebug() << "Connexion :: Pas de droits";
-        // A la base il n'y a pas de droits:
-        // Emission du signal permettant de masquer la checkbox si elle était visible
-        m_statutConnexion = Bad;
-    }
-
-    this->finProcedure();
-}
 /*
 void Connexion::erreur(QNetworkReply::NetworkError) // Fonction dépassée, sans utilité pour le programme, voir plus bas.
 {
@@ -239,57 +168,26 @@ void Connexion::erreur(QNetworkReply::NetworkError) // Fonction dépassée, sans
 */
 void Connexion::finProcedure()
 {
-    if (m_etape == 0) {
-        //BAD,OK ERROR ?
-        switch (m_statutConnexion) {
+    //BAD,OK ERROR ?
+    switch (m_statutConnexion) {
 
-            case Bad:   qDebug() << "Connexion :: Mauvais login";
-                        emit this->emissionLoginEtat(0);
-                        emit this->finished();
-                        break;
+    case Bad:   qDebug() << "Connexion :: Mauvais login";
+        emit this->emissionLoginEtat(0);
+        break;
 
-            case Ok:    qDebug() << "Connexion :: Bon login";
-                        //emit this->emissionLoginCookies(m_cookieListe);
-                        emit this->emissionLoginEtat(1);
-                        m_etape = 1;
-                        this->demarrage();
-                        // pas de signal finished car on poursuit la procédure par l'obention des droits Wwpw
-                        break;
+    case Ok:    qDebug() << "Connexion :: Bon login";
+        emit this->emissionLoginEtat(1);
+        break;
 
-            case Error: qDebug() << "Connexion :: Erreur login";
-                        emit this->emissionLoginEtat(2);
-                        emit this->finished();
-                        break;
+    case Error: qDebug() << "Connexion :: Erreur login";
+        emit this->emissionLoginEtat(2);
+        break;
 
-            default:    qDebug() << "Connexion :: Erreur inconnue login";
-                        emit this->emissionLoginEtat(2);
-                        emit this->finished();
-                        break;
-        }
+    default:    qDebug() << "Connexion :: Erreur inconnue login";
+        emit this->emissionLoginEtat(2);
+        break;
     }
-    else { // m_etape = 1 => 2ieme procédure
-        //BAD,OK ERROR ?
-        switch (m_statutConnexion) {
 
-            case Bad:   qDebug() << "Connexion :: Droits refusés";
-                        emit this->emissionDroitsServeurWwpw(false);
-                        emit this->finished();
-                        break;
-
-            case Ok:    qDebug() << "Connexion :: Droits acceptés";
-                        emit this->emissionDroitsServeurWwpw(true);
-                        emit this->finished();
-                        break;
-
-            case Error: qDebug() << "Connexion :: Droits erreur";
-                        emit this->emissionLoginEtat(2);
-                        emit this->finished();
-                        break;
-
-            default:    qDebug() << "Connexion :: Droits erreur inconnue";
-                        emit this->emissionLoginEtat(2);
-                        emit this->finished();
-                        break;
-        }
-    }
+    // Signaler la fin du thread
+    emit this->finished();
 }
