@@ -14,9 +14,9 @@
 #define URL_MAJ_WINDOWS "http://127.0.0.1/http/version_windows.txt"
 
 // --- ObjectConnexion.cpp
-#define URL_CONNEXION_UTILISATEUR "http://www.multiup.org/api/login"
-#define URL_RECUPERATION_DROITS "http://www.multiup.org/api/get-list-hosts"
-#define URL_SELECTION_SERVEUR "http://www.multiup.org/api/get-fastest-server"
+#define URL_CONNEXION_UTILISATEUR "https://www.multiup.org/api/login"
+#define URL_RECUPERATION_DROITS "https://www.multiup.org/api/get-list-hosts"
+#define URL_SELECTION_SERVEUR "https://www.multiup.org/api/get-fastest-server"
 
 // --- ObjectRecupIcones.cpp
 #define URL_RECUPERATION_ICONES "http://www.multiup.org/bundles/multiupsite/img/hosts/"
