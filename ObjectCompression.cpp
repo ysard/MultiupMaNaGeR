@@ -38,7 +38,8 @@ void Compression::demarrage()
     m_builder->setProcessChannelMode(QProcess::MergedChannels);
 
     // Mettre ça avant ou après le démarrage ?
-    connect(m_builder, SIGNAL(readyReadStandardOutput()), this, SLOT(lectureSortieStandard()));
+    // This signal is emitted once every time new data is available for reading from the device's current read channel.
+    connect(m_builder, SIGNAL(readyRead()), this, SLOT(lectureSortieStandard()));
     connect(m_builder, SIGNAL(finished(int)), this, SLOT(finProcedure(int)));
 
     // Démarrage
@@ -47,7 +48,7 @@ void Compression::demarrage()
 
 void Compression::lectureSortieStandard()
 {
-    QByteArray ligne = m_builder->readLine();
+    QByteArray ligne = m_builder->readAll();
     qDebug() << "Compression :: " << ligne;
 
     // Récupération de la valeur de l'avancement
@@ -94,7 +95,7 @@ void Compression::finProcedure(int codeRetour)
 //
 // while(!m_ready) msleep(50); // Attente tant que le résultat n'a pas été trouvé
 
-    qDebug() << "Compression :: codeRetour:" << codeRetour;
+    qDebug() << "Compression :: codeRetour:" << codeRetour << "; Reste:" << m_builder->readAll();
 
     // Envoi d'un signal disant que le processus a échoué ou pas
     emit this->emissionCompressionEtat(m_compression);
