@@ -51,18 +51,14 @@ UpCurl::~UpCurl()
 
     //delete m_timer;
 
-    //curl_easy_cleanup(m_hCurl);
-
     // La destruction de ces attributs pose problème.
-    //Mismatched free() / delete / delete []
-
+    // Mismatched free() / delete / delete []
     delete m_post;
     delete m_last;
 
-    // Je détruis quand même ces attributs mais via les fonctions fournies par curl.
-    //ça ne change rien valgrind raporte encore les lignes...
-    // Mais la doc est formelle...
-
+    // Destruction de ces attributs via les fonctions fournies par curl
+    // Valgrind rapporte encore ces lignes...
+    // Mais la doc est formelle.
     //curl_formfree(m_post);
     //curl_formfree(m_last);
 }
@@ -73,9 +69,10 @@ void UpCurl::demarrage()
 
     //---------- Progression => placée dans MainWindow pour cause de pbs qui y sont mentionnés..
     // Appeler une structure statique contenant ces variables
-    //les valeurs sont envoyes rgulirement par un Qtimer (1000 ms)
+    // les valeurs sont envoyes rgulirement par un Qtimer (1000 ms)
     // D'après la doc de curl, la fonction progress_func() est appelée toutes les secondes parfois moins.
-    /*m_timer = new QTimer(this);
+    /*
+    m_timer = new QTimer(this);
     m_timer->setInterval(1000);
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(emissionProgressionSlot()));
@@ -97,7 +94,6 @@ void UpCurl::demarrage()
     #ifdef LINUX
         curl_global_init(CURL_GLOBAL_ALL);
     #endif
-
 
     // Handle to the curl
     m_hCurl = curl_easy_init();
@@ -138,27 +134,27 @@ void UpCurl::demarrage()
                  m_curlFileName.c_str(),
                  CURLFORM_END); // Apparait dans valgrind..
 
-    //Specify the API Endpoint
+    // Specify the API Endpoint
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_URL, m_curlUrl.c_str());
 
-    //Progression active et fonction
+    // Progression active et callback
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_NOPROGRESS, 0);
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_PROGRESSFUNCTION, &progress_func);
 
-    //Récupration de la réponse du serveur
+    // Récupération de la réponse du serveur
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_WRITEFUNCTION, write_data);
 
-    //UserAgent
+    // User-Agent
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_USERAGENT, USER_AGENT);
 
-    //Specify the HTTP Method
+    // Specify the HTTP Method
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_HTTPPOST, m_post);
 
-    //Excution de la requte (envoi du fichier et rception du lien)
+    // Exécution de la requte (envoi du fichier et réception du lien)
     qDebug() << "Curl :: Dmarrage de la requete..";
     hResult = curl_easy_perform(m_hCurl);
 
-    // paramètres renvoyés à la fin de l'up:
+    // Paramètres renvoyés à la fin de l'up:
     // "Use this function AFTER a performed transfer if you want to get transfer- oriented data"
     // "The data pointed-to will be filled in [...] only if the function returns CURLE_OK"
     // => http://curl.haxx.se/libcurl/c/curl_easy_getinfo.html
@@ -170,13 +166,14 @@ void UpCurl::demarrage()
         qDebug() << "Curl :: Durée upload renvoyée :" << m_dureeTransfert;
     }
 
-    //Arret d'envoi de la progression
-    //m_timer->stop();
+    // Arret d'envoi de la progression
+    // m_timer->stop();
 
     curl_easy_cleanup(m_hCurl);
-// Ces 2 lignes qui suivent, apparaissent dans Valgrind. pourtant c'est dans la doc de Curl :-( => déplacées dans le destructeur
-    //curl_formfree(m_post);
-    //curl_formfree(m_last);
+    // Ces 2 lignes, apparaissent dans Valgrind.
+    // Pourtant c'est dans la doc de Curl :-( => déplacées dans le destructeur
+    // curl_formfree(m_post);
+    // curl_formfree(m_last);
     curl_global_cleanup();
 
     finProcedure(hResult);
@@ -184,12 +181,14 @@ void UpCurl::demarrage()
 
 void UpCurl::pause()
 {
+    // See http://curl.haxx.se/libcurl/c/curl_easy_pause.html
     curl_easy_pause(m_hCurl, CURLPAUSE_SEND);
     //qDebug() << "Curl :: pause";
 }
 
 void UpCurl::unpause()
 {
+    // See http://curl.haxx.se/libcurl/c/curl_easy_pause.html
     curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
     //qDebug() << "Curl :: unpause";
 }
@@ -197,9 +196,8 @@ void UpCurl::unpause()
 int UpCurl::progress_func(void *ptr, double TotalToDownload, double NowDownloaded, double TotalToUpload, double NowUploaded)
 {
     // It's here you will write the code for the progress message or bar
-
-    //appeler une structure statique contenant ces variables
-    //les valeurs sont envoyées à l'objet MainWindow régulièrement par un Qtimer
+    // Appeler une structure statique contenant ces variables
+    // les valeurs sont envoyées à l'objet MainWindow régulièrement par un Qtimer
     UNUSED(ptr);
     UNUSED(TotalToDownload);
     UNUSED(NowDownloaded);
@@ -212,8 +210,8 @@ int UpCurl::progress_func(void *ptr, double TotalToDownload, double NowDownloade
 
 size_t UpCurl::write_data(void *buffer, size_t size, size_t nmemb, void *userdata)
 {
-    //PS: fonction statique => on ne peut pas se servir des attributs/fonctions/signaux de la classe en cours..
-    // Obligé de faire appel à une structure statique pour la remplir et s'en servir...
+    // NOTE: fonction statique => on ne peut pas se servir des attributs/fonctions/signaux de la classe en cours.
+    // Obligé de faire appel à une structure statique pour la remplir et s'en servir.
     UNUSED(userdata);
 
     stringstream strmResponse;
@@ -223,7 +221,7 @@ size_t UpCurl::write_data(void *buffer, size_t size, size_t nmemb, void *userdat
 
     QByteArray temp;
     while (getline(strmResponse, sLine)) {
-        //utiliser la surcharge += ? => si jamais la réponse fait plusieurs lignes ...
+        // Surcharge += : si jamais la réponse fait plusieurs lignes
         temp += sLine.c_str();
     }
 
@@ -269,8 +267,8 @@ size_t UpCurl::write_data(void *buffer, size_t size, size_t nmemb, void *userdat
 void UpCurl::arretCurl()
 {
     // Cette manip permet à la fonction progress_func() de renvoyer -1,
-    //ce qui d'après la doc entraine un arret forcé de l'up.
-    //=> "will cause libcurl to abort the transfer and return CURLE_ABORTED_BY_CALLBACK."
+    // ce qui d'après la doc entraine un arret forcé de l'up.
+    // => "will cause libcurl to abort the transfer and return CURLE_ABORTED_BY_CALLBACK."
     qDebug() << "Curl :: Arret demandé";
 
     bricolo.upState = -1;
@@ -279,8 +277,8 @@ void UpCurl::arretCurl()
 void UpCurl::emissionProgressionSlot()
 {
     qDebug() << "Curl :: Emission progression";
-// /!\ Fameux signal jamais envoyé..
-//utiliser des mutex ? voir QMutexLocker et QMutex...
+    // WARNING: Signal jamais envoyé..
+    //utiliser des mutex ? voir QMutexLocker et QMutex...
 
     emit this->emissionProgression(bricolo.upTotal, bricolo.upFait);
 }

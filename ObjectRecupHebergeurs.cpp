@@ -4,22 +4,18 @@ RecupHebergeurs::RecupHebergeurs(QObject *parent): QObject(parent)
 {
     //qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
-
-    //typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
-    //m_statutConnexion = BAD; // Par défaut la connexion est un échec.
-
     //qRegisterMetaType<QList<QByteArray> >("QList<QByteArray>");
 
-    //PS: Rien d'autre ne peut être initialisé ici...
-    //Surtout pas le QNetworkAccessManager car :
-    //nous sommes encore dans un objet appartenant au thread parent
-    //l'attribut sera lu dans le thread enfant
-    //ex:
-    //QObject: Cannot create children for a parent that is in a different thread.
-    //(Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
-
-//PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout: QObject *parent = NULL...
-
+    // PS: Rien d'autre ne peut être initialisé ici...
+    // Surtout pas le QNetworkAccessManager car :
+    // nous sommes encore dans un objet appartenant au thread parent
+    // l'attribut sera lu dans le thread enfant
+    // ex:
+    // QObject: Cannot create children for a parent that is in a different thread.
+    // (Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
+    //
+    // PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout:
+    // QObject *parent = NULL...
 }
 
 RecupHebergeurs::RecupHebergeurs(const QString &login, const QString &password, QObject *parent): QObject(parent)
@@ -95,7 +91,6 @@ void RecupHebergeurs::finRecupHebergeurs()
 
     // Récupération de la page
     QByteArray temp = r->readAll();
-    //qDebug() << temp;
 
     // Traitement des erreurs éventuelles
     switch (r->error()) {
@@ -113,9 +108,6 @@ void RecupHebergeurs::finRecupHebergeurs()
                                         break;
     }
 
-
-    // V3
-    //{"error":"success","hosts":{"rapidshare.com":2048,"dl.free.fr":1024,"depositfiles.com":2048,"uptobox.com":2048,"uploadhero.com":2048,"uploaded.net":2048,"filecloud.io":2040,"1fichier.com":2048,"turbobit.net":2048,"putlocker.com":2048,"1st-files.com":2048,"hugefiles.net":2048,"rapidgator.net":2048,"billionuploads.com":2048}}
     /* V4
     {
         "error":"success",
@@ -167,8 +159,8 @@ void RecupHebergeurs::finRecupHebergeurs()
             QJsonObject hosts(connexionObj["hosts"].toObject());
 
             int numero_host = 0;
-            //Here's how to iterate over a QMap<QString, int> using an iterator
-            //http://qt-project.org/doc/qt-4.8/qmap.html
+            // Here's how to iterate over a QMap<QString, int> using an iterator
+            // http://qt-project.org/doc/qt-4.8/qmap.html
             // http://doc.qt.io/qt-5/containers.html#stl-style-iterators
             QJsonObject::const_iterator hosts_it = hosts.constBegin();
             while (hosts_it != hosts.constEnd()) {

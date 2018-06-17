@@ -9,15 +9,14 @@ Compression::Compression(const QString &cheminWinRar, const QStringList &argumen
     m_arguments     = arguments;
     m_compression   = false;
 
-    //PS: Rien d'autre ne peut être initialisé ici...
-    //Surtout pas le QNetworkAccessManager car :
-    //nous sommes encore dans un objet appartenant au thread parent
-    //l'attribut sera lu dans le thread enfant
-    //ex:
-    //QObject: Cannot create children for a parent that is in a different thread.
-    //(Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
-
-//PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout: QObject *parent = NULL...
+    // PS: Rien d'autre ne peut être initialisé ici...
+    // nous sommes encore dans un objet appartenant au thread parent
+    // l'attribut sera lu dans le thread enfant
+    // ex:
+    // QObject: Cannot create children for a parent that is in a different thread.
+    // (Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
+    // PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout:
+    // QObject *parent = NULL...
 }
 
 Compression::~Compression()
@@ -33,7 +32,7 @@ void Compression::demarrage()
 
     m_builder = new QProcess;
 
-    //rar a -hpwww.wawapowa.com -v760m -m0 -ep /root/Desktop/$nom_sortie "$1"
+    // rar a -hpMON_MOT_DE_PASSE -v760m -m0 -ep /chemin/$nom_sortie "$1"
     // Fusion de la sortie standard et de la sortie d'erreur standard vers la sortie standard du processus
     m_builder->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -65,11 +64,10 @@ void Compression::lectureSortieStandard()
             qDebug() << "Compression :: Fin trouvée : " << rx.cap(1);
 
             // On spécifie que la compression a réussi
-            //Ce booléen servira   envoyer le signal emissionCompressionEtat(false) à la fin du processus
+            // Ce booléen servira à envoyer le signal emissionCompressionEtat(false) à la fin du processus
             m_compression = true;
         }
-// Ne marche pas, je ne comprends pas :(
-// EDIT: marche mais pas tout le temps... le flux dans stdout est probablement trop rapide...
+        // TODO: Marche mais pas tout le temps... le flux dans stdout est probablement trop rapide...
         // Récupération de l'étape
         rx.setPattern((".*(Creating archive).*"));
         if (rx.indexIn(ligne) != -1) {
@@ -83,20 +81,19 @@ void Compression::lectureSortieStandard()
 
 void Compression::finProcedure(int codeRetour)
 {
-    // Ici on ne se sert pas du code de retour du processus..
-    //Peut être dans le futur. Le truc c'est que je doute que le code soit le même sous linux et sous windows..
-    //EDIT: 0 dans tous les cas, sauf plantage...
+    // Ici on ne se sert pas du code de retour du processus.
+    // EDIT: codeRetour=0 dans tous les cas, sauf si plantage...
     // Ce signal n'est envoyé que si le processus est terminé donc on peut amorcer la destruction de la classe après
 
-
-// Le pb sous windows consistant à une absence de récupération de l'état de la compression est peut etre du à une fermeture prématurée du thread..
-// Dans ce cas, FinProcedure serait appelé alors que lectureSortieStandard() n'aurait pas terminé son travail... à voir...
-// si on est SUR que les Done ou Terminé peuvent etre récupérés, on peut mettre un booléen qui permettrait ici de faire par ex :
-//
-// while(!m_ready) msleep(50); // Attente tant que le résultat n'a pas été trouvé
+    // TODO:
+    // Le pb sous windows consistant à une absence de récupération de l'état de la compression est peut etre du à une fermeture prématurée du thread..
+    // Dans ce cas, FinProcedure serait appelé alors que lectureSortieStandard() n'aurait pas terminé son travail... à voir...
+    // si on est SUR que les Done ou Terminé peuvent etre récupérés, on peut mettre un booléen qui permettrait ici de faire par ex :
+    //
+    // while(!m_ready) msleep(50); // Attente tant que le résultat n'a pas été trouvé
 
     qDebug() << "Compression :: codeRetour:" << codeRetour << "; Reste:" << m_builder->readAll();
 
-    // Envoi d'un signal disant que le processus a échoué ou pas
+    // Envoi d'un signal contenant le statut du processus (true/false)
     emit this->emissionCompressionEtat(m_compression);
 }

@@ -4,7 +4,6 @@
 #include <QtGui>
 #include <QtNetwork>
 #include <QJsonDocument>
-//#include "parser.h" //qjson parser
 #include "Config.h"
 
 class SelectionServeur : public QObject

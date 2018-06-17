@@ -24,15 +24,9 @@ void SelectionServeur::demarrage()
     requete.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
     //pour Qt 4.7.x :
     requete.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    //pour Qt 4.7.8 :
-    //requete.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-
 
     qDebug() << "SelectionServeur :: Sélection serveur en cours...";
 
-    //V1
-    //const QUrl url = QUrl("http://www.multiup.org/fichiers/index/simple");
-    //V2
     const QUrl url = QUrl(URL_SELECTION_SERVEUR);
     requete.setUrl(url);
 
@@ -42,11 +36,11 @@ void SelectionServeur::demarrage()
     // Méthode get() pour poster le contenu de notre requête.
     QNetworkReply *r = m_networkAccessManager->get(requete);
 
-    //Ligne permettant de mettre en file les QObject:connect,
-    //Sinon pas d'appel du slot d'erreur...
-    //http://doc.trolltech.com/4.2/qt.html#ConnectionType-enum
-    //http://stackoverflow.com/questions/9646110/how-to-send-a-qt-signal-containing-a-cvmat
-    //qRegisterMetaType< QNetworkReply::NetworkError >("QNetworkReply::NetworkError");
+    // Ligne permettant de mettre en file les QObject:connect,
+    // Sinon pas d'appel du slot d'erreur...
+    // http://doc.trolltech.com/4.2/qt.html#ConnectionType-enum
+    // http://stackoverflow.com/questions/9646110/how-to-send-a-qt-signal-containing-a-cvmat
+    // qRegisterMetaType< QNetworkReply::NetworkError >("QNetworkReply::NetworkError");
 
     connect(r, SIGNAL(finished()), this, SLOT(finSelectionServeur()));
 }
@@ -58,9 +52,6 @@ void SelectionServeur::finSelectionServeur()
     qDebug() << "SelectionServeur :: Récupération de la réponse du serveur...";
 
     // Récupération de la page
-    //V1
-    //QString temp = r->readAll();
-    //V2
     QByteArray temp = r->readAll();
     qDebug() << temp;
 
@@ -84,8 +75,7 @@ void SelectionServeur::finSelectionServeur()
     //V3
     //{"error":"success","server":"http:\/\/sarge.multiup.org\/upload\/index.php"}
 
-    QJsonDocument loadDoc(
-                QJsonDocument::fromJson(temp));
+    QJsonDocument loadDoc(QJsonDocument::fromJson(temp));
 
     if (!loadDoc.isNull()) { // Test de validité
 
@@ -95,11 +85,10 @@ void SelectionServeur::finSelectionServeur()
             // Succès certain
 
             m_adresseIp = connexionObj["server"].toString();
-            // Retrait des caractères d'échappement inutile... (méthode remove de QString)
+            // TODO: Retrait des caractères d'échappement inutiles... (méthode remove de QString)
 
             qDebug() << "SelectionServeur :: Serveur" << m_adresseIp  << "trouvé !";
             m_statutConnexion = Ok;
-
         }
 
         // Echec certain

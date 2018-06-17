@@ -46,13 +46,13 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
     Q_OBJECT
 
 public:
-    //Statuts possibles des fichiers
+    // Statuts possibles des fichiers
     enum EtatFichier
     {
         STOPED, REMOVED, FAILED_e, FINISHED, PREPROCESSING, READY, UPLOADING
     };
 
-    //Statuts possibles pour la manipulation des données du tableau
+    // Statuts possibles pour la manipulation des données du tableau
     enum EtatTableau
     {
         AJOUT, RETRAIT, RAZ
@@ -60,7 +60,7 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void creationTableau(EtatTableau etat, const QStringList liste); //Il aurait fallu mettre un paramètre facultatif sur le QStringList..
+    void creationTableau(EtatTableau etat, const QStringList liste); // Il aurait fallu mettre un paramètre facultatif sur le QStringList..
     void remplissageTableau(int row, int column, const QString text);
     bool testFichier(QFile &file) const;
     void suppressionTableau(const EtatFichier state);
@@ -163,10 +163,10 @@ private:
     QLineEdit               *m_password;
     QString                 m_loginId;
     QCheckBox               *m_checkBox_Wwpw;
-    QSignalMapper           *m_signalMapper; // mappage des signaux des checkbox
-    QHash<QByteArray, int>  m_listIconesHebergeurs; // Fait correspondre les icones avec les checkbox reçues
-    QHash<QCheckBox*, int>  m_listCheckBoxHebergeurs; // Fait correspondre les icones avec les checkbox reçues
-    QList<QCheckBox*>       m_sortedListCheckBox; // permet l'affichage des checkbox dans un ordre harmonieux (déjà cochées en premier)
+    QSignalMapper           *m_signalMapper;            // mappage des signaux des checkbox
+    QHash<QByteArray, int>  m_listIconesHebergeurs;     // Fait correspondre les icones avec les checkbox reçues
+    QHash<QCheckBox*, int>  m_listCheckBoxHebergeurs;   // Fait correspondre les icones avec les checkbox reçues
+    QList<QCheckBox*>       m_sortedListCheckBox;       // permet l'affichage des checkbox dans un ordre harmonieux (déjà cochées en premier)
     int                     m_maxHosts;
 
     QLabel                  *m_labelExtinction;
@@ -195,7 +195,7 @@ private:
     bool                    m_effacement;
     bool                    m_prez;
     bool                    m_upEnCours;
- bool                    m_regVitesse;
+    bool                    m_regVitesse;
 
     bool                    m_configIdentifiants;
     bool                    m_configParametres;

@@ -7,18 +7,15 @@ Connexion::Connexion(const QString &login, const QString &password, QObject *par
     m_login     = login;
     m_password  = password;
 
-    //typedef enum EtatConnexion EtatConnexion; // Statut de la connexion BAD,OK,ERROR
-    //m_statutConnexion = BAD; // Par défaut la connexion est un échec.
-
-    //PS: Rien d'autre ne peut être initialisé ici...
-    //Surtout pas le QNetworkAccessManager car :
-    //nous sommes encore dans un objet appartenant au thread parent
-    //l'attribut sera lu dans le thread enfant
-    //ex:
-    //QObject: Cannot create children for a parent that is in a different thread.
-    //(Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
-
-//PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout: QObject *parent = NULL...
+    // PS: Rien d'autre ne peut être initialisé ici...
+    // Surtout pas le QNetworkAccessManager car :
+    // nous sommes encore dans un objet appartenant au thread parent
+    // l'attribut sera lu dans le thread enfant
+    // ex:
+    // QObject: Cannot create children for a parent that is in a different thread.
+    // (Parent is QNetworkAccessManager(0x89cc4e0), parent's thread is QThread(0x8930af8), current thread is QThread(0x89f3b38)
+    // PS: ce message notifiant 3 threads, est probablement du au fait que l'initialisation de cet objet se fait par défaut détaché de tout:
+    // QObject *parent = NULL...
 }
 
 Connexion::~Connexion()
@@ -38,32 +35,24 @@ void Connexion::demarrage()
     requete.setRawHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
     requete.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
     requete.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    //pour Qt 4.7.8 :
-    //requete.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    requete.setUrl(QUrl(URL_CONNEXION_UTILISATEUR));
 
     qDebug() << "Connexion :: Connexion en cours...";
-
-    const QUrl url = QUrl(URL_CONNEXION_UTILISATEUR);
-    requete.setUrl(url);
 
     //initialisation du QNetworkAccessManager
     m_networkAccessManager = new QNetworkAccessManager;
 
     // Méthode post() pour poster le contenu de notre requête.
-    //v1
-    //_method=POST&data%5BUtilisateur%5D%5Butilisateur%5D=NOM&data%5BUtilisateur%5D%5BmotDePasse%5D=MDP
     //v2
     //_csrf_token=69b27426be5296fef27a1817f0b022ea9c2cc6e3&_username=login&_password=pass&_submit=Login
-    QNetworkReply *r = m_networkAccessManager->post(requete, QString("username=" +
-                                                m_login +
-                                                "&password=" +
-                                                m_password
-                                                ).toLatin1());
+    QNetworkReply *r = m_networkAccessManager->post(
+                requete,
+                QString("username=" + m_login +
+                        "&password=" + m_password).toLatin1());
 
     connect(r, SIGNAL(finished()), this, SLOT(finLogin()));
     // Voir explications sur la désactivation dans la fonction :
     //connect(r, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(erreur(QNetworkReply::NetworkError)));
-
 }
 
 void Connexion::finLogin()
@@ -73,12 +62,9 @@ void Connexion::finLogin()
     qDebug() << "Connexion :: Récupération de la réponse du serveur...";
 
     // Récupération de la page
-    //V3
     QByteArray temp = r->readAll();
-    //qDebug() << temp;
 
     // Traitement des erreurs éventuelles
-
     switch (r->error()) {
         // Doc de l'énumération : http://qt.developpez.com/doc/4.7/qnetworkreply/#networkerror-enum
         case QNetworkReply::NoError :   qDebug() << "Connexion :: Pas d'erreurs, poursuite";
@@ -103,12 +89,11 @@ void Connexion::finLogin()
 
     Entries in arrays and objects are separated by commas.
     The separator between keys and values in an object is a colon (:).
-    */
 
-    //"{"error":"bad username OR bad password"}"
-    //"{"error":"success","login":"lex","user":1637}"
-    QJsonDocument loadDoc(
-                QJsonDocument::fromJson(temp));
+    "{"error":"bad username OR bad password"}"
+    "{"error":"success","login":"lex","user":1637}"
+    */
+    QJsonDocument loadDoc(QJsonDocument::fromJson(temp));
 
     if (!loadDoc.isNull()) { // Test de validité
 
@@ -133,27 +118,27 @@ void Connexion::finLogin()
             }
         }
 
-        //"bad username OR bad password"
+        // "bad username OR bad password"
         // Echec certain
         // m_statutConnexion reste à Bad
     }
 
 
     // Emission des signaux
-    //Notons que m_statutConnexion peut être égal à BAD si pas trouvé l'id;
-    //ou à OK si l'id a été trouvé.
+    // Notons que m_statutConnexion peut être égal à BAD si l'id n'a pas trouvé;
+    // ou à OK si l'id a été trouvé.
     this->finProcedure();
 }
 
 /*
 void Connexion::erreur(QNetworkReply::NetworkError) // Fonction dépassée, sans utilité pour le programme, voir plus bas.
 {
-    // Parfois ça a le temps d'envoyer   la fois le signal error et finished....
+    // Parfois ça a le temps d'envoyer à la fois le signal error et finished....
     // Dans la doc :
-    // This signal is emitted when the reply detects an error in processing. The finished() signal will probably follow, indicating that the connection is over.
-    // Super...
+    // This signal is emitted when the reply detects an error in processing.
+    // The finished() signal will probably follow, indicating that the connection is over.
+    // ...
     // Pour éviter un bordel aléatoire par la suite, je traite les erreurs de connexion dans le slot appelé par finished avec la fonction r->error()
-
 
     QNetworkReply *r = qobject_cast<QNetworkReply*>(sender());
 

@@ -5,7 +5,6 @@
 #include <sstream>
 #include "curl/curl.h"
 #include <QJsonDocument>
-//#include "parser.h" //qjson parser
 #include "Config.h"
 
 // Fix Unused variable warning, usage: UNUSED(x);
@@ -36,7 +35,6 @@ class UpCurl : public QObject
         void demarrage();
         void arretCurl();
         void emissionProgressionSlot();
-//faire un tour ici => http://curl.haxx.se/libcurl/c/curl_easy_pause.html
         void pause();
         void unpause();
 

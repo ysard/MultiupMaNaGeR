@@ -8,6 +8,7 @@
 #endif
 
 #define VERSION "0.4.2"
+#define URL_MULTIUP "https://www.multiup.org/"
 
 // --- ObjectMiseAJour.cpp
 #define URL_MAJ_LINUX "http://hotspot.fr/version_linux.txt"
