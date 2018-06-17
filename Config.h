@@ -21,6 +21,9 @@
 // --- ObjectRecupIcones.cpp
 #define URL_RECUPERATION_ICONES "http://www.multiup.org/bundles/multiupsite/img/hosts/"
 
+// --- User-Agent
+#define USER_AGENT "Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
+
 // --- Custom directory for the application on Linux
 #ifdef LINUX
     #define APP_DIR "Multiupv2"

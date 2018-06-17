@@ -58,7 +58,7 @@ void RecupHebergeurs::demarrage()
 
     // On crée notre requête
     QNetworkRequest requete;
-    requete.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2");
+    requete.setRawHeader("User-Agent", USER_AGENT);
     requete.setRawHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
     requete.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
     requete.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
