@@ -112,7 +112,7 @@ public slots:
     void on_boutonCompress_clicked();
     void ajoutFichierCompress(QString fichier);
     void receptionCompressionAvancement(int avancementCompression);
-    void receptionCompressionEtat(bool etatCompression);
+    void receptionCompressionEtat(bool compressionSucess);
     void receptionCompressionEtape(QString etapeCompression);
 
     void rechercheHebergeurs();
