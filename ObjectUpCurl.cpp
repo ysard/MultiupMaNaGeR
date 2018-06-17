@@ -9,7 +9,6 @@ UpCurl::UpCurl(const string &FileName, const string &Url, QStringList hebergeurs
 {
     qDebug() << "Curl :: Mode connecté : Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
-
     m_curlFileName      = FileName;
     m_curlUrl           = Url;
     m_hebergeursListe   = hebergeursListe;
@@ -130,7 +129,7 @@ void UpCurl::demarrage()
                      CURLFORM_END); // Apparait dans valgrind..
     }
 
-    // Ajoute le fichier  la requête d'upload de curl (file modifié en files[] pour la v2)
+    // Ajoute le fichier à la requête d'upload de curl (file modifié en files[] pour la v2)
     curl_formadd(&m_post,
                  &m_last,
                  CURLFORM_COPYNAME,
@@ -146,7 +145,7 @@ void UpCurl::demarrage()
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_NOPROGRESS, 0);
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_PROGRESSFUNCTION, &progress_func);
 
-    //Rcupration de la rponse du serveur
+    //Récupration de la réponse du serveur
     hResult = curl_easy_setopt(m_hCurl, CURLOPT_WRITEFUNCTION, write_data);
 
     //UserAgent
@@ -223,39 +222,47 @@ size_t UpCurl::write_data(void *buffer, size_t size, size_t nmemb, void *userdat
     string sLine("");
 
     QByteArray temp;
-
     while (getline(strmResponse, sLine)) {
         //utiliser la surcharge += ? => si jamais la réponse fait plusieurs lignes ...
         temp += sLine.c_str();
     }
 
-    // Module de triage du lien (susceptible de changer de place ça..)
-    // A l'avenir il est possible qu'on doive prendre là dedans, autre chose que le lien...
-    //"[{"name":"test.txt","hash":"858ba0d4e80394e48bb9095de9ee93e8","size":7,"type":"text\/plain","sid":"","hashUpload":"","md5":"fcf1456d8927054e48c6024236c9960b","sha":"458afc80eb73e4aa1ccdd307aa51341b13091cb7","user":"","url":"http:\/\/www.multiup.org\/download\/858ba0d4e80394e48bb9095de9ee93e8\/test.txt","delete_url":"http:\/\/lenny.multiup.org\/upload\/?file=test.txt","delete_type":"DELETE"}]"
+    // Triage du lien
+    /* Exemple de JSON retourné:
+    {
+       "files":[
+          {
+             "name":"test.txt",
+             "size":5,
+             "type":"text/plain",
+             "hash":"080e3fb87debea6e9818d55aa1c68b43",
+             "user":"1637",
+             "md5":".",
+             "sha":".",
+             "url":"https://multiup.org/download/080e3fb87debea6e9818d55aa1c68b43/test.txt",
+             "deleteUrl":"http://walfrid.multiup.org/upload/index.php?file=test.txt",
+             "deleteType":"DELETE"
+          }
+       ]
+    }
+    */
 
-    // Suppression de [,] aux extrémités pour que ça soit du json exploitable...
-    temp.remove(0,1);
-    temp.remove(temp.size()-1,1);
-
-    QJsonDocument loadDoc(
-                QJsonDocument::fromJson(temp));
+    QJsonDocument loadDoc(QJsonDocument::fromJson(temp));
 
     if (!loadDoc.isNull()) { // Test de validité
 
         QJsonObject connexionObj = loadDoc.object();
 
-        // Récupération du statut
-        QString url = connexionObj["url"].toString();
+        // Récupération de l'objet contenant 1 liste de fichiers
+        // (1 seul fichier car le logiciel n'upload que 1 fichier après l'autre)
+        QJsonObject file = connexionObj["files"].toArray().at(0).toObject();
+
+        // Récupération de l'url dans l'objet file récupéré
+        QString url = file["url"].toString();
 
         qDebug() << "Curl :: Lien :" << url;
         bricolo.lien = url;
-
-        //url = connexionObj["delete_url"].toString();
-        //qDebug() << "Curl :: LienDelete :" << url;
-        bricolo.lienDelete = "";
-
     }
-
     return nReal;
 }
 
