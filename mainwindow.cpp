@@ -246,8 +246,8 @@ MainWindow::~MainWindow()
 
     // Note:
     // voir ici => www.siteduzero.com/tutoriel-3-11256-heriter-un-widget.html
-    // A partir du moment oÃ¹, on a crée un pointeur avec en widget parent this;
-    //Lorsque le widget parent est détruit, Qt détruit aussi ses enfants.
+    // A partir du moment où, on a crée un pointeur avec en widget parent this;
+    // Lorsque le widget parent est détruit, Qt détruit aussi ses enfants.
     // Notons que je n'ai que rarement spécifié this dans le constructeur de chacun de ces objets créés dynamiquement...
 }
 
@@ -259,22 +259,22 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     //Le problème ici, c'est que le survol de chaque widget (fenêtre principale, chekbox, groupbox, tablewidget) génère ce signal.
 
     qDebug() << "Appel de la fonction DragEnterEvent";
-//    qDebug() << tableWidget->geometry();
-//    qDebug() << tableWidget->pos();
-//    qDebug() << event->pos();
+    // qDebug() << tableWidget->geometry();
+    // qDebug() << tableWidget->pos();
+    // qDebug() << event->pos();
 
     // Vérification du drag dans un widget autorisé (le faire ici et pas après permet d'économiser le nombre de tests sur les fichiers déposés)
-//    if (!groupBoxCompression->frameGeometry().contains(event->pos()) && !tableWidget->frameGeometry().contains(event->pos())) {
-//        event->ignore();
-//        return;
-//    }
+    // if (!groupBoxCompression->frameGeometry().contains(event->pos()) && !tableWidget->frameGeometry().contains(event->pos())) {
+    //     event->ignore();
+    //     return;
+    // }
 
     // N'accepte que le mime format "text/uri-list" (pas d'images ou d'autres données)
     if (!event->mimeData()->hasFormat("text/uri-list"))
-    return;
+        return;
 
     // Plus de vérification de l'ouverture du fichier.
-    // Ã§a ne sert à rien de vérifier ici vu que lors de l'ajout dans le tableau, cette vérification est faite.
+    // Ça ne sert à rien de vérifier ici vu que lors de l'ajout dans le tableau, cette vérification est faite.
     // De plus l'event Drag est appelé souvent à chaque passage de la souris au dessus d'un widget donc... c'est lourd !
     event->acceptProposedAction();
     /*
@@ -311,9 +311,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    // Vérification de l'onglet du drop. On pourrait aussi vérifier la position du drag mais bon.. Déjà  fait dans dragEnterEvent..
-// Pour faire la différence entre un fichier et un dossier: mettre l'url dans un QFileInfo et tester: isDir() ou isFile()
-
+    // Vérification de l'onglet du drop. On pourrait aussi vérifier la position du drag mais déjà fait dans dragEnterEvent..
+    // Pour faire la différence entre un fichier et un dossier: mettre l'url dans un QFileInfo et tester: isDir() ou isFile()
 
     if (tabWidget->currentIndex() == 1) {
         qDebug() << "Drop Action :: GroupBoxCompression";
@@ -322,36 +321,33 @@ void MainWindow::dropEvent(QDropEvent *event)
         qDebug() << "Objet drag & drop :" << event->mimeData()->urls().at(0);
 
         ajoutFichierCompress(event->mimeData()->urls().at(0).toLocalFile());
-    }
-    else if (tabWidget->currentIndex() == 0) {
+
+    } else if (tabWidget->currentIndex() == 0) {
         qDebug() << "Drop Action :: TableWidget";
 
         // On récupère tous les fichiers sélectionnés par l'utilisateur pour le glisser-déposer
-        //et on s'assure qu'il s'agisse bien d'un fichier et non d'autre chose..
+        // et on s'assure qu'il s'agisse bien d'un fichier et non d'autre chose..
         QFileInfo fileInfo;
-        QStringList liste;
+        QStringList fileList;
 
         //On parcourt l'event et on ajoute dans la liste
-        foreach(const QUrl & url, event->mimeData()->urls())
-        {
+        foreach(const QUrl & url, event->mimeData()->urls()) {
             // Test fichier ou autre chose ?
             fileInfo.setFile(url.toLocalFile());
-
             if (fileInfo.isFile()) {
                 qDebug() << "Fichier drag & drop :" << url.toLocalFile();
-                liste.append(url.toLocalFile());
+                fileList.append(url.toLocalFile());
             }
         }
-        creationTableau(AJOUT, liste);
+        creationTableau(AJOUT, fileList);
     }
 }
 
-// Surcharge la méthode closeEvent
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    // Surcharge la méthode closeEvent
     // Si un up est en cours, une fenetre apparait pour demander confirmation
-    if (m_upEnCours == true)
-    {
+    if (m_upEnCours == true) {
         // Vérification que l'application n'est pas iconifiée. Sinon l'affichage du QMessageBox la fait planter
         if(!isVisible()) {
             this->setWindowFlags(Qt::Window);
@@ -365,9 +361,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
             event->accept();
         else
             event->ignore();
-    }
-    else // Si pas d'up en cours => fermeture
+    } else {
+        // Si pas d'up en cours => fermeture
         event->accept();
+    }
 }
 
 void MainWindow::showEvent(QShowEvent *event)
@@ -401,9 +398,9 @@ void MainWindow::on_tableWidget_customContextMenuRequested(QPoint point)
         int row = tableWidget->itemAt(point)->row();
         //qDebug() << "ligne" << row;
 
-//spécifie la case courrante pour que les slots sachent oÃ¹ agir
-//je reporte Ã§a dans les SLOTS pour éviter que la case active ne change avant le choix => coté pratique pr l'utilisateur
-//tableWidget->setCurrentItem(tableWidget->item(tableWidget->currentItem()->row(), 1));
+        // Spécifie la case courante pour que les slots sachent où agir
+        // je reporte cela dans les SLOTS pour éviter que la case active ne change avant le choix => coté pratique pr l'utilisateur
+        // tableWidget->setCurrentItem(tableWidget->item(tableWidget->currentItem()->row(), 1));
 
         switch(m_etatsFichiers.at(row))
         {
@@ -465,7 +462,7 @@ void MainWindow::actionAnnuler_triggered()
 {
     int row = tableWidget->currentItem()->row();
 
-    //spécifie la case courrante ("état") pour que les slots sachent oÃ¹ agir
+    // Spécifie la case courrante ("état") pour que les slots sachent où agir
     m_etatsFichiers[row] = REMOVED;
     remplissageTableau(row, 1, REMOVED_TEXT());
     tableWidget->item(row, 1)->setIcon(QIcon(REMOVED_IMG));
@@ -477,7 +474,7 @@ void MainWindow::actionEnAttente_triggered()
 {
     int row = tableWidget->currentItem()->row();
 
-    //spécifie la case courrante ("état") pour que les slots sachent oÃ¹ agir
+    // Spécifie la case courrante ("état") pour que les slots sachent où agir
     m_etatsFichiers[row] = READY;
     remplissageTableau(row, 1, READY_TEXT());
     tableWidget->item(row, 1)->setIcon(QIcon(READY_IMG));
@@ -538,7 +535,7 @@ void MainWindow::trayClicked(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::actionSysTrayRetablir_triggered()
 {
-    //Action "Rétablir" du menu du systray
+    // Action "Rétablir" du menu du systray
     if (isVisible()) {
         setWindowFlags(Qt::FramelessWindowHint);
         this->hide();
@@ -560,8 +557,8 @@ void MainWindow::actionSysTrayArreter_triggered()
 
 void MainWindow::on_checkBoxExtinction_clicked()
 {
-    //Fonction gérant l'état de la checkBox "éteindre l'ordinateur"
-    //Le booléen et l'état de la statusbar
+    // Fonction gérant l'état de la checkBox "éteindre l'ordinateur"
+    // Le booléen et l'état de la statusbar
     if (checkBoxExtinction->isChecked()) {
         m_extinction = true;
         m_labelExtinction->setText(QString(tr("Extinction : Activée")));
@@ -574,8 +571,8 @@ void MainWindow::on_checkBoxExtinction_clicked()
 
 void MainWindow::on_checkBoxReprise_clicked()
 {
-    //Fonction gérant l'état de la checkBox "reprise sur erreur"
-    //Le booléen et l'état de la statusbar
+    // Fonction gérant l'état de la checkBox "reprise sur erreur"
+    // Mise à jour du booléen et de la statusbar
     if (checkBoxReprise->isChecked()) {
         m_reprise = true;
         m_labelReprise->setText(QString(tr("Reprise : Activée")));
@@ -588,8 +585,8 @@ void MainWindow::on_checkBoxReprise_clicked()
 
 void MainWindow::on_checkBoxEffacement_clicked()
 {
-    //Fonction gérant l'état de la checkBox "effacement programmé"
-    //Le booléen et l'état de la statusbar
+    // Fonction gérant l'état de la checkBox "effacement programmé"
+    // Mise à jour du booléen et de la statusbar
     if (checkBoxEffacement->isChecked()) {
         m_effacement = true;
         m_labelEffacement->setText(QString(tr("Effacement : Activé")));
@@ -602,8 +599,8 @@ void MainWindow::on_checkBoxEffacement_clicked()
 
 void MainWindow::on_checkBoxPrez_clicked()
 {
-    //Fonction gérant l'état de la checkBox "aide à la présentation"
-    //Le booléen et l'état de la statusbar
+    // Fonction gérant l'état de la checkBox "aide à la présentation"
+    // Mise à jour du booléen et de la statusbar
     if (checkBoxPrez->isChecked()) {
         m_prez = true;
         m_labelPrez->setText(QString(tr("Prez : Activée")));
@@ -616,8 +613,9 @@ void MainWindow::on_checkBoxPrez_clicked()
 
 void MainWindow::on_checkBoxRegVitesse_clicked()
 {
-    //Fonction gérant l'état de la checkBox "Bridage de connexion"
-    //Le booléen et l'état de l'upload
+    // Fonction gérant l'état de la checkBox "Bridage de connexion"
+    // Mise à jour du booléen et de l'état de l'upload,
+    // ainsi que de la couleur de la taskbar sous Windows
     if (checkBoxRegVitesse->isChecked()) {
         m_regVitesse = true;
 
@@ -643,6 +641,7 @@ void MainWindow::on_checkBoxRegVitesse_clicked()
 
 void MainWindow::on_horizontalSliderRegVitesse_valueChanged(int value)
 {
+    // Bridage de la vitesse d'upload selon le curseur de réglage
     QString val;
 
     switch(value)
@@ -667,7 +666,7 @@ void MainWindow::on_horizontalSliderRegVitesse_valueChanged(int value)
 
 void MainWindow::on_boutonSuppressionTout_clicked()
 {
-    //Fonction: Suppression de tout le tableau
+    // Gestion des uploads: Suppression de tout le tableau
     tableWidget->clearContents();
     tableWidget->setRowCount(0);
     m_cheminsFichiers.clear();
@@ -678,23 +677,23 @@ void MainWindow::on_boutonSuppressionTout_clicked()
 
 void MainWindow::on_boutonSuppressionAnnules_clicked()
 {
-    //Fonction: Suppresion des éléments annulés (et avec erreur)
+    // Gestion des uploads: Suppresion des éléments annulés (et avec erreur)
     suppressionTableau(REMOVED);
 }
 
 void MainWindow::on_boutonSuppressionTermines_clicked()
 {
-    //Fonction: Suppresion des éléments terminés (et avec erreur)
+    // Gestion des uploads: Suppresion des éléments terminés (et avec erreur)
     suppressionTableau(FINISHED);
 }
 
 void MainWindow::suppressionTableau(const EtatFichier state)
 {
-    //Parcourir le tableau (colonne 1), si "Annulé" / "Terminé" ou "Erreur"
-    //effacer l'item concerné
-    //effacer le tableau
-    //réinitialise la m_cheminsFichiers
-    //remplir le tableau avec m_cheminsFichiers
+    // Parcourir le tableau (colonne 1), si "Annulé" / "Terminé" ou "Erreur"
+    // effacer l'item concerné
+    // effacer le tableau
+    // réinitialise m_cheminsFichiers
+    // remplir le tableau avec m_cheminsFichiers
 
     if (m_cheminsFichiers.count() == 0)
         return;
@@ -714,22 +713,27 @@ void MainWindow::suppressionTableau(const EtatFichier state)
         numeroLigne++;
     }
 
-
     tableWidget->clearContents();
     tableWidget->setRowCount(0);
-//BIDON:
-    creationTableau(RAZ,m_cheminsFichiers);
+
+    // TODO: Useless
+    creationTableau(RAZ, m_cheminsFichiers);
 }
 
 void MainWindow::on_boutonOuvrir_clicked()
 {
-    //Il est possible que l'ouverture de cette boite de dialogue (et de la boite affichant les liens), pendant qu'une autre tàÄ’che s'exécute dans la fenêtre principale
-    //fasse planter (jamais arrivé) ou donne des bugs (genre l'affichage des petites icones qui ne se fait pas :O)..
+    // TODO: Il est possible que l'ouverture de cette boite de dialogue (et de la boite affichant les liens),
+    // pendant qu'une autre tâche s'exécute dans la fenêtre principale fasse planter
+    // (jamais arrivé) ou donne des bugs (ex: affichage des petites icones qui ne se fait pas).
     #ifdef WINDOWS
-        QStringList liste = QFileDialog::getOpenFileNames(this, tr("Ouvrir un fichier"), "C:\\", tr("Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp);;Tous les fichiers (*.*)"));
+        QStringList liste = QFileDialog::getOpenFileNames(
+                    this, tr("Ouvrir un fichier"),
+                    "C:\\", tr("Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp);;Tous les fichiers (*.*)"));
     #endif
     #ifdef LINUX
-        QStringList liste = QFileDialog::getOpenFileNames(this, tr("Ouvrir un fichier"), "/", tr("Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp);;Tous les fichiers (*.*)"));
+        QStringList liste = QFileDialog::getOpenFileNames(
+                    this, tr("Ouvrir un fichier"),
+                    "/", tr("Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp);;Tous les fichiers (*.*)"));
     #endif
 
     if (liste.isEmpty())
@@ -741,25 +745,24 @@ void MainWindow::on_boutonOuvrir_clicked()
 
 void MainWindow::creationTableau(EtatTableau etat, const QStringList liste)
 {
-    //Parcourt la liste
-    //Teste l'ouverture du fichier
-    //Parcourt le tableau, respecte les lignes déjà  présentes => cette fonction n'efface RIEN
-    //Parcourt tous les fichiers (m_cheminsFichiers) pour les repasser à  la fonction d'upload qui se chargera de savoir si ils sont uploadables ou pas.
-    //Additionne la taille de tous les fichiers pour connaitre la taille totale à  up (utilisation pour la barre de progression générale)
+    // Parcourt la liste
+    // Teste l'ouverture du fichier
+    // Parcourt le tableau, respecte les lignes déjà  présentes => cette fonction n'efface RIEN
+    // Parcourt tous les fichiers (m_cheminsFichiers) pour les repasser à  la fonction d'upload qui se chargera de savoir si ils sont uploadables ou pas.
+    // Additionne la taille de tous les fichiers pour connaitre la taille totale à  up (utilisation pour la barre de progression générale)
 
-    //Modification de la liste en cours d'upload:
-    //si Ã§a se fait au moment du début d'un up ou du choix serveur Ã§a va planter, car ces fonctions utilisent m_cheminsFichiers)
-    //Solution : les fonctions supprimant les items sont dispo hors upload en cours
-
-
+    // Modification de la liste en cours d'upload:
+    // si cela se fait au moment du début d'un up ou du choix serveur cela va planter, car ces fonctions utilisent m_cheminsFichiers)
+    // Solution : les fonctions supprimant les items sont dispo ssi aucun upload n'est en cours
 
     // !!! on parcourt la liste !!!
-    //si on doit ajouter c'est à  la derniere ligne qu'on vient de créer
-    //en temps normal etat = FALSE => on construit avec des valeurs neuves en ajoutant 1 ligne
-    //en cas de reconstruction apres item supprimé etat = TRUE => on détruit le tableau et on le construit avec des valeurs anciennes des QStringList en mémoire.
+    // si on doit ajouter c'est à  la derniere ligne qu'on vient de créer
+    // en temps normal etat = FALSE => on construit avec des valeurs neuves en ajoutant 1 ligne
+    // en cas de reconstruction apres item supprimé etat = TRUE => on détruit le tableau et on le construit avec des valeurs anciennes des QStringList en mémoire.
 
 
-    if (etat == AJOUT) { // Remplissage par ajout de ligne à  la fin des lignes existantes
+    if (etat == AJOUT) {
+        // Remplissage par ajout de ligne à  la fin des lignes existantes
 
         // Si count = 0 : 1iere ligne du tableau donc numéro 0 etc..
         int numeroLigne = m_cheminsFichiers.count();
@@ -801,16 +804,16 @@ void MainWindow::creationTableau(EtatTableau etat, const QStringList liste)
 
             i++;
             numeroLigne++;
-
         }
     }
     else {
-    //etat = 1, la construction se fait à  la suite d'un retrait d'un item par les toolsbuttons
+        // etat = RETRAIT ou RAZ:
+        // la construction se fait à  la suite d'un retrait d'un item par les toolsbuttons
         int numeroLigne = 0;
 
         while (numeroLigne < m_cheminsFichiers.count())
         {
-            //On garde les lignes déjà  existantes, donc dans tous les cas on en rajoute une.
+            // On garde les lignes déjà  existantes, donc dans tous les cas on en rajoute une.
             tableWidget->setRowCount(tableWidget->rowCount()+1);
 
             remplissageTableau(numeroLigne, 0, QFileInfo(m_cheminsFichiers.at(numeroLigne)).fileName());
@@ -857,8 +860,10 @@ void MainWindow::creationTableau(EtatTableau etat, const QStringList liste)
 
 void MainWindow::remplissageTableau(int row, int column, const QString text)
 {
-    if (!tableWidget->item(row, column)) { // Si l'item n'existe pas encore,
-       tableWidget->setItem(row, column, new QTableWidgetItem(text)); // On le crée.
+    // Remplit une case du tableau ayant les coordonnées données avec le texte donné
+    if (!tableWidget->item(row, column)) {
+        // L'item n'existe pas encore, on le crée
+        tableWidget->setItem(row, column, new QTableWidgetItem(text));
     }
     else {
         tableWidget->item(row, column)->setText(text);
@@ -868,10 +873,11 @@ void MainWindow::remplissageTableau(int row, int column, const QString text)
 bool MainWindow::testFichier(QFile &file) const
 {
     // Teste la lecture du fichier traité (lors du remplisage du tableau)
-    if (file.exists() == false)
+    // Retourne true si le fichier existe et que les droits en lecture sont présents
+    if (!file.exists())
         return false;
 
-    if (file.open(QIODevice::ReadOnly) == false)
+    if (!file.open(QIODevice::ReadOnly))
         return false;
 
     file.close();
@@ -880,13 +886,11 @@ bool MainWindow::testFichier(QFile &file) const
 
 void MainWindow::calculTailleTotale()
 {
-    //Evaluation des tailles de l'upload
-    int     numeroLigne = 0;
-    qint64  sizeTotTemp = 0;
-    qint64  sizeFaiteTemp = 0;
+    // Evaluation des tailles de l'upload
+    int    numeroLigne   = 0;
+    qint64 sizeTotTemp   = 0;
+    qint64 sizeFaiteTemp = 0;
 
-
-    // Plus lisible...
     // On garde la taille des fichiers PREPROCESSING, READY, UPLOADING
     foreach(const qint64 & taille, m_tailleFichiers)
     {
@@ -901,12 +905,12 @@ void MainWindow::calculTailleTotale()
             case FINISHED:  break;
 
             case UPLOADING: // Cas particulier d'un up en cours et de l'ajout/retrait d'un fichier:
-            //Réinitialiser m_sizeTot est bien mais il faut aussi s'occuper de m_sizeFaite.
-            //On ajoute à  m_sizeFaite juste la taille du fichier qui est UPLOADING.
-            //Ainsi à  la moindre manipulation de l'état des fichiers, la barre de progression est mise à jour enfonction de ce qui reste à faire.
-                            if (m_upEnCours == true) {
+            // Réinitialiser m_sizeTot est bien mais il faut aussi s'occuper de m_sizeFaite.
+            // On ajoute donc à m_sizeFaite la taille du fichier qui est UPLOADING.
+            // Ainsi, à la moindre manipulation de l'état des fichiers, la barre de progression est mise à jour enfonction de ce qui reste à faire.
+                            if (m_upEnCours)
                                 sizeFaiteTemp += taille;
-                            }
+
                             sizeTotTemp += taille;
                             break;
 
@@ -923,37 +927,35 @@ void MainWindow::calculTailleTotale()
     }
 
     m_sizeTot = sizeTotTemp;
-    qDebug() << "Taille totale trouvée dans le tableau : " << m_sizeTot;
+    qDebug() << "Taille totale des uploads dans le tableau : " << m_sizeTot;
 }
 
 void MainWindow::on_boutonLiens_clicked()
 {
-    //Affiche la liste des liens obtenus
+    // Affiche la liste des liens obtenus
     FenLiens *fenetreLiens = new FenLiens(m_liens, this);
     fenetreLiens->exec();
     fenetreLiens->deleteLater();
-    //delete fenetreLiens;
 }
 
 void MainWindow::on_boutonVoirMiseAJour_clicked()
 {
-    //Affiche la liste des liens obtenus
+    // Affiche la liste des liens obtenus
     FenVoirMiseAJour *fenetreVoirMiseAJour = new FenVoirMiseAJour(this);
     fenetreVoirMiseAJour->exec();
     fenetreVoirMiseAJour->deleteLater();
-    //delete fenetreVoirMiseAJour;
 }
 
 void MainWindow::on_boutonGoSite_clicked()
 {
-    //Ouvre l'url du site
-    QDesktopServices::openUrl(QUrl("http://www.multiup.org/"));
+    // Ouvre l'url du site
+    QDesktopServices::openUrl(QUrl(URL_MULTIUP));
 }
 
 void MainWindow::on_boutonPaypal_clicked()
 {
-    //Ouvre l'url du site
-    QDesktopServices::openUrl(QUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8813342"));
+    // Ouvre l'url du site
+    QDesktopServices::openUrl(QUrl(tr("https://www.multiup.org/fr/premium")));
 }
 
 void MainWindow::parametres()
@@ -1020,7 +1022,6 @@ void MainWindow::on_boutonSavIdentifiants_clicked()
 
     //qDebug() << "Sauvegarde des identifiants en cours...";
 
-
     #ifdef WINDOWS
         QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
     #endif
@@ -1029,8 +1030,8 @@ void MainWindow::on_boutonSavIdentifiants_clicked()
         qWarning() << settings.fileName();
     #endif
 
-    if (m_configIdentifiants == true) // Le fichier a déjà été sauvegardé, on recharge les paramètres
-    {
+    if (m_configIdentifiants) {
+        // Le fichier a déjà été sauvegardé, on recharge les paramètres
         m_login->setText(settings.value("Identifiants/Login").toString());
         m_password->setText(settings.value("Identifiants/Password").toString());
 
@@ -1040,7 +1041,6 @@ void MainWindow::on_boutonSavIdentifiants_clicked()
     }
 
     // Sauvegarde des identifiants
-
     settings.beginGroup("Identifiants");
     settings.setValue("Login", m_login->text());
     settings.setValue("Password", m_password->text());
@@ -1061,8 +1061,8 @@ void MainWindow::on_boutonSavParametres_clicked()
         QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
     #endif
 
-    if (m_configParametres == true) // Le fichier a déjà été sauvegardé, on recharge les paramètres
-    {
+    if (m_configParametres) {
+        // Le fichier a déjà été sauvegardé, on recharge les paramètres
         m_cheminWinRar = settings.value("Compression/rar").toString();
         lineEditCompressDest->setText(settings.value("Compression/Dossier_Sortie").toString());
         lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
@@ -1073,7 +1073,6 @@ void MainWindow::on_boutonSavParametres_clicked()
     }
 
     // Sauvegarde des paramètres
-
     #ifdef WINDOWS
         settings.setValue("Compression/rar", "\"C:\\Program Files\\WinRAR\\Rar.exe\"");
     #endif
@@ -1092,22 +1091,19 @@ void MainWindow::rappelIdentifiants()
 {
     // Récupère le contenu des clés du fichier config.ini situé dans le répertoire de l'application et remplit les champs et valeurs
 
-    //qDebug() << "Dossier courant : " << QApplication::applicationDirPath();
-
-
-//On peut tester l'ouverture du fichier. Voir si le fait de modifier ces champs active les slots de détection de modification.
-//Si oui il faut décommenter le test pour éviter cela
-    //QFile file("config.ini");
-
-    //if (testFichier(file) == false)
-        //return;
-
     #ifdef WINDOWS
-        QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
+        QString configFile = QApplication::applicationDirPath() + "\\config.ini";
     #endif
     #ifdef LINUX
-        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
+        QString configFile = QDir::homePath() + "/" + APP_DIR + "/config.ini";
     #endif
+
+    qDebug() << "Current config file : " << configFile;
+
+    if (!QFile(configFile).exists())
+        return;
+
+    QSettings settings(configFile, QSettings::IniFormat);
 
     m_login->setText(settings.value("Identifiants/Login").toString());
     m_password->setText(settings.value("Identifiants/Password").toString());
@@ -1126,10 +1122,14 @@ void MainWindow::on_boutonCompressSrc_clicked()
     // Demande un nom aléatoire pour le fichier
 
     #ifdef WINDOWS
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir un fichier"), "C:\\", tr("Tous les fichiers (*.*);;Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp)"));
+        QString fichier = QFileDialog::getOpenFileName(
+                    this, tr("Ouvrir un fichier"), "C:\\",
+                    tr("Tous les fichiers (*.*);;Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp)"));
     #endif
     #ifdef LINUX
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir un fichier"), "/", tr("Tous les fichiers (*.*);;Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp)"));
+        QString fichier = QFileDialog::getOpenFileName(
+                    this, tr("Ouvrir un fichier"), "/",
+                    tr("Tous les fichiers (*.*);;Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp)"));
     #endif
 
     qDebug() << "Compression :: Fichier selectionne :" << fichier;
@@ -1259,7 +1259,8 @@ void MainWindow::on_boutonCompress_clicked()
                   #endif
                   << lineEditCompressSrc->text();
 
-    qDebug() << "Compression :: Commande :" << m_cheminWinRar << arguments << "Taille des parties :" << tailleFichier << "/" << nbParties << "=" << tailleFichier / nbParties;
+    qDebug() << "Compression :: Commande :" << m_cheminWinRar << arguments <<
+                "Taille des parties :" << tailleFichier << "/" << nbParties << "=" << tailleFichier / nbParties;
 
     // Démarrage du thread
     QThread *thread = new QThread(this);
@@ -1287,24 +1288,27 @@ void MainWindow::receptionCompressionAvancement(int avancementCompression)
     progressBarCompress->setValue(avancementCompression);
 }
 
-void MainWindow::receptionCompressionEtat(bool etatCompression)
+void MainWindow::receptionCompressionEtat(bool compressionSucess)
 {
     // Récupère l'état de la compression
-    // Si etatCompression = 0 => compression ratée
-    // Si etatCompression = 1 => compression réussie
+    // Si compressionSucess = 0 => compression ratée
+    // Si compressionSucess = 1 => compression réussie
     // Si la compression est réussie, on appelle la fonction creationTableau avec les bons paramètres (contenant le chemin des fichiers compressés)
     // Rétablit l'interface
 
-    //ProblÄme: sous windows, il est difficile d'obtenir la sortie standard complete de Rar.exe. Du coup Ä¯a affiche compression échouée dans tous les cas
-    //A la fin de cette fonction je ne tiens pas compte pour windows, de ce que renvoie le thread: je force etatCompression Ä true
+    // WARNING: sous windows, il est difficile d'obtenir la sortie standard complete de Rar.exe.
+    // Du coup cela affiche compression échouée dans tous les cas
+    // A la fin de cette fonction je ne tiens pas compte pour windows, de ce que renvoie le thread: je force compressionSucess à true
     #ifdef WINDOWS
-        etatCompression = true;
+        compressionSucess = true;
     #endif
 
-    if (etatCompression == false) { // Compression ratée
+    if (!compressionSucess) {
+        // Compression ratée
         QMessageBox::information(this, tr("Compression échouée"), tr("La compression a échoué !"));
     }
-    else { // Compression réussie
+    else {
+        // Compression réussie
         int i = 1;
         QStringList liste;
         int nbParties = lineEditCompressNb->text().toInt();
@@ -1344,7 +1348,6 @@ void MainWindow::receptionCompressionEtat(bool etatCompression)
     }
 
     // Rétablissement de l'interface => fait dans le slot finThreadCompression()
-
 }
 
 void MainWindow::receptionCompressionEtape(QString etapeCompression)
@@ -1381,7 +1384,7 @@ void MainWindow::finThreadCompression()
 void MainWindow::rechercheHebergeurs()
 {
     ///////////////////////////////////////////////////////////////////
-    // Modification de l'interface
+    // Modification de l'interface après connexion ou après changement des logins
 
     // On bloque temporairement la capacité de m_login et m_pasword à envoyer des signaux editingFinished
     // => evite de multiples récupérations d'icones lors de l'édition
@@ -1486,6 +1489,7 @@ void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString h
 {
     // Fonction assurant la disposition des hébergeurs sur l'interface et le mappage des signaux
     // etat_selection = 1 => cochée
+    // id sert à mapper les icones téléchargées en parallèle et reçues dans receptionRecupHebergeursIcones()
 
     //qDebug() << "RecupHebergeurs :: Reception de l'hebergeur...";
 
@@ -1522,6 +1526,7 @@ void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString h
 
 void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
 {
+    // id sert à mapper les checkbox reçues dans receptionRecupHebergeursHebergeurs()
     //qDebug() << "RecupHebergeurs :: Reception de l'icone et affichage...";
 
     //qDebug() << "nouvel id ico:" << id;
@@ -1541,12 +1546,10 @@ void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
             if (itIcone.value() == itCheckbox.value()) {
                 // Lecture du QByteArray
                 QPixmap pixmap;
-                if(pixmap.loadFromData(itIcone.key()) == true) {
-
+                if(pixmap.loadFromData(itIcone.key()))
                     itCheckbox.key()->setIcon(pixmap);
-                } else {
+                else
                     qWarning() << "Mauvaise conversion QByteArray => QPixmap";
-                }
 
                 // Retraits
                 //qDebug() << "avant chk" << m_listCheckBoxHebergeurs.count() << "ico" << m_listIconesHebergeurs.count();
@@ -1566,8 +1569,8 @@ void MainWindow::receptionMaxSelectionHebergeurs(int maxHosts)
 
 bool MainWindow::regulationMaxSelectedHosts()
 {
-    // Retourne true si la sélection est autorisée, false sinon
-    // (Prend en compte le nombre max d'hébergeurs autorisés)
+    // Prend en compte le nombre max d'hébergeurs autorisés et
+    // retourne true si la sélection d'un nouvel hébergeur est autorisée, false sinon
     qDebug() << "total checkbox:" << gridLayoutHebergeurs->count();
 
     // http://qt-project.org/doc/qt-5/qobject.html#findChildren
@@ -1604,22 +1607,23 @@ void MainWindow::checkboxHebergeursClicked(QString hebergeur)
     qDebug() << "checkbox" << hebergeur << "cliquée !";
 
     // Moyen de récup l'objet à l'origine de l'envoi d'un signal
-    //QSignalMapper* pCheckBox = qobject_cast<QSignalMapper*>(sender());
+    // QSignalMapper* pCheckBox = qobject_cast<QSignalMapper*>(sender());
     // voir réimplémentation QSignalMapper ou fonction lambda en Qt5
     // http://stackoverflow.com/questions/13989297/how-to-keep-the-source-signals-parameters-while-using-qsignalmapper?rq=1
 
     qDebug() << "liste hébergeurs" << m_hebergeursListe.count() << m_hebergeursListe;
-    if (regulationMaxSelectedHosts() == false) {
+    if (!regulationMaxSelectedHosts()) {
         // Trop d'hébergeurs sélectionnés
 
-        // Récupération de la checkbox
+        // Récupération de la checkbox à l'origine du signal
         QCheckBox *chk = qobject_cast<QCheckBox*>(m_signalMapper->mapping(hebergeur));
         if (chk) {
             // Message
-            QMessageBox::information(this,
-                                     tr("Trop d'hébergeurs !"),
-                                     tr("Vous avez dépassé la limite du nombre d'hébergeurs autorisés (") + QString::number(m_maxHosts) + tr(").\n\"") +
-                                     chk->text() + tr("\", ne sera pas conservé."));
+            QMessageBox::information(
+                        this,
+                        tr("Trop d'hébergeurs !"),
+                        tr("Vous avez dépassé la limite du nombre d'hébergeurs autorisés (") + QString::number(m_maxHosts) + tr(").\n\"") +
+                        chk->text() + tr("\", ne sera pas conservé."));
             qDebug() << "Trop d'hébergeurs selectionnés" << chk->text();
 
             // Désélection
@@ -1630,14 +1634,14 @@ void MainWindow::checkboxHebergeursClicked(QString hebergeur)
         }
     }
 
-
-    if (m_hebergeursListe.contains(hebergeur) == false) {  // Pas trouvé
-        // On ajoute
+    // La sélection est autorisée
+    if (!m_hebergeursListe.contains(hebergeur)) {
+        // Pas trouvé => On ajoute l'hébergeur
         m_hebergeursListe.append(hebergeur);
         //QMessageBox::information(this, "Etat de la checkbox", hebergeur + " cochée\nContient : " + QString::number(m_hebergeursListe.count()));
     }
-    else {          // Trouvé
-        // On retire
+    else {
+        // Trouvé => On retire l'hébergeur
         m_hebergeursListe.removeAll(hebergeur);
         //QMessageBox::information(this, "Etat de la checkbox", hebergeur + " décochée\nContient : " + QString::number(m_hebergeursListe.count()));
     }
@@ -1648,7 +1652,7 @@ void MainWindow::editionLogin()
     qDebug() << "Edition des logins en cours... (Déconnexion)";
 
     // Dans tous les cas: Edition des logins = Déconnexion du serveur
-    labelNomUtilisateur->setText("Upload Anonyme");
+    labelNomUtilisateur->setText(tr("Upload Anonyme"));
 
     if (m_connecte) {
         // Statut changé en déconnecté
@@ -1661,8 +1665,8 @@ void MainWindow::editionLogin()
 
 void MainWindow::rechercheRetraitListe(const QString &hebergeur)
 {
-    //Recherche l'hébergeur supprimé via les checkBox dans la liste et l'enlève
-    //Marche aussi, si par erreur, un hébergeur est présent plusieurs fois..
+    // Recherche l'hébergeur supprimé via les checkBox dans la liste et l'enlève
+    // Marche aussi, si par erreur, un hébergeur est présent plusieurs fois..
 
     m_hebergeursListe.removeAll(hebergeur);
 }
@@ -1849,16 +1853,16 @@ void MainWindow::interfaceUpdate()
 
 void MainWindow::preparationUpload()
 {
-    //Parcourt le tableau et détecte l'état des fichiers présents
-    //Détermine si l'upload est fini
-    //Détermine l'extinction de l'ordinateur
+    // Parcourt le tableau et détecte l'état des fichiers présents
+    // Détermine si l'upload est fini
+    // Détermine l'extinction de l'ordinateur
     if (m_upEnCours == true)
     {
         qDebug() << "parcourt de la grille en cours...";
         if (m_row < m_cheminsFichiers.count())
         {
             // l'upload peut se faire
-            // J'ai supprimé les anciens choix.. on up juste si c'est READY
+            // on up uniquement si c'est READY
             if (m_etatsFichiers.at(m_row) == READY)
             {
                 remplissageTableau(m_row, 1, PREPROCESSING_TEXT());
@@ -1871,9 +1875,8 @@ void MainWindow::preparationUpload()
 
             }
             // l'upload est STOPED, REMOVED, FAILED_e, FINISHED, PREPROCESSING, UPLOADING
-            else
-            {
-                qDebug() << "Fichier n'ayant pas le bon statut, fichier suivant";
+            else {
+                qDebug() << "Fichier n'ayant pas le bon statut : fichier suivant";
 
                 // On passe au suivant
                 m_row++;
@@ -1887,13 +1890,13 @@ void MainWindow::preparationUpload()
 
             m_upEnCours = false;
 
-            //Actualiser l'interface
+            // Actualiser l'interface
             interfaceUpdate();
 
             // Réinitialisation du systray
             m_sticon->setToolTip(tr("MultiUp MaNaGeR : au repos"));
 
-            //Eteindre l'ordinateur
+            // Eteindre l'ordinateur
             if (m_extinction == true)
             {
                 //Méthode pour Windows :
@@ -1916,18 +1919,19 @@ void MainWindow::preparationUpload()
         }
     }
     else {
-    qDebug() << "Envois arretés";
+        qDebug() << "Envois arretés";
 
-    boutonUpload->setEnabled(true);
+        boutonUpload->setEnabled(true);
 
-    //Actualisation de l'interface lorsque l'upload a été coupé volontairement.
-    interfaceUpdate();
+        //Actualisation de l'interface lorsque l'upload a été coupé volontairement.
+        interfaceUpdate();
     }
 }
 
 void MainWindow::selectionServeur()
 {
-    // Désactive le bouton d'arret pendant la recherche du serveur sinon Ã§a fout la merde...
+    // Va chercher le serveur d'upload le moins surchargé
+    // Désactive le bouton d'arret pendant la recherche du serveur sinon ça fout la merde...
     boutonUpload->setDisabled(true);
 
     qDebug() << "SelectionServeur :: Tentative de récupération du serveur débutée...";
@@ -1968,13 +1972,12 @@ void MainWindow::receptionSelectionServeurEtat(int etatSelectionServeur)
     // Si il y a eu une erreur dans la selection du serveur c'est inutile de commencer un up.
     // Les raisons de cette erreur peuvent être: Modification de la page de multiup (0) ou connexion inexistante (2)
 
-    //Ã§a permet de gagner du temps sur une tentative d'up inutile,
-    //et de diffrencier une perte de connexion d'une erreur alatoire lors de l'up dans le rapport d'erreur;
-    //Permet aussi de ne pas tomber dans 1 boucle infinie si la fonction de reprise sur erreur est active...
+    // Ça permet de gagner du temps sur une tentative d'up inutile,
+    // et de diffrencier une perte de connexion d'une erreur alatoire lors de l'up dans le rapport d'erreur;
+    // Permet aussi de ne pas tomber dans 1 boucle infinie si la fonction de reprise sur erreur est active...
 
-    //on inscrit cette erreur dans la colonne de lien et dans le log automatique,
-    //comme dans le slot recuperationLien(QString lien) lorsqu'il reÃ§oit une erreur en provenance du thread UpCurl
-
+    // On inscrit cette erreur dans la colonne de lien et dans le log automatique,
+    // comme dans le slot recuperationLien(QString lien) lorsqu'il reçoit une erreur en provenance du thread UpCurl
 
     switch(etatSelectionServeur)
     {
@@ -1986,7 +1989,8 @@ void MainWindow::receptionSelectionServeurEtat(int etatSelectionServeur)
                     if (tableWidget->item(m_row, 2)) // effacement de l'item déjà  présent
                         tableWidget->item(m_row, 2)->~QTableWidgetItem();
 
-                    m_item = new QProgressBar(tableWidget); //J'accroche la barre au tableau (ptetre mieux et plus propre quand on appele la fonction tablewidget.clear)
+                    // J'accroche la barre au tableau (ptetre mieux et plus propre quand on appele la fonction tablewidget.clear)
+                    m_item = new QProgressBar(tableWidget);
                     tableWidget->setCellWidget(m_row, 2, m_item);
                     m_item->setRange(0, 100);
 
@@ -2002,7 +2006,7 @@ void MainWindow::receptionSelectionServeurEtat(int etatSelectionServeur)
 
     }
 
-    // Si on est pas sorti du switch Ã§a veut dire qu'il y a eu une erreur ou un pb sur le site:
+    // Si on est pas sorti du switch cela veut dire qu'il y a eu une erreur ou un pb sur le site:
     // Update des icones d'état
     remplissageTableau(m_row, 1, FAILED_TEXT());
     tableWidget->item(m_row, 1)->setIcon(QIcon(FAILED_IMG));
@@ -2037,10 +2041,10 @@ void MainWindow::finThreadSelectionServeur()
     }
     else {
         // On fait comme si l'upload avait pris fin,
-        //comme dans le slot uploadFin()
+        // comme dans le slot uploadFin()
         m_row++;
 
-        //on passe au fichier suivant...
+        // On passe au fichier suivant...
         preparationUpload();
     }
     qDebug() << "SelectionServeur :: Fin";
@@ -2065,20 +2069,20 @@ void MainWindow::uploadCurl()
 
     // Création et envoi de l'objet dans le thread
     std::string curlFileName = m_cheminsFichiers.at(m_row).toStdString();
-    //V1
-    //std::string curlUrl = QString("http://" + m_adresseIpServeur + "/jumploader/uploadHandler.php?login=" + m_login->text()).toStdString();
-    //V2
-    //http://SERVER.multiup.org/upload/index.php
+
+    // Url V2 : http://SERVER.multiup.org/upload/index.php
+    qDebug() << "URL!!!" << m_adresseIpServeur;
+    m_adresseIpServeur.replace(QString("https"), QString("http"));
+    qDebug() << "URL apres!!!" << m_adresseIpServeur;
     std::string curlUrl = m_adresseIpServeur.toStdString();
 
     std::string id = m_loginId.toStdString();
 
-    if(m_connecte == true) {
+    if(m_connecte)
         m_upCurl = new UpCurl(curlFileName, curlUrl, m_hebergeursListe, id, NULL);
-    }
-    else {
+    else
         m_upCurl = new UpCurl(curlFileName, curlUrl, m_hebergeursListe, NULL);
-    }
+
     m_upCurl->moveToThread(thread);
 
 
@@ -2087,12 +2091,14 @@ void MainWindow::uploadCurl()
     connect(m_upCurl, SIGNAL(emissionLienEtStats(QString,double,double)), this, SLOT(receptionUpCurlLienEtStats(QString,double,double)));
     connect(m_upCurl, SIGNAL(emissionEtatUpCurl(int)), this, SLOT(receptionUpCurlEtat(int)));
     connect(m_upCurl, SIGNAL(emissionProgression(double,double)), this, SLOT(receptionUpCurlProgression(double,double)));
- // /!\ Les signaux ne marchent pas: (pas émis et pas reÃ§us.. le seul moyen a priori est de se passer des signaux en appelant directement la méthode arretCurl...
+    // /!\ Les signaux ne marchent pas: (pas émis et pas reçus..
+    // le seul moyen a priori est de se passer des signaux en appelant directement la méthode arretCurl...
     //connect(this, SIGNAL(emissionDemandeArretCurl()), m_upCurl, SLOT(arretCurl()));
     //connect(this, SIGNAL(emissionDemandeArretCurl()), m_upCurl, SLOT(test));
 
     connect(m_upCurl, SIGNAL(finished()), thread, SLOT(quit()));
-    // Attention : rétablir la possibilité de cliquer à  nouveau sur le bouton de connexion ssi on s'est assuré que l'objet connexion et son thread sont détruits !
+    // WARNING : rétablir la possibilité de cliquer à  nouveau sur le bouton de connexion
+    // ssi on s'est assuré que l'objet connexion et son thread sont détruits !
     connect(m_upCurl, SIGNAL(finished()), m_upCurl, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     connect(thread, SIGNAL(destroyed()), this, SLOT(finThreadUpCurl()));
@@ -2100,9 +2106,9 @@ void MainWindow::uploadCurl()
     // Démarrage du thread et donc de l'objet qui vit dedans
     thread->start();
 
-    // On réactive le bouton d'upload
-    //J'estime que l'objet et les signaux sont émis quasi instantanément.
-    //Donc peu de risque de pouvoir arreter un objet qui n'a pas encore démarré
+    // WARNING : On réactive le bouton d'upload
+    // J'estime que l'objet et les signaux sont émis quasi instantanément.
+    // Donc peu de risque de pouvoir arreter un objet qui n'a pas encore démarré
     boutonUpload->setEnabled(true);
 }
 
@@ -2112,11 +2118,11 @@ void MainWindow::emissionProgressionSlot()
     // J'ai des pbs pour rendre bavard l'objet abritant l'upload.
     // le thread est freezé lors de l'up.
     // normalement l'implémentation des threads est meilleure qu'avant,
-    //sauf qu'avant la réimplémentation d'une classe QThread permettait l'émission et la réception de signaux..
+    // sauf qu'avant la réimplémentation d'une classe QThread permettait l'émission et la réception de signaux..
 
     // En attendant, je profite du fait que static struct Bricolage bricolo soit globale..
     // et je simule l'émission du signal ici.
-    //receptionUpCurlProgression() ne change donc pas.
+    // receptionUpCurlProgression() ne change donc pas.
 
     // le démarrage de l'appel de ce slot se fait dans : uploadCurl()
     // l'arret de l'appel de ce slot se fait dans : receptionUpCurlEtat()
@@ -2144,7 +2150,9 @@ void MainWindow::receptionUpCurlProgression(double TotalToUpload, double NowUplo
         qint64 tempsEstime = conversion(((m_sizeTot - (m_sizeFaite - TotalToUpload + NowUploaded)) / (NowUploaded / tempsEcoule)) / 1000);
 
         // Estimation du temps restant en heures/minutes/secondes
-        QString heureEstimee = QString::number(tempsEstime / 3600) + "h" + QString::number((tempsEstime % 3600) / 60) + "m" + QString::number((tempsEstime % 3600) % 60) + "s";
+        QString heureEstimee = QString::number(tempsEstime / 3600) + "h" +
+                QString::number((tempsEstime % 3600) / 60) + "m" +
+                QString::number((tempsEstime % 3600) % 60) + "s";
 
 
         //---------Progressions
@@ -2157,7 +2165,7 @@ void MainWindow::receptionUpCurlProgression(double TotalToUpload, double NowUplo
         // Barre de progression de l'item
         m_item->setValue(progressionFichier);
 
-        // Barre de progression gnrale
+        // Barre de progression générale
         progressBar->setValue(progressionTotale);
         #ifdef WINDOWS
             m_taskbarProgress->setValue(progressionTotale);
@@ -2177,7 +2185,7 @@ void MainWindow::receptionUpCurlProgression(double TotalToUpload, double NowUplo
                             tr("Vitesse moyenne : ") + vitesseMoyenne + " Kio/s");
 
 
-        if ((m_regVitesse == true) && (m_upCurl != NULL))
+        if ((m_regVitesse) && (m_upCurl != NULL))
         {
             // Je fais une estimation virtuelle de la qtté de données envoyées pendant 4 sec à partir de la vitesse instantanée
             // 4 sec car, impossible de faire des coupures sur intervalle plus petit...
@@ -2231,7 +2239,7 @@ void MainWindow::receptionUpCurlProgression(double TotalToUpload, double NowUplo
 
 void MainWindow::upCurlUnpause()
 {
-    if ((m_upEnCours == true) && (m_upCurl != NULL)) {
+    if ((m_upEnCours) && (m_upCurl != NULL)) {
         m_upCurl->unpause();
     }
 }
@@ -2255,7 +2263,7 @@ void MainWindow::receptionUpCurlEtat(int etatUpCurl)
         case 1:     remplissageTableau(m_row, 1, FINISHED_TEXT());
                     tableWidget->item(m_row, 1)->setIcon(QIcon(FINISHED_IMG));
                     m_etatsFichiers[m_row] = FINISHED;
-                    m_item->setValue(100); // On s'assure que 100% est bien affiché dans la barre, car Ã§a fait zoli
+                    m_item->setValue(100); // On force l'affichage à 100% dans la barre
                     break;
 
         default:    remplissageTableau(m_row, 1, FAILED_TEXT()); // Etat du fichier (colonne 2)
@@ -2285,7 +2293,7 @@ void MainWindow::receptionUpCurlLienEtStats(QString lien, double averageSpeed, d
     //ICI
 
     // Si fonction d'aide à la présentation des up cochée et que le fichier n'a pas eu d'erreur (forcément vu que on a un lien..)
-    if(m_prez == true) {
+    if(m_prez) {
         qDebug() << "Curl :: Recherche du fichier :" << m_cheminsFichiers.at(m_row) << ".txt";
 
         searchPrezFile(QString(m_cheminsFichiers.at(m_row) + ".txt"), lien);
@@ -2302,8 +2310,7 @@ void MainWindow::finThreadUpCurl()
     m_liens += m_liensFichiers.at(m_row) + "\n";
 
     // Ajoute le lien au fichier de sauvegarde
-    QString resultat;
-    resultat += m_liensFichiers.at(m_row);
+    QString resultat = m_liensFichiers.at(m_row);
 
     //  Si la fonction de reprise sur erreur est active et que le fichier a eu une erreur, on remet le fichier dans la file
     if ((m_reprise == true) && (m_etatsFichiers.at(m_row) == FAILED_e)) {
@@ -2311,22 +2318,20 @@ void MainWindow::finThreadUpCurl()
         creationTableau(AJOUT, QStringList(m_cheminsFichiers.at(m_row)));
     }
 
-    //  Si fonction d'effacement des fichier cochée et que le fichier n'a pas eu d'erreur.
+    //  Si fonction d'effacement des fichiers est cochée et que le fichier n'a pas eu d'erreur.
     if((m_effacement == true) && (m_etatsFichiers.at(m_row) == FINISHED)) {
         qDebug() << "Curl :: Tentative d'effacement du fichier :" << m_cheminsFichiers.at(m_row);
 
         QFile file(m_cheminsFichiers.at(m_row));
         resultat += "\n";
 
-        if (file.remove() == true) {
+        if (file.remove())
             resultat += tr("Effacement réussi");
-        }
-        else {
+        else
             resultat += tr("Effacement non fait");
-        }
 
         // Ajoute le résultat au fichier de sauvegarde
-        //après.. (économie d'une ouverture du fichier)
+        // => après.. (économie d'une ouverture du fichier)
 
     }
 
