@@ -2,55 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>FenDemandeMiseAJour</name>
-    <message>
-        <source>Mise à jour</source>
-        <translation>Update</translation>
-    </message>
-    <message>
-        <source>Progression du téléchargement de la mise à jour :</source>
-        <translation>Download progress of the update :</translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation>Ok</translation>
-    </message>
-    <message>
-        <source>Annuler</source>
-        <translation>Cancel</translation>
-    </message>
-    <message>
-        <source>Une nouvelle version de MultiUp MaNaGeR est disponible.
-Voulez vous mettre votre application à jour vers la version </source>
-        <translation>A new version of Multiup MaNaGeR is ready.
-Do you want to update your current application?</translation>
-    </message>
-    <message>
-        <source>Erreur dans la récupération de l&apos;application.
-</source>
-        <translation>Error while downloading the application.</translation>
-    </message>
-    <message>
-        <source>Veuillez réessayer ultérieurement...</source>
-        <translation>Please retry later...</translation>
-    </message>
-    <message>
-        <source>Le téléchargement s&apos;est déroulé correctement.
-</source>
-        <translation>The download was successful.</translation>
-    </message>
-    <message>
-        <source>Cliquez sur Ok pour terminer la mise   jour !</source>
-        <translation>Click Ok to finish the update !</translation>
-    </message>
-    <message>
-        <source>Note : Il est possible que ce programme ne fonctionne pas correctement si il n&apos;est pas mis à jour !</source>
-        <oldsource>Une nouvelle version de MultiUp MaNaGeR est disponible.
-Voulez vous mettre votre application Ã  jour vers la version </oldsource>
-        <translation>Note that it is possible that this program is not working properly otherwise !</translation>
-    </message>
-</context>
-<context>
     <name>FenLiens</name>
     <message>
         <source>Visualisation des liens</source>
@@ -136,6 +87,25 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;09/08/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Restructuration de l&apos;interface.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;28/07/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Suppression de la dépendance à libcurl.&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;28/07/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Système de mise à jour automatique. Désormais un seul fichier suffit.&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;28/07/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Actualisation de la liste des hosts disponibles. Ajout du supports des comptes.&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;10/04/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Correction du choix des hosts. Actualisation de la liste des hosts disponibles.&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; font-weight:600; color:#000000;&quot;&gt;09/04/11 : &lt;/span&gt;&lt;span style=&quot; font-family:&apos;verdana&apos;; color:#000000;&quot;&gt;Mise en ligne de la version 0.1.2 en version béta.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InfoNewVersion</name>
+    <message>
+        <source>Recherche des mises à jour</source>
+        <translation>Check for updates</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Recherche de mises à jour...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Checking for updates...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html</translation>
+    </message>
+    <message>
+        <source>Une mise à jour a été trouvée !&lt;br&gt;Cliquez &lt;a href=&quot;%1&quot;&gt;ici&lt;/a&gt; pour télécharger la nouvelle version.</source>
+        <translation>An update was found!&lt;br&gt;Clic&lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt; to download the new version.</translation>
+    </message>
+    <message>
+        <source>Multiup MaNaGeR est à jour.</source>
+        <translation>Multiup MaNaGeR is up to date.</translation>
     </message>
 </context>
 <context>
@@ -242,10 +212,6 @@ p, li { white-space: pre-wrap; }
         <translation>Allows to upload to an account created on multiup.org</translation>
     </message>
     <message>
-        <source>Sauvegarde ou recharge les identifiants dans le fichier de configuration</source>
-        <translation>Backup or reload the identifiers in the configuration file</translation>
-    </message>
-    <message>
         <source>Sauvegarder</source>
         <translation>Save</translation>
     </message>
@@ -349,46 +315,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Sauvegarde ou recharge les paramètres</source>
         <translation>Backup or reload parameters</translation>
-    </message>
-    <message>
-        <source>A propos</source>
-        <translation>About</translation>
-    </message>
-    <message>
-        <source>A propos de Qt</source>
-        <translation>About Qt</translation>
-    </message>
-    <message>
-        <source>Qt</source>
-        <translation>Qt</translation>
-    </message>
-    <message>
-        <source>A propos du logiciel</source>
-        <translation>About the program</translation>
-    </message>
-    <message>
-        <source>Multiup</source>
-        <translation>Multiup</translation>
-    </message>
-    <message>
-        <source>Faire un don via Paypal</source>
-        <translation>Donate via PayPal</translation>
-    </message>
-    <message>
-        <source>Faire un don !</source>
-        <translation>Make a donation !</translation>
-    </message>
-    <message>
-        <source>Visiter le site http://multiup.org</source>
-        <translation>Visit http://multiup.org</translation>
-    </message>
-    <message>
-        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur http://multiup.org</source>
-        <translation>MultiUp MaNaGeR : Upload software for http://multiup.org</translation>
-    </message>
-    <message>
-        <source>Aller sur le site</source>
-        <translation>Go on the website</translation>
     </message>
     <message>
         <source> Fr</source>
@@ -677,22 +603,114 @@ Please restart the software.</translation>
         <translation>Unsuccessfully erased</translation>
     </message>
     <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:600; text-decoration: underline;&quot;&gt;Est-ce payant ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l&apos;état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:600; text-decoration: underline;&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Ce qui nous manque le plus, c&apos;est l&apos;argent. En effet l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs. Mais c&apos;est souvent insuffisant, vous pouvez nous aider en nous envoyant un don. Ce qui nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:600; text-decoration: underline;&quot;&gt;Is there a fee ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;No, absolutely not. All which is here is free. This service is supplied to you in the state and its use is completely free. This service is self-financed by advertisements.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:600; text-decoration: underline;&quot;&gt;How to help us ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;What misses us most, it is the money. Indeed the infrastructure costs expensive. Advertisements allow in parts to pay the servers. But it is often insufficient, you can help us by sending us a donation. What will allow us to invest in new servers, and to increase the features of MultiUp.org.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur multiup.org</source>
+        <translation>MultiUp MaNaGeR : Upload tool for multiup.org</translation>
+    </message>
+    <message>
+        <source>Affiche une fenêtre de mise à jour au démarrage de l&apos;application</source>
+        <translation>Display an update window when the application starts </translation>
+    </message>
+    <message>
+        <source>Vérifier l’existence de mises à jour au démarrage</source>
+        <translation>Check for updates at startup</translation>
+    </message>
+    <message>
+        <source>À propos</source>
+        <translation>About</translation>
+    </message>
+    <message>
+        <source>https://www.multiup.org/fr/premium</source>
+        <translation>https://www.multiup.org/en/premium</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;
+  &lt;head/&gt;
+  &lt;style&gt;
+    body {
+      font-family:&apos;Sans Serif&apos;;
+    }
+    .h1 {
+      font-weight:600;
+      text-decoration: underline;
+      font-size: 10pt;
+    }
+    td {
+      padding-top: 30px;
+    }
+    td {
+      padding-left: 20px;
+    }
+  &lt;/style&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Est-ce payant ?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l&apos;état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c&apos;est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Les comptes premiums sont maintenant disponibles sur la page premium :&lt;/p&gt;
+    &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;
+      &lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;plus aucune publicité ennuyante,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;un meilleur support des torrents,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;téléchargement premium illimité sur plus de 300 hébergeurs de fichiers.&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;links&quot;&gt;
+      &lt;table&gt;&lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;#about_Qt&quot;&gt;À propos de Qt&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#license&quot;&gt;Informations de licence&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#website&quot;&gt;Aller sur le site&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#changelog&quot;&gt;Notes de version&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#support&quot;&gt;Soutenez le service&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#check_update&quot;&gt;Chercher une mise à jour&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</source>
+        <translation>&lt;html&gt;
+  &lt;head/&gt;
+  &lt;style&gt;
+    body {
+      font-family:&apos;Sans Serif&apos;;
+    }
+    .h1 {
+      font-weight:600;
+      text-decoration: underline;
+      font-size: 10pt;
+    }
+    td {
+      padding-top: 30px;
+    }
+    td {
+      padding-left: 20px;
+    }
+  &lt;/style&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Is it free?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;No, absolutely not. Everything here is free. This service is provided to you in the state and its use is completely free. This service is in part self-financed by advertisements.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;How to help us?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Funding is what we lack most at the site. Infrastructure is expensive. Advertisements partly pay for servers, but this is often not enough. You can help us by becoming a premium member. This will allow us to invest in new servers, and increase the functionality of MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;About premium accounts:&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Premium accounts are now available on the premium page:&lt;/p&gt;
+    &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;
+      &lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;no more annoying advertising,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;better support of torrents,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unlimited premium download on over 300 file hosts.&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;links&quot;&gt;
+      &lt;table&gt;&lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;#about_Qt&quot;&gt;About Qt&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#license&quot;&gt;License Information&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#website&quot;&gt;Go to the site&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#changelog&quot;&gt;Changelog&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#support&quot;&gt;Support the service&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#check_update&quot;&gt;Search for an update&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</translation>
     </message>
 </context>
 </TS>
