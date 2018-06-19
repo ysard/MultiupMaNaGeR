@@ -12,14 +12,14 @@ TARGET = multiupv2
 TEMPLATE = app
 
 # Supprimer tous les messages de Debug
-DEFINES += QT_NO_DEBUG_OUTPUT
-
+#DEFINES += QT_NO_DEBUG_OUTPUT
+#DEFINES += QT_NO_WARNING_OUTPUT
 
 #CURL unix
 #unix:INCLUDEPATH += /usr/include/curl
-unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include
-unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include/curl
-unix:LIBS += -L/media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/lib
+#unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include
+#unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include/curl
+#unix:LIBS += -L/media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/lib
 unix:LIBS += -lcurl
 #-lidn -lssl -lcrypto -lrt -lssl -lz -lrtmp (selon les restrictions lors de la compilation de curl..)
 
@@ -46,14 +46,11 @@ win32:DEFINES += HTTP_ONLY
 
 
 #QT
-# A VOIR 
-##win32:LIBS += -L"G:\QtSDK\mingw\lib" 
+# A VOIR
+##win32:LIBS += -L"G:\QtSDK\mingw\lib"
 #CONFIG += static
 #QMAKESPEC=win32-g++
 #QMAKE_LFLAGS += -static-libgcc
-
-
-DEFINES += QT_NO_DEBUG_OUTPUT
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -65,7 +62,6 @@ SOURCES += main.cpp\
     ObjectSelectionServeur.cpp \
     ObjectUpCurl.cpp \
     ObjectMiseAJour.cpp \
-    FenDemandeMiseAJour.cpp \
     ObjectRecupHebergeurs.cpp \
     ObjectRecupHebergeursIcones.cpp \
     InfoNewVersion.cpp
@@ -79,7 +75,6 @@ HEADERS  += mainwindow.h \
     ObjectSelectionServeur.h \
     ObjectUpCurl.h \
     ObjectMiseAJour.h \
-    FenDemandeMiseAJour.h \
     Config.h \
     ObjectRecupHebergeurs.h \
     ObjectRecupHebergeursIcones.h \
@@ -88,7 +83,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     fenvoirmiseajour.ui \
-    FenDemandeMiseAJour.ui \
     InfoNewVersion.ui
 
 RESOURCES += Multiup.qrc
