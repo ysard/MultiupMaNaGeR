@@ -576,87 +576,74 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>A propos</string>
+        <string>À propos</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QPushButton" name="boutonAProposQt">
-          <property name="statusTip">
-           <string>A propos de Qt</string>
-          </property>
+         <widget class="QLabel" name="descriptionText">
           <property name="text">
-           <string>Qt</string>
+           <string>&lt;html&gt;
+  &lt;head/&gt;
+  &lt;style&gt;
+    body {
+      font-family:'Sans Serif';
+    }
+    .h1 {
+      font-weight:600;
+      text-decoration: underline;
+      font-size: 10pt;
+    }
+    td {
+      padding-top: 30px;
+    }
+    td {
+      padding-left: 20px;
+    }
+  &lt;/style&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Est-ce payant ?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l'état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l'infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c'est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d'investir dans de nouveaux serveurs, et d'accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Les comptes premiums sont maintenant disponibles sur la page premium :&lt;/p&gt;
+    &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;
+      &lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;plus aucune publicité ennuyante,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;un meilleur support des torrents,&lt;/li&gt;
+      &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;téléchargement premium illimité sur plus de 300 hébergeurs de fichiers.&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;links&quot;&gt;
+      &lt;table&gt;&lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;#about_Qt&quot;&gt;À propos de Qt&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#license&quot;&gt;Informations de licence&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#website&quot;&gt;Aller sur le site&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#changelog&quot;&gt;Notes de version&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#support&quot;&gt;Soutenez le service&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;#check_update&quot;&gt;Chercher une mise à jour&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="boutonGoSite">
-          <property name="statusTip">
-           <string>Visiter le site https://multiup.org</string>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="text">
-           <string> Aller sur le site</string>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
           </property>
-          <property name="icon">
-           <iconset resource="Multiup.qrc">
-            <normaloff>:/interface/img/interface/firefox_logo.png</normaloff>:/interface/img/interface/firefox_logo.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="boutonVoirMiseAJour">
-          <property name="statusTip">
-           <string>Afficher les changements</string>
-          </property>
-          <property name="text">
-           <string> Changelog</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Multiup.qrc">
-            <normaloff>:/interface/img/interface/retry.png</normaloff>:/interface/img/interface/retry.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="textEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-weight:600; text-decoration: underline;&quot;&gt;Est-ce payant ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif';&quot;&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l'état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-weight:600; text-decoration: underline;&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif';&quot;&gt;Ce qui nous manque le plus, c'est l'argent. En effet l'infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs. Mais c'est souvent insuffisant, vous pouvez nous aider en devenant membre premium. Cela nous permettra d'investir dans de nouveaux serveurs, et d'accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-weight:600; text-decoration: underline;&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Les comptes premiums sont maintenant disponible sur la page premium : &lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;plus aucune publicité ennuyante&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;un meilleur support des torrents&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;téléchargement premium illimité sur plus de 300 hébergeurs de fichiers&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="boutonPaypal">
-          <property name="statusTip">
-           <string>Faire un don via Paypal</string>
-          </property>
-          <property name="text">
-           <string> Soutenez le travail de MultiUp.org avec un compte premium !</string>
-          </property>
-          <property name="icon">
-           <iconset resource="Multiup.qrc">
-            <normaloff>:/interface/img/interface/firefox_logo.png</normaloff>:/interface/img/interface/firefox_logo.png</iconset>
-          </property>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </widget>

@@ -219,7 +219,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //editingFinished ne se délenche que si le widget perd le focus
     connect(m_login, SIGNAL(editingFinished()), this, SLOT(editionLogin()));
     connect(m_password, SIGNAL(editingFinished()), this, SLOT(editionLogin()));
-    connect(boutonAProposQt, SIGNAL(clicked()), qApp, SLOT(aboutQt()));
 
     // Affichage loader/spinbox (gif animé)
     QMovie *movie = new QMovie(":/interface/img/interface/spinload.gif");
@@ -938,24 +937,35 @@ void MainWindow::on_boutonLiens_clicked()
     fenetreLiens->deleteLater();
 }
 
-void MainWindow::on_boutonVoirMiseAJour_clicked()
+void MainWindow::on_descriptionText_linkActivated(const QString &link)
 {
-    // Affiche la liste des liens obtenus
-    FenVoirMiseAJour *fenetreVoirMiseAJour = new FenVoirMiseAJour(this);
-    fenetreVoirMiseAJour->exec();
-    fenetreVoirMiseAJour->deleteLater();
-}
+    qDebug() << "Click on link: " << link;
 
-void MainWindow::on_boutonGoSite_clicked()
-{
-    // Ouvre l'url du site
-    QDesktopServices::openUrl(QUrl(URL_MULTIUP));
-}
+    if(link == "#about_Qt")
+        qApp->aboutQt();
 
-void MainWindow::on_boutonPaypal_clicked()
-{
-    // Ouvre l'url du site
-    QDesktopServices::openUrl(QUrl(tr("https://www.multiup.org/fr/premium")));
+    if(link == "#license")
+        QDesktopServices::openUrl(QUrl(URL_GITHUB_LICENSE));
+
+    if(link == "#website")
+        // Ouvre l'url du site
+        QDesktopServices::openUrl(QUrl(URL_MULTIUP));
+
+    if(link == "#changelog") {
+        FenVoirMiseAJour *window = new FenVoirMiseAJour(this);
+        connect(window, SIGNAL(finished(int)), window, SLOT(deleteLater()));
+        window->show();
+    }
+
+    if(link == "#support")
+        // Ouvre l'url du site
+        QDesktopServices::openUrl(QUrl(tr("https://www.multiup.org/fr/premium")));
+
+    if(link == "#check_update") {
+        InfoNewVersion *window = new InfoNewVersion(this);
+        connect(window, SIGNAL(finished(int)), window, SLOT(deleteLater()));
+        window->show();
+    }
 }
 
 void MainWindow::parametres()

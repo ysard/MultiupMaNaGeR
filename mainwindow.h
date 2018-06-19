@@ -20,6 +20,7 @@
 #include "Outils.h"
 #include "fenvoirmiseajour.h"
 #include "FenLiens.h"
+#include "InfoNewVersion.h"
 #include "Config.h"
 
 #ifdef WINDOWS
@@ -103,9 +104,7 @@ public slots:
 
     void receptionSelectionServeurEtat(int etatSelectionServeur);
 
-    void on_boutonVoirMiseAJour_clicked();
-    void on_boutonGoSite_clicked();
-    void on_boutonPaypal_clicked();
+    void on_descriptionText_linkActivated(const QString &link);
 
     void on_boutonCompressSrc_clicked();
     void on_boutonCompressDest_clicked();

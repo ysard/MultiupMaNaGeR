@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     ObjectMiseAJour.cpp \
     FenDemandeMiseAJour.cpp \
     ObjectRecupHebergeurs.cpp \
-    ObjectRecupHebergeursIcones.cpp
+    ObjectRecupHebergeursIcones.cpp \
+    InfoNewVersion.cpp
 
 HEADERS  += mainwindow.h \
     Outils.h \
@@ -82,11 +83,13 @@ HEADERS  += mainwindow.h \
     Config.h \
     ObjectRecupHebergeurs.h \
     ObjectRecupHebergeursIcones.h \
-    version.h
+    version.h \
+    InfoNewVersion.h
 
 FORMS    += mainwindow.ui \
     fenvoirmiseajour.ui \
-    FenDemandeMiseAJour.ui
+    FenDemandeMiseAJour.ui \
+    InfoNewVersion.ui
 
 RESOURCES += Multiup.qrc
 
