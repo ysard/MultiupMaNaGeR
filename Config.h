@@ -28,7 +28,7 @@
 #define URL_MULTIUP "https://www.multiup.org/"
 
 // --- GitHub urls
-#define URL_GITHUB_LICENSE ""
+#define URL_GITHUB_LICENSE "https://github.com/ysard/MultiupMaNaGeR/blob/master/LICENSE"
 #define URL_GITHUB_RELEASES "https://github.com/ysard/MultiupMaNaGeR/releases"
 #ifdef LINUX
     #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*linux-v(.*)\\.zip)\""
