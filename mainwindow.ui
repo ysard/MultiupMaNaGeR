@@ -63,19 +63,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </item>
     <item>
@@ -271,37 +258,79 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <layout class="QFormLayout" name="formLayoutIdentifiants"/>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
              <item>
-              <widget class="QPushButton" name="boutonConnexion">
-               <property name="statusTip">
-                <string>Permet l'upload sur un compte crée sur multiup.org</string>
+              <layout class="QFormLayout" name="formLayoutIdentifiants">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetMinimumSize</enum>
                </property>
-               <property name="text">
-                <string>Connexion</string>
-               </property>
-               <property name="icon">
-                <iconset resource="Multiup.qrc">
-                 <normaloff>:/interface/img/interface/retry.png</normaloff>:/interface/img/interface/retry.png</iconset>
-               </property>
-              </widget>
+              </layout>
              </item>
              <item>
-              <widget class="QPushButton" name="boutonSavIdentifiants">
-               <property name="statusTip">
-                <string>Sauvegarde ou recharge les identifiants dans le fichier de configuration</string>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
-               <property name="text">
-                <string>Sauvegarder</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
                </property>
-               <property name="icon">
-                <iconset resource="Multiup.qrc">
-                 <normaloff>:/interface/img/interface/status_editing.png</normaloff>:/interface/img/interface/status_editing.png</iconset>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetMinimumSize</enum>
                </property>
-              </widget>
+               <item>
+                <widget class="QPushButton" name="boutonConnexion">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="statusTip">
+                  <string>Permet l'upload sur un compte crée sur multiup.org</string>
+                 </property>
+                 <property name="text">
+                  <string>Connexion</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="Multiup.qrc">
+                   <normaloff>:/interface/img/interface/retry.png</normaloff>:/interface/img/interface/retry.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="boutonSavIdentifiants">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="statusTip">
+                  <string>Sauvegarde ou recharge les identifiants dans le fichier de configuration</string>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="text">
+                  <string>Sauvegarder</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="Multiup.qrc">
+                   <normaloff>:/interface/img/interface/status_editing.png</normaloff>:/interface/img/interface/status_editing.png</iconset>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </item>
@@ -571,6 +600,19 @@
            </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
