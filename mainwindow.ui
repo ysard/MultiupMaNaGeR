@@ -283,7 +283,7 @@
               </spacer>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0">
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinimumSize</enum>
                </property>
@@ -307,29 +307,6 @@
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QPushButton" name="boutonSavIdentifiants">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="statusTip">
-                  <string>Sauvegarde ou recharge les identifiants dans le fichier de configuration</string>
-                 </property>
-                 <property name="layoutDirection">
-                  <enum>Qt::LeftToRight</enum>
-                 </property>
-                 <property name="text">
-                  <string>Sauvegarder</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="Multiup.qrc">
-                   <normaloff>:/interface/img/interface/status_editing.png</normaloff>:/interface/img/interface/status_editing.png</iconset>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </item>
             </layout>
@@ -343,23 +320,28 @@
            <string>Divers</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="checkBoxExtinction">
-             <property name="statusTip">
-              <string>Programme l'extinction de la machine à la fin des chargements</string>
+           <item row="2" column="2">
+            <widget class="QSlider" name="horizontalSliderRegVitesse">
+             <property name="enabled">
+              <bool>true</bool>
              </property>
-             <property name="text">
-              <string>Extinction programmée</string>
+             <property name="minimum">
+              <number>1</number>
              </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="checkBoxReprise">
-             <property name="statusTip">
-              <string>Permet de remettre un fichier dans la liste d'attente en cas d'erreur</string>
+             <property name="maximum">
+              <number>4</number>
              </property>
-             <property name="text">
-              <string>Reprise sur erreurs</string>
+             <property name="value">
+              <number>3</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::TicksAbove</enum>
+             </property>
+             <property name="tickInterval">
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -403,28 +385,36 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QSlider" name="horizontalSliderRegVitesse">
-             <property name="enabled">
-              <bool>true</bool>
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="checkBoxExtinction">
+             <property name="statusTip">
+              <string>Programme l'extinction de la machine à la fin des chargements</string>
              </property>
-             <property name="minimum">
-              <number>1</number>
+             <property name="text">
+              <string>Extinction programmée</string>
              </property>
-             <property name="maximum">
-              <number>4</number>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="checkBoxReprise">
+             <property name="statusTip">
+              <string>Permet de remettre un fichier dans la liste d'attente en cas d'erreur</string>
              </property>
-             <property name="value">
-              <number>3</number>
+             <property name="text">
+              <string>Reprise sur erreurs</string>
              </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="checkBoxCheckUpdate">
+             <property name="toolTip">
+              <string/>
              </property>
-             <property name="tickPosition">
-              <enum>QSlider::TicksAbove</enum>
+             <property name="statusTip">
+              <string>Affiche une fenêtre de mise à jour au démarrage de l'application</string>
              </property>
-             <property name="tickInterval">
-              <number>1</number>
+             <property name="text">
+              <string>Vérifier l’existence de mises à jour au démarrage</string>
              </property>
             </widget>
            </item>
@@ -584,22 +574,45 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="8">
-            <widget class="QPushButton" name="boutonSavParametres">
-             <property name="statusTip">
-              <string>Sauvegarde ou recharge les paramètres</string>
-             </property>
-             <property name="text">
-              <string>Sauvegarder</string>
-             </property>
-             <property name="icon">
-              <iconset resource="Multiup.qrc">
-               <normaloff>:/interface/img/interface/status_editing.png</normaloff>:/interface/img/interface/status_editing.png</iconset>
-             </property>
-            </widget>
-           </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="boutonSavParametres">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="statusTip">
+             <string>Sauvegarde ou recharge les paramètres</string>
+            </property>
+            <property name="text">
+             <string>Sauvegarder</string>
+            </property>
+            <property name="icon">
+             <iconset resource="Multiup.qrc">
+              <normaloff>:/interface/img/interface/status_editing.png</normaloff>:/interface/img/interface/status_editing.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_2">

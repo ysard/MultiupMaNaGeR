@@ -221,8 +221,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_regVitesse    = false;        // Par def le bridage de la vitesse est désactivé
 
     // Gestion du fichier de config
-    m_configIdentifiants = false;   // Par def on considère que le fichier de config n'a jamais été crée. Les boutons sont à "Sauvegarder"
-    m_configParametres   = false;
+    // Par def on considère que le fichier de config n'a jamais été crée.
+    // Les boutons sont à "Sauvegarder".
+    m_configParametres = false;
 
     //---------- Progression => j'ai pas mal de pbs avec l'émission des signaux dans la nouvelle implémentation des threads..
     //surtout avec celui qui fait vivre l'up par curl :s
@@ -244,7 +245,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     movie->start();
 
     // Rappel des identifiants
-    rappelIdentifiants();
+    readSettings();
+
+    if (checkBoxCheckUpdate->isChecked())
+        checkUpdateWindow();
 
     // Actualisation des champs et auto-connexion
     // Pas d'alerte si l'utilisateur n'a pas configuré config.ini
@@ -254,7 +258,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         this->on_boutonConnexion_clicked();
 
     //récupération des paramètres passés à  l'application
-    parametres();
+    readCommandLineArguments();
 }
 
 MainWindow::~MainWindow()
@@ -979,14 +983,19 @@ void MainWindow::on_descriptionText_linkActivated(const QString &link)
         // Ouvre l'url du site
         QDesktopServices::openUrl(QUrl(tr("https://www.multiup.org/fr/premium")));
 
-    if(link == "#check_update") {
-        InfoNewVersion *window = new InfoNewVersion(this);
-        connect(window, SIGNAL(finished(int)), window, SLOT(deleteLater()));
-        window->show();
-    }
+    if(link == "#check_update")
+        checkUpdateWindow();
 }
 
-void MainWindow::parametres()
+void MainWindow::checkUpdateWindow()
+{
+    // Display the QDialog that checks if there is an available update
+    InfoNewVersion *window = new InfoNewVersion(this);
+    connect(window, SIGNAL(finished(int)), window, SLOT(deleteLater()));
+    window->show();
+}
+
+void MainWindow::readCommandLineArguments()
 {
     //Récupération de tous les arguments passés en ligne de commande.
     QStringList args;
@@ -1044,56 +1053,13 @@ void MainWindow::parametres()
     }
 }
 
-void MainWindow::on_boutonSavIdentifiants_clicked()
-{
-    // Ecrit les paramètres dans le fichier de config.ini suite au clic sur le bouton de sauvegarde
-
-    //qDebug() << "Sauvegarde des identifiants en cours...";
-
-    #ifdef WINDOWS
-        QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
-    #endif
-    #ifdef LINUX
-        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
-        qWarning() << settings.fileName();
-    #endif
-
-    if (m_configIdentifiants) {
-        // Le fichier a déjà été sauvegardé, on recharge les paramètres
-        m_login->setText(settings.value("Identifiants/Login").toString());
-        m_password->setText(settings.value("Identifiants/Password").toString());
-
-        boutonSavIdentifiants->setText(tr("Sauvegarder"));
-        m_configIdentifiants = false;
-        return;
-    }
-
-    // Sauvegarde des identifiants
-    settings.beginGroup("Identifiants");
-    settings.setValue("Login", m_login->text());
-    settings.setValue("Password", m_password->text());
-    settings.endGroup();
-
-    boutonSavIdentifiants->setText(tr("Recharger"));
-    m_configIdentifiants = true;
-}
-
 void MainWindow::on_boutonSavParametres_clicked()
 {
-    // Ecrit les paramètres dans le fichier de config.ini suite au clic sur le bouton de sauvegarde
-
-    #ifdef WINDOWS
-        QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
-    #endif
-    #ifdef LINUX
-        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
-    #endif
+    // Lit ou écrit les paramètres dans le fichier de config.ini suite au clic sur le bouton de sauvegarde
 
     if (m_configParametres) {
         // Le fichier a déjà été sauvegardé, on recharge les paramètres
-        m_cheminWinRar = settings.value("Compression/rar").toString();
-        lineEditCompressDest->setText(settings.value("Compression/Dossier_Sortie").toString());
-        lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
+        readSettings();
 
         boutonSavParametres->setText(tr("Sauvegarder"));
         m_configParametres = false;
@@ -1101,6 +1067,19 @@ void MainWindow::on_boutonSavParametres_clicked()
     }
 
     // Sauvegarde des paramètres
+    #ifdef WINDOWS
+        QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
+    #endif
+    #ifdef LINUX
+        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
+    #endif
+
+    // Sauvegarde des identifiants
+    settings.beginGroup("Identifiants");
+    settings.setValue("Login", m_login->text());
+    settings.setValue("Password", m_password->text());
+    settings.endGroup();
+
     #ifdef WINDOWS
         settings.setValue("Compression/rar", "\"C:\\Program Files\\WinRAR\\Rar.exe\"");
     #endif
@@ -1111,11 +1090,13 @@ void MainWindow::on_boutonSavParametres_clicked()
     settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
     settings.setValue("Compression/Password", lineEditCompressMdp->text());
 
+    settings.setValue("Updates/check", checkBoxCheckUpdate->isChecked());
+
     boutonSavParametres->setText(tr("Recharger"));
     m_configParametres = true;
 }
 
-void MainWindow::rappelIdentifiants()
+void MainWindow::readSettings()
 {
     // Récupère le contenu des clés du fichier config.ini situé dans le répertoire de l'application et remplit les champs et valeurs
 
@@ -1140,6 +1121,8 @@ void MainWindow::rappelIdentifiants()
     lineEditCompressDest->setText(settings.value("Compression/Dossier_Sortie").toString());
     lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
     //qDebug() << "Resultats : " << m_login->text() << m_password->text() << m_cheminWinRar;
+
+    checkBoxCheckUpdate->setChecked(settings.value("Updates/check").toBool());
 }
 
 void MainWindow::on_boutonCompressSrc_clicked()
@@ -1495,7 +1478,7 @@ void MainWindow::finThreadRecupHebergeurs()
     m_login->setEnabled(true);
     m_password->setEnabled(true);
     boutonConnexion->setEnabled(true);
-    boutonSavIdentifiants->setEnabled(true);
+    boutonSavParametres->setEnabled(true);
 
     // On avait bloqué temporairement la capacité de m_login et m_pasword à envoyer des signaux editingFinished
     // => evite de multiples récupérations d'icones lors de l'édition
@@ -1716,7 +1699,7 @@ void MainWindow::on_boutonConnexion_clicked()
     m_login->setEnabled(false);
     m_password->setEnabled(false);
     boutonConnexion->setEnabled(false);
-    boutonSavIdentifiants->setEnabled(false);
+    boutonSavParametres->setEnabled(false);
 
     qDebug() << "Connexion :: Tentative de connexion débutée...";
     qDebug() << "Connexion :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
@@ -1830,7 +1813,7 @@ void MainWindow::interfaceUpdate()
         m_login->setEnabled(false);
         m_password->setEnabled(false);
         boutonConnexion->setEnabled(false);
-        boutonSavIdentifiants->setEnabled(false);
+        // TODO: block boutonSavParametres ?
         groupBoxHebergeurs->setEnabled(false);
         boutonSuppressionTout->setEnabled(false);
         boutonSuppressionAnnules->setEnabled(false);
@@ -1854,7 +1837,7 @@ void MainWindow::interfaceUpdate()
         m_login->setEnabled(true);
         m_password->setEnabled(true);
         boutonConnexion->setEnabled(true);
-        boutonSavIdentifiants->setEnabled(true);
+        // TODO: block boutonSavParametres ?
         groupBoxHebergeurs->setEnabled(true);
         boutonSuppressionTout->setEnabled(true);
         boutonSuppressionAnnules->setEnabled(true);

@@ -83,9 +83,9 @@ public:
     void remplissageTableau(int row, int column, const QString text);
     bool testFichier(QFile &file) const;
     void suppressionTableau(const EtatFichier state);
-    void rappelIdentifiants();
+    void readSettings();
 
-    void parametres();
+    void readCommandLineArguments();
 
 public slots:
     void trayClicked(QSystemTrayIcon::ActivationReason reason);
@@ -113,7 +113,6 @@ public slots:
     void on_boutonOuvrir_clicked();
 
     void on_boutonLiens_clicked();
-    void on_boutonSavIdentifiants_clicked();
     void on_boutonSavParametres_clicked();
 
     void on_boutonConnexion_clicked();
@@ -123,6 +122,7 @@ public slots:
     void receptionSelectionServeurEtat(int etatSelectionServeur);
 
     void on_descriptionText_linkActivated(const QString &link);
+    void checkUpdateWindow();
 
     void on_boutonCompressSrc_clicked();
     void on_boutonCompressDest_clicked();
