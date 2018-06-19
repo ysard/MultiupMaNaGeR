@@ -10,6 +10,16 @@
 #define VERSION "0.4.2"
 #define URL_MULTIUP "https://www.multiup.org/"
 
+// --- GitHub urls
+#define URL_GITHUB_LICENSE ""
+#define URL_GITHUB_RELEASES "http://127.0.0.1/github_simulation.html"
+#ifdef LINUX
+    #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*linux-v(.*)\\.zip)\""
+#endif
+#ifdef WINDOWS
+    #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*windows-v(.*)\\.zip)\""
+#endif
+
 // --- ObjectMiseAJour.cpp
 #define URL_MAJ_LINUX "http://hotspot.fr/version_linux.txt"
 #define URL_MAJ_WINDOWS "http://127.0.0.1/http/version_windows.txt"
