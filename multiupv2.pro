@@ -81,7 +81,6 @@ SOURCES += main.cpp\
     ObjectCompression.cpp \
     ObjectSelectionServeur.cpp \
     ObjectUpCurl.cpp \
-    ObjectMiseAJour.cpp \
     ObjectRecupHebergeurs.cpp \
     ObjectRecupHebergeursIcones.cpp \
     InfoNewVersion.cpp
@@ -94,7 +93,6 @@ HEADERS  += mainwindow.h \
     ObjectCompression.h \
     ObjectSelectionServeur.h \
     ObjectUpCurl.h \
-    ObjectMiseAJour.h \
     Config.h \
     ObjectRecupHebergeurs.h \
     ObjectRecupHebergeursIcones.h \
