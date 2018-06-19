@@ -36,7 +36,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>MultiUp MaNaGeR : Logiciel d'upload sur http://multiup.org</string>
+         <string>MultiUp MaNaGeR : Logiciel d'upload sur multiup.org</string>
         </property>
        </widget>
       </item>

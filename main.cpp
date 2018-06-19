@@ -10,15 +10,12 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
-    if( locale != "fr" )
+    if(locale != "fr")
         translator.load(QString("multiupManager_en"));
     a.installTranslator(&translator);
 
-//    FenDemandeMiseAJour dialog;
-//    dialog.hide();
-
     MainWindow w;
     w.show();
-    
+
     return a.exec();
 }

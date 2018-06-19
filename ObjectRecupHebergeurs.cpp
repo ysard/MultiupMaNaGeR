@@ -167,7 +167,7 @@ void RecupHebergeurs::finRecupHebergeurs()
 
                 // Objet host
                 QJsonObject host(hosts[hosts_it.key()].toObject());
-                qDebug() << hosts_it.key() << ":" << host;
+                //qDebug() << hosts_it.key() << ":" << host;
 
                 // Stockage du texte affiché sur la checkbox => nom du host
                 QString nom = hosts_it.key();
