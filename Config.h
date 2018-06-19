@@ -43,7 +43,7 @@
 #define URL_SELECTION_SERVEUR "https://www.multiup.org/api/get-fastest-server"
 
 // --- ObjectRecupIcones.cpp
-#define URL_RECUPERATION_ICONES "http://www.multiup.org/bundles/multiupsite/img/hosts/"
+#define URL_RECUPERATION_ICONES "https://multiup.org/assets/hosts/"
 
 // --- User-Agent
 #define USER_AGENT "Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
