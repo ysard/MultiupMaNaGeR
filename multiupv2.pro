@@ -23,6 +23,8 @@
 
 QT += core gui widgets
 QT += network
+# Activate the processing of the FORMS content like mainwindow.ui to ui_mainwindow.h
+QT += widgets
 win32:QT += winextras
 
 TARGET = multiupv2
