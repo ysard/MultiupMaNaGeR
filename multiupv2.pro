@@ -28,9 +28,12 @@ win32:QT += winextras
 TARGET = multiupv2
 TEMPLATE = app
 
-# Supprimer tous les messages de Debug
-#DEFINES += QT_NO_DEBUG_OUTPUT
-#DEFINES += QT_NO_WARNING_OUTPUT
+
+build_pass:CONFIG(release, debug|release) {
+    # Remove logger info on Release mode
+    DEFINES += QT_NO_DEBUG_OUTPUT
+    DEFINES += QT_NO_WARNING_OUTPUT
+}
 
 #CURL unix
 #unix:INCLUDEPATH += /usr/include/curl
