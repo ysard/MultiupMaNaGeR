@@ -29,7 +29,7 @@
 
 // --- GitHub urls
 #define URL_GITHUB_LICENSE ""
-#define URL_GITHUB_RELEASES "http://127.0.0.1/github_simulation.html"
+#define URL_GITHUB_RELEASES "https://github.com/ysard/MultiupMaNaGeR/releases"
 #ifdef LINUX
     #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*linux-v(.*)\\.zip)\""
 #endif
