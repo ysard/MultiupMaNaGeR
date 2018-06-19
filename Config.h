@@ -1,3 +1,20 @@
+/* This file is part of Multiup MaNaGeR.
+ *
+ * Multiup MaNaGeR is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Multiup MaNaGeR is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Multiup MaNaGeR. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2012-2018 Lex
+ */
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -19,10 +36,6 @@
 #ifdef WINDOWS
     #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*windows-v(.*)\\.zip)\""
 #endif
-
-// --- ObjectMiseAJour.cpp
-#define URL_MAJ_LINUX "http://hotspot.fr/version_linux.txt"
-#define URL_MAJ_WINDOWS "http://127.0.0.1/http/version_windows.txt"
 
 // --- ObjectConnexion.cpp
 #define URL_CONNEXION_UTILISATEUR "https://www.multiup.org/api/login"
