@@ -54,20 +54,20 @@ void RecupHebergeurs::demarrage()
     qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
     // Initialisation du thread des icones
-    //m_thread = new QThread(this);
+    m_thread = new QThread(this);
 
     // Création et envoi de l'objet dans le thread
-    //m_threadRecupIcones = new RecupHebergeursIcones(NULL);
-    //m_threadRecupIcones->moveToThread(m_thread);
+    m_threadRecupIcones = new RecupHebergeursIcones(NULL);
+    m_threadRecupIcones->moveToThread(m_thread);
 
-    //connect(m_thread, SIGNAL(started()), m_threadRecupIcones, SLOT(demarrage()));
-    //connect(this, SIGNAL(emissionUrlIcone(QUrl, int)), m_threadRecupIcones, SLOT(downloadUrl(QUrl, int)));
-    //connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
-    //connect(m_threadRecupIcones, SIGNAL(finished()), m_thread, SLOT(quit()));
-    //connect(m_threadRecupIcones, SIGNAL(finished()), m_threadRecupIcones, SLOT(deleteLater()));
-    //connect(m_thread, SIGNAL(finished()), m_thread, SLOT(deleteLater()));
-    //connect(m_thread, SIGNAL(destroyed()), this, SIGNAL(finished()));
-    //m_thread->start();
+    connect(m_thread, SIGNAL(started()), m_threadRecupIcones, SLOT(demarrage()));
+    connect(this, SIGNAL(emissionUrlIcone(QUrl, int)), m_threadRecupIcones, SLOT(downloadUrl(QUrl, int)));
+    connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
+    connect(m_threadRecupIcones, SIGNAL(finished()), m_thread, SLOT(quit()));
+    connect(m_threadRecupIcones, SIGNAL(finished()), m_threadRecupIcones, SLOT(deleteLater()));
+    connect(m_thread, SIGNAL(finished()), m_thread, SLOT(deleteLater()));
+    connect(m_thread, SIGNAL(destroyed()), this, SIGNAL(finished()));
+    m_thread->start();
 
     // On crée notre requête
     QNetworkRequest requete;
@@ -236,8 +236,6 @@ void RecupHebergeurs::finProcedure()
 
         case Ok:    //qDebug() << "RecupHebergeurs :: Ok";
                     emit this->emissionRecupHebergeursEtat(1);
-                    // Since no icon is retrieved we finish this thread here
-                    emit this->finished();
                     break;
 
         default:    qDebug() << "RecupHebergeurs :: Erreur inconnue";
