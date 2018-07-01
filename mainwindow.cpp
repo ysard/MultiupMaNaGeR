@@ -1443,8 +1443,8 @@ void MainWindow::rechercheHebergeurs()
     connect(thread, SIGNAL(started()), m_recupHebergeurs, SLOT(demarrage()));
     connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursEtat(int)), this, SLOT(receptionRecupHebergeursEtat(int)));
 
-    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool, int)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool, int)));
-    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, int)));
+    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursHebergeurs(QString, QString, bool, QString)), this, SLOT(receptionRecupHebergeursHebergeurs(QString, QString, bool, QString)));
+    connect(m_recupHebergeurs, SIGNAL(emissionRecupHebergeursIcones(QByteArray, QString)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, QString)));
     connect(m_recupHebergeurs, SIGNAL(emissionMaxSelectionHebergeurs(int)), this, SLOT(receptionMaxSelectionHebergeurs(int)));
     connect(m_recupHebergeurs, SIGNAL(finished()), thread, SLOT(quit()));
 
@@ -1496,7 +1496,7 @@ void MainWindow::receptionRecupHebergeursEtat(int etatRecupHebergeurs)
         QMessageBox::information(this, tr("Erreur"), tr("Echec de récupération des hébergeurs !\nVeuillez relancer le logiciel."));
 }
 
-void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection, int id)
+void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection, QString id)
 {
     // Fonction assurant la disposition des hébergeurs sur l'interface et le mappage des signaux
     // etat_selection = 1 => cochée
@@ -1535,7 +1535,7 @@ void MainWindow::receptionRecupHebergeursHebergeurs(QString hebergeur, QString h
     connect(checkbox, SIGNAL(clicked()), m_signalMapper, SLOT(map()));
 }
 
-void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
+void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, QString id)
 {
     // id sert à mapper les checkbox reçues dans receptionRecupHebergeursHebergeurs()
     //qDebug() << "RecupHebergeurs :: Reception de l'icone et affichage...";
@@ -1543,14 +1543,14 @@ void MainWindow::receptionRecupHebergeursIcones(QByteArray icone, int id)
     //qDebug() << "nouvel id ico:" << id;
     m_listIconesHebergeurs.insert(icone, id);
 
-    QHashIterator<QCheckBox *, int> itCheckbox(m_listCheckBoxHebergeurs);
+    QHashIterator<QCheckBox *, QString> itCheckbox(m_listCheckBoxHebergeurs);
     while (itCheckbox.hasNext()) {
         itCheckbox.next();
 
         //itCheckbox.key(value) => recup la clé avec une valeur
         //itCheckbox.value(key) => recup la valeur avec une clé
 
-        QHashIterator<QByteArray, int> itIcone(m_listIconesHebergeurs);
+        QHashIterator<QByteArray, QString> itIcone(m_listIconesHebergeurs);
         while(itIcone.hasNext()) {
 
             itIcone.next();

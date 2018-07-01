@@ -109,6 +109,48 @@ qint64 sizeOfdir(QString path)
     return size;
 }
 
+QHash<QString, QByteArray> loadCachedIcons(QString path)
+{
+    // Get files from the given path
+    // Return a QHash with filenames as keys and QByteArrays as values
+
+    QHash<QString, QByteArray> table;
+    QDir folder;
+    folder.setPath(path);
+    QFileInfoList fileInfoList = folder.entryInfoList(QDir::AllEntries|QDir::NoDotAndDotDot);
+    QList<QFileInfo>::const_iterator i = fileInfoList.begin();
+    while (i != fileInfoList.constEnd()) {
+
+        // all characters in the file up to (but not including) the last '.' character.
+        qDebug() << i->completeBaseName();
+
+        QFile file(path + i->fileName());
+        if (!file.open(QIODevice::ReadOnly))
+            continue;
+
+        QByteArray fileContent;
+        while (!file.atEnd()) {
+            fileContent += file.readLine();
+        }
+        table[i->completeBaseName()] = fileContent;
+
+        ++i;
+    }
+    return table;
+}
+
+bool saveIconToCache(QString hostName, QByteArray iconData)
+{
+    // Save the given data in the cache
+
+    QFile file(QDir::homePath() + "/" APP_DIR + "/cache/" + hostName + ".png");
+    if (!file.open(QIODevice::WriteOnly))
+        return false;
+    file.write(iconData);
+    file.close();
+    return true;
+}
+
 void searchPrezFile(QString prezFile, QString link)
 {
     // Recherche un fichier de présentation du même nom que le fichier uploadé

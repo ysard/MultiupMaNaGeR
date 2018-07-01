@@ -29,6 +29,8 @@ bool enregistrement(const QString dossier, const QString code);
 
 QString randomName();
 qint64 sizeOfdir(QString path);
+QHash<QString, QByteArray> loadCachedIcons(QString path);
+bool saveIconToCache(QString hostName, QByteArray iconData);
 void searchPrezFile(QString prezFile, QString link);
 
 #endif // OUTILS_H

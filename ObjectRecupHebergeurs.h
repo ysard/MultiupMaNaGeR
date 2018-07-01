@@ -23,6 +23,7 @@
 #include <QJsonDocument>
 #include "ObjectRecupHebergeursIcones.h"
 #include "Config.h"
+#include "Outils.h"
 
 class RecupHebergeurs : public QObject
 {
@@ -44,12 +45,13 @@ public slots:
 
 private slots:
     void finRecupHebergeurs();
+    void receptionRecupHebergeursIcones(QByteArray iconData, QString hostId);
 
 signals:
-    void emissionUrlIcone(QUrl, int);
+    void emissionUrlIcone(QUrl, QString);
     void emissionRecupHebergeursEtat(int etatConnexion);
-    void emissionRecupHebergeursHebergeurs(QString, QString, bool, int);
-    void emissionRecupHebergeursIcones(QByteArray, int);
+    void emissionRecupHebergeursHebergeurs(QString, QString, bool, QString);
+    void emissionRecupHebergeursIcones(QByteArray, QString);
     void emissionMaxSelectionHebergeurs(int);
     void finished();
 
@@ -58,11 +60,15 @@ private:
     QNetworkAccessManager   *m_networkAccessManager;
     EtatConnexion           m_statutConnexion;
 
+    QHash<QString, QByteArray> m_listCachedIcons;
     RecupHebergeursIcones   *m_threadRecupIcones;
     QThread                 *m_thread;
 
     QString                 m_login;
     QString                 m_password;
+    int                     m_nbRemainingIconsToDisplay;
+    QStringList             m_hostnames;
+    QHash<QString, QByteArray> m_downloadedIcons;
 };
 
 #endif // OBJECTRECUPHEBERGEURS_H

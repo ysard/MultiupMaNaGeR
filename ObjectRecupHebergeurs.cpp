@@ -46,12 +46,48 @@ RecupHebergeurs::RecupHebergeurs(const QString &login, const QString &password, 
 RecupHebergeurs::~RecupHebergeurs()
 {
     qDebug() << "RecupHebergeurs :: Destruction en cours...";
+
+    // Save new hosts and delete old icons in the cache
+    //qDebug() << m_downloadedIcons.keys() << '\n' << m_hostnames << '\n' << m_listCachedIcons.keys();
+
+    // Save new hosts
+    QHash<QString, QByteArray>::const_iterator hosts_it = m_downloadedIcons.constBegin();
+    while (hosts_it != m_downloadedIcons.constEnd()) {
+        saveIconToCache(hosts_it.key(), hosts_it.value());
+        ++hosts_it;
+    }
+
+    // Delete old hosts
+    hosts_it = m_listCachedIcons.constBegin();
+    while (hosts_it != m_listCachedIcons.constEnd()) {
+        if (!m_hostnames.contains(hosts_it.key()))
+            qDebug() << "to delete" << hosts_it.key();
+        ++hosts_it;
+    }
+}
+
+void RecupHebergeurs::receptionRecupHebergeursIcones(QByteArray iconData, QString hostId)
+{
+    //qDebug() << "RecupHebergeurs :: Icon reception" << hostId << "Remaining icons to display: " << m_nbRemainingIconsToDisplay - 1;
+
+    // Send iconData to the main process
+    emit this->emissionRecupHebergeursIcones(iconData, hostId);
+    m_nbRemainingIconsToDisplay--;
+    // Memorize the downloaded hosts for the save step in ~RecupHebergeurs()
+    m_downloadedIcons.insert(hostId, iconData);
+
+    if (m_nbRemainingIconsToDisplay == 0)
+        // No more icon to load
+        // This signal ends the thread RecupHebergeur
+        emit m_threadRecupIcones->finished();
 }
 
 void RecupHebergeurs::demarrage()
 {
     // !!!! Slot appelé lorsque on s'est assuré que le thread acceuillant cette classe dérivée de QObject est lancé !!!!
     qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
+
+    m_listCachedIcons = loadCachedIcons(QDir::homePath() + "/" APP_DIR + "/cache/");
 
     // Initialisation du thread des icones
     m_thread = new QThread(this);
@@ -61,8 +97,8 @@ void RecupHebergeurs::demarrage()
     m_threadRecupIcones->moveToThread(m_thread);
 
     connect(m_thread, SIGNAL(started()), m_threadRecupIcones, SLOT(demarrage()));
-    connect(this, SIGNAL(emissionUrlIcone(QUrl, int)), m_threadRecupIcones, SLOT(downloadUrl(QUrl, int)));
-    connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)), this, SIGNAL(emissionRecupHebergeursIcones(QByteArray, int)));
+    connect(this, SIGNAL(emissionUrlIcone(QUrl, QString)), m_threadRecupIcones, SLOT(downloadUrl(QUrl, QString)));
+    connect(m_threadRecupIcones, SIGNAL(emissionRecupHebergeursIcones(QByteArray, QString)), this, SLOT(receptionRecupHebergeursIcones(QByteArray, QString)));
     connect(m_threadRecupIcones, SIGNAL(finished()), m_thread, SLOT(quit()));
     connect(m_threadRecupIcones, SIGNAL(finished()), m_threadRecupIcones, SLOT(deleteLater()));
     connect(m_thread, SIGNAL(finished()), m_thread, SLOT(deleteLater()));
@@ -173,17 +209,18 @@ void RecupHebergeurs::finRecupHebergeurs()
             // Succès certain
 
             // Récupération de l'objet liste de hosts
-            QJsonObject hosts(connexionObj["hosts"].toObject());
+            QJsonObject hosts = connexionObj["hosts"].toObject();
 
-            int numero_host = 0;
             // Here's how to iterate over a QMap<QString, int> using an iterator
             // http://qt-project.org/doc/qt-4.8/qmap.html
             // http://doc.qt.io/qt-5/containers.html#stl-style-iterators
+            m_nbRemainingIconsToDisplay = hosts.size();
+            m_hostnames = hosts.keys();
             QJsonObject::const_iterator hosts_it = hosts.constBegin();
             while (hosts_it != hosts.constEnd()) {
 
                 // Objet host
-                QJsonObject host(hosts[hosts_it.key()].toObject());
+                QJsonObject host = hosts_it.value().toObject();
                 //qDebug() << hosts_it.key() << ":" << host;
 
                 // Stockage du texte affiché sur la checkbox => nom du host
@@ -198,14 +235,29 @@ void RecupHebergeurs::finRecupHebergeurs()
                             hosts_it.key(),
                             nom + " (" + QString::number(host["size"].toInt(0)) + " Mo)",
                             etat_selection,
-                            numero_host);
+                            hosts_it.key());
 
-                // Récupération de l'icone via son URL
-                QUrl url(URL_RECUPERATION_ICONES + hosts_it.key() + ".png");
-                emit this->emissionUrlIcone(url, numero_host);
+                // Icons...
+                QByteArray iconData = m_listCachedIcons.value(hosts_it.key());
+                if (!iconData.isNull()) {
+                    // The icon is in the cache
+                    //qDebug() << hosts_it.key() << "found in cache";
+                    m_nbRemainingIconsToDisplay--;
+                    // Send it to the main process
+                    emit this->emissionRecupHebergeursIcones(iconData, hosts_it.key());
 
+                    if (m_nbRemainingIconsToDisplay == 0)
+                        // No more icon to load
+                        // This signal ends the thread RecupHebergeur
+                        emit m_threadRecupIcones->finished();
+
+                } else {
+                    // Récupération de l'icone via son URL
+                    //qDebug() << hosts_it.key() << "not found in cache";
+                    QUrl url(URL_RECUPERATION_ICONES + hosts_it.key() + ".png");
+                    emit this->emissionUrlIcone(url, hosts_it.key());
+                }
                 ++hosts_it;
-                numero_host++;
             }
             // Permet l'émission du signal avec le paramètre 1 = réussite
             // Voir finProcedure()

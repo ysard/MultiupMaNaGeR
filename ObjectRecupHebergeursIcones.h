@@ -31,19 +31,19 @@ public:
 
 public slots:
     void demarrage();
-    void downloadUrl(const QUrl url, int id);
+    void downloadUrl(const QUrl url, QString id);
 
 private slots:
     void finRecupHebergeurIcone();
 
 signals:
-    void emissionRecupHebergeursIcones(QByteArray, int);
+    void emissionRecupHebergeursIcones(QByteArray, QString);
     void finished();
 
 private:
     QNetworkAccessManager       *m_networkAccessManager;
     QUrl                        m_url;
-    QHash<QNetworkReply*, int>  m_hash;
+    QHash<QNetworkReply*, QString>  m_hash;
 };
 
 #endif // OBJECTRECUPHEBERGEURSICONES_H

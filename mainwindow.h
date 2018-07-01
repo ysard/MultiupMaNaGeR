@@ -146,8 +146,8 @@ public slots:
     void receptionUpCurlLienEtStats(QString lien, double averageSpeed, double dureeTransfert);
     void receptionUpCurlEtat(int etatUpCurl);
     void receptionRecupHebergeursEtat(int etatRecupHebergeurs);
-    void receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection, int id);
-    void receptionRecupHebergeursIcones(QByteArray icone, int id);
+    void receptionRecupHebergeursHebergeurs(QString hebergeur, QString hebergeurTexte, bool etat_selection, QString id);
+    void receptionRecupHebergeursIcones(QByteArray icone, QString id);
     void receptionMaxSelectionHebergeurs(int);
     void receptionUpCurlProgression(double TotalToUpload, double NowUploaded);
     void upCurlUnpause();
@@ -181,8 +181,8 @@ private:
     QString                 m_loginId;
     QCheckBox               *m_checkBox_Wwpw;
     QSignalMapper           *m_signalMapper;            // mappage des signaux des checkbox
-    QHash<QByteArray, int>  m_listIconesHebergeurs;     // Fait correspondre les icones avec les checkbox reçues
-    QHash<QCheckBox*, int>  m_listCheckBoxHebergeurs;   // Fait correspondre les icones avec les checkbox reçues
+    QHash<QByteArray, QString>  m_listIconesHebergeurs;     // Fait correspondre les icones avec les checkbox reçues
+    QHash<QCheckBox*, QString>  m_listCheckBoxHebergeurs;   // Fait correspondre les icones avec les checkbox reçues
     QList<QCheckBox*>       m_sortedListCheckBox;       // permet l'affichage des checkbox dans un ordre harmonieux (déjà cochées en premier)
     int                     m_maxHosts;
 

@@ -19,7 +19,7 @@
 
 RecupHebergeursIcones::RecupHebergeursIcones(QObject *parent): QObject(parent)
 {
-    qDebug() << "RecupHebergeursIcones :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
+    //qDebug() << "RecupHebergeursIcones :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 }
 
 RecupHebergeursIcones::~RecupHebergeursIcones()
@@ -29,13 +29,13 @@ RecupHebergeursIcones::~RecupHebergeursIcones()
 
 void RecupHebergeursIcones::demarrage()
 {
-    qDebug() << "RecupHebergeursIcones :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
+    //qDebug() << "RecupHebergeursIcones :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
     // Simple initialisation
     m_networkAccessManager = new QNetworkAccessManager(this);
 }
 
-void RecupHebergeursIcones::downloadUrl(const QUrl url, int id)
+void RecupHebergeursIcones::downloadUrl(const QUrl url, QString id)
 {
     // Récupération sur le site des icones des hebergeurs...
 
@@ -54,13 +54,9 @@ void RecupHebergeursIcones::downloadUrl(const QUrl url, int id)
     // http://www.siteduzero.com/forum/sujet/qt-qnetworkrequest-27057
 
     // Stockage de la requête (autant d'icone que d'hébergeur)
-
-    static int i = 0;
     m_hash.insert(reply, id); // méthode plus mieux..
     //m_hash[reply] = id;
     //si on utilise l'opérateur [] pour autre chose que l'insertion ça insert silencieusement des paires non désirée.. habitude à prendre !
-
-    i++;
 }
 
 void RecupHebergeursIcones::finRecupHebergeurIcone()
@@ -80,16 +76,11 @@ void RecupHebergeursIcones::finRecupHebergeurIcone()
         temp.clear();
     }
 
-    int id = m_hash.value(reply);
+    QString id = m_hash.value(reply);
     //qDebug() << "Hash :" << id;
     emit this->emissionRecupHebergeursIcones(temp, id);
 
     // Nettoyage de la liste des requêtes en attente
     m_hash.remove(reply);
-
     reply->deleteLater();
-
-    // Si tout est terminé => fin - Ce signal met aussi fin au thread RecupHebergeur
-    if (m_hash.isEmpty())
-        emit this->finished();
 }
