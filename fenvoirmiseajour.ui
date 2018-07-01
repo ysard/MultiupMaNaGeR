@@ -43,7 +43,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Mise à jour de MultiUp MaNaGeR</string>
+   <string>Notes de version de MultiUp MaNaGeR</string>
   </property>
   <property name="windowIcon">
    <iconset resource="Multiup.qrc">

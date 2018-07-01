@@ -19,6 +19,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QObject>
 #include <QtGui>
 #include <QtNetwork>
 #include <QMainWindow>

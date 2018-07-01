@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="en_US" sourcelanguage="fr">
 <context>
     <name>FenLiens</name>
     <message>
@@ -24,16 +24,8 @@
         <translation>Choose a folder...</translation>
     </message>
     <message>
-        <source>Ok !</source>
-        <translation>Ok !</translation>
-    </message>
-    <message>
         <source>Afficher les liens</source>
         <translation>Show links</translation>
-    </message>
-    <message>
-        <source>Le fichier est enregistré.</source>
-        <translation>The file has been saved.</translation>
     </message>
     <message>
         <source>Attention !</source>
@@ -46,10 +38,6 @@
 </context>
 <context>
     <name>FenVoirMiseAJour</name>
-    <message>
-        <source>Mise à jour de MultiUp MaNaGeR</source>
-        <translation>MultiUp MaNaGeR updates</translation>
-    </message>
     <message>
         <source>Quitter</source>
         <translation>Close</translation>
@@ -711,6 +699,37 @@ Please restart the software.</translation>
     &lt;/div&gt;
   &lt;/body&gt;
 &lt;/html&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Annulé</source>
+        <translation>Canceled</translation>
+    </message>
+    <message>
+        <source>Erreur</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Terminé</source>
+        <translation>Finished</translation>
+    </message>
+    <message>
+        <source>Choix serveur</source>
+        <translation>Search server</translation>
+    </message>
+    <message>
+        <source>En attente</source>
+        <translation>Waiting</translation>
+    </message>
+    <message>
+        <source>En cours d&apos;upload</source>
+        <translation>Upload in progress</translation>
+    </message>
+    <message>
+        <source>Arrêté</source>
+        <translation>Stopped</translation>
     </message>
 </context>
 </TS>

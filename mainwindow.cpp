@@ -18,13 +18,13 @@
  */
 #include "mainwindow.h"
 
-#define STOPED_TEXT() tr("Arreté")
-#define REMOVED_TEXT() tr("Annulé")
-#define FAILED_TEXT() tr("Erreur")
-#define FINISHED_TEXT() tr("Terminé")
-#define PREPROCESSING_TEXT() tr("Choix serveur")
-#define READY_TEXT() tr("En attente")
-#define UPLOADING_TEXT() tr("En cours d'upload")
+#define STOPED_TEXT() QObject::tr("Arrêté")
+#define REMOVED_TEXT() QObject::tr("Annulé")
+#define FAILED_TEXT() QObject::tr("Erreur")
+#define FINISHED_TEXT() QObject::tr("Terminé")
+#define PREPROCESSING_TEXT() QObject::tr("Choix serveur")
+#define READY_TEXT() QObject::tr("En attente")
+#define UPLOADING_TEXT() QObject::tr("En cours d'upload")
 
 #define STOPED_IMG ":/interface/img/interface/stop.png"
 #define REMOVED_IMG ":/interface/img/interface/remove.png"
