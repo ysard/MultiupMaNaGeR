@@ -72,15 +72,12 @@ void FenLiens::enregistrer()
 
     if (dossier != "") { //doit etre testé avant, car la fonction d'enregistrement enregistre par défaut dans le dossier de l'application (meme si dossier="")
         if (enregistrement(dossier, m_code)) {
-            QMessageBox::information(NULL, tr("Ok !"), tr("Le fichier est enregistré."));
-
             //Si tout s'est bien passé on emet le signal accept, et on quitte la condition.
             this->accept();
             return;
         }
+        QMessageBox::information(NULL, tr("Attention !"), tr("Fichier non enregistré."));
     }
-
-    QMessageBox::information(NULL, tr("Attention !"), tr("Fichier non enregistré."));
 }
 
 void FenLiens::chargerLog()
