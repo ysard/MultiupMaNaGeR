@@ -52,8 +52,11 @@ RecupHebergeurs::~RecupHebergeurs()
 
     // Save new hosts
     QHash<QString, QByteArray>::const_iterator hosts_it = m_downloadedIcons.constBegin();
+    QPixmap pixmap;
     while (hosts_it != m_downloadedIcons.constEnd()) {
-        saveIconToCache(hosts_it.key(), hosts_it.value());
+        // Don't save corrupted data
+        if (pixmap.loadFromData(hosts_it.value()))
+            saveIconToCache(hosts_it.key(), hosts_it.value());
         ++hosts_it;
     }
 
