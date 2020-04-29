@@ -19,7 +19,14 @@
 
 SelectionServeur::SelectionServeur(QObject *parent): QObject(parent)
 {
-    // Nothing
+    // Init default file size
+    m_fileSize = 0;
+}
+
+SelectionServeur::SelectionServeur(int fileSize, QObject *parent): QObject(parent)
+{
+    // Init default file size
+    m_fileSize = fileSize;
 }
 
 SelectionServeur::~SelectionServeur()
@@ -44,7 +51,13 @@ void SelectionServeur::demarrage()
 
     qDebug() << "SelectionServeur :: Sélection serveur en cours...";
 
-    const QUrl url = QUrl(URL_SELECTION_SERVEUR);
+    QUrl url = QUrl(URL_SELECTION_SERVEUR);
+    if (m_fileSize != 0) {
+        // Choose the server according to the known size of the file
+        QUrlQuery query;
+        query.addQueryItem("size", QString::number(m_fileSize));
+        url.setQuery(query.query());
+    }
     requete.setUrl(url);
 
     // Initialisation du QNetworkAccessManager

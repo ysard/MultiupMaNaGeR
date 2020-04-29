@@ -34,6 +34,7 @@ public:
     };
 
     SelectionServeur(QObject* parent = NULL);
+    SelectionServeur(int fileSize, QObject* parent = NULL);
     virtual ~SelectionServeur();
 
 public slots:
@@ -54,6 +55,7 @@ private:
     QString                 m_adresseIp;
     EtatConnexion           m_statutConnexion;
     bool                    m_connecte;
+    int                     m_fileSize;
 };
 
 #endif // OBJECTSELECTIONSERVEUR_H

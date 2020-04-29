@@ -1952,7 +1952,7 @@ void MainWindow::selectionServeur()
     QThread *thread = new QThread(this);
 
     // Création et envoi de l'objet dans le thread
-    m_selectionServeur = new SelectionServeur(NULL);
+    m_selectionServeur = new SelectionServeur(m_tailleFichiers.at(m_row));
     m_selectionServeur->moveToThread(thread);
 
     // PS : plus de passage de cookie dans la v2
