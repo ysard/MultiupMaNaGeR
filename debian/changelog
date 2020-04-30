@@ -1,4 +1,10 @@
-multiup-manager (0.4.5-1) UNRELEASED; urgency=low
+multiup-manager (0.4.5-1) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+
+ -- Ysard <ysard@users.noreply.github.com>  Thu, 30 Apr 2020 04:37:13 +0200
+
+multiup-manager (0.4.5) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 

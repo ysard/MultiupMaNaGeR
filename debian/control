@@ -1,18 +1,17 @@
 Source: multiup-manager
-Section: base
 Priority: optional
-Maintainer: Lex & LuNiKoFf
+Maintainer: Lex & LuNiKoFf <ysard@users.noreply.github.com>
 Build-Depends: debhelper (>= 9)
 #qtbase5-dev, qtbase5-dev-tools, qt5-qmake, libcurl3
 Standards-Version: 3.9.5
 Homepage: https://github.com/ysard/MultiupMaNaGeR
 
 Package: multiup-manager
-Section: base
+Section: web
 Priority: optional
 Architecture: any
 Recommends: rar
-Depends: libcurl3 (>=7.38.0), libqt5widgets5 (>=5.3.2), libqt5gui5 (>=5.3.2), libqt5network5 (>=5.3.2), libqt5core5a (>=5.3.2), libicu52 (>=52.1-8)
-# ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}, libqt5widgets5 (>=5.3.2), libqt5gui5 (>=5.3.2), libqt5network5 (>=5.3.2), libqt5core5a (>=5.3.2), libicu52 (>=52.1-8)
 #libqt5widgets5 (>=5.3.2), libqt5gui5 (>=5.3.2), libqt5network5 (>=5.3.2), libqt5core5a (>=5.3.2), libicu52 (>=52.1-8)
 Description: Upload manager for multiup.org
+ MultiUp MaNaGer is the official upload software to upload on multiup.org.
