@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Encoding=UTF-8
+Name=Multiup MaNaGeR
+Exec=multiupv2
+Icon=/usr/share/pixmaps/multiup.png
+Comment=Upload manager for multiup.org
+Comment[fr_FR]=Gestionnaire d'upload pour multiup.org
+Comment[fr]=Gestionnaire d'upload pour multiup.org
+Categories=Application;Network
+Description=Multiupload
