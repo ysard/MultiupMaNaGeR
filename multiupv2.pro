@@ -27,7 +27,7 @@ QT += network
 QT += widgets
 win32:QT += winextras
 
-TARGET = multiupv2
+TARGET = multiup
 TEMPLATE = app
 
 
