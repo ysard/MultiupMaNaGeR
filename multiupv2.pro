@@ -30,11 +30,11 @@ win32:QT += winextras
 TARGET = multiup
 TEMPLATE = app
 
-
-build_pass:CONFIG(release, debug|release) {
-    # Remove logger info on Release mode
+! CONFIG(debug, debug|release) {
+    # Remove logging on Release mode
     DEFINES += QT_NO_DEBUG_OUTPUT
     DEFINES += QT_NO_WARNING_OUTPUT
+    message(Release mode is active!)
 }
 
 #CURL unix
