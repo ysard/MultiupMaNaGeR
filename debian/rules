@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+DH_VERBOSE = 1
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+# Tweak flags brought by dpkg-buildflags
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to strip CFLAGS CXXFLAGS CPPFLAGS
+export DEB_CXXFLAGS_MAINT_STRIP = -g
+
+# package maintainers to append CFLAGS CXXFLAGS LDFLAGS
+# equivalent of modifying CMAKE_SHARED_LINKER_FLAGS
+# Disallows undefined symbols when creating .so files,
+# so that this problem can be caught at compile time rather than runtime.
+# PS: Think about -Wl,--as-needed,--no-allow-shlib-undefined
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-z,defs -Wl,--as-needed,--no-allow-shlib-undefined -flto
+
+
+export QT_SELECT := qt5
+
+PROJECT_NAME=multiup-manager
+# main packaging script based on dh7 syntax
+%:
+	dh $@ --parallel # --builddirectory=build
+
+override_dh_auto_configure:
+	# Load environment variables listed by dpkg-buildflags (all dh_auto* make this)
+	dh_auto_configure
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(shell pwd)/usr/lib --dpkg-shlibdeps-params=--ignore-missing-info

@@ -1,0 +1,5 @@
+multiup-manager (0.4.5-1) UNRELEASED; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Ysard <ysard@users.noreply.github.com>  Thu, 30 Apr 2020 03:36:03 +0200

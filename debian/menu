@@ -1,0 +1,2 @@
+?package(multiup-manager):needs="x11" section="Applications/Network/File Transfer"\
+  title="Multiup MaNaGeR" command="/usr/bin/multiup"
