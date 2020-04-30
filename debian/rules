@@ -13,6 +13,8 @@ include /usr/share/dpkg/default.mk
 export DEB_CXXFLAGS_MAINT_STRIP = -g
 
 # package maintainers to append CFLAGS CXXFLAGS LDFLAGS
+export DEB_CXXFLAGS_MAINT_APPEND = -O3 -flto
+
 # equivalent of modifying CMAKE_SHARED_LINKER_FLAGS
 # Disallows undefined symbols when creating .so files,
 # so that this problem can be caught at compile time rather than runtime.
@@ -27,7 +29,7 @@ PROJECT_NAME=multiup-manager
 %:
 	dh $@ --parallel
 
-	# Build translations
+	# Build translations (.qm file)
 	lrelease multiupv2.pro
 
 override_dh_auto_configure:
