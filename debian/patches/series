@@ -1,1 +1,2 @@
+load_locale_file.patch
 delete_upstream_makefile.patch

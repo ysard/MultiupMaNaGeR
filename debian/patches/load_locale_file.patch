@@ -1,0 +1,12 @@
+Load translations from the qm file in /usr/share/multiup/locale/
+--- a/main.cpp
++++ b/main.cpp
+@@ -27,7 +27,7 @@
+ 
+     QTranslator translator;
+     if(locale != "fr")
+-        translator.load(QString("multiupManager_en"));
++        translator.load(QString("multiupManager_en"), QString("/usr/share/multiup/locale"));
+     a.installTranslator(&translator);
+ 
+     MainWindow w;
