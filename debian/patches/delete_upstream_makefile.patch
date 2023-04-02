@@ -1,7 +1,7 @@
 Delete upstream Makefile to avoid collision with that of debhelper.
 --- a/Makefile
 +++ /dev/null
-@@ -1,4 +0,0 @@
+@@ -1,7 +0,0 @@
 -translations:
 -	@# Create/update ts files
 -	lupdate multiupv2.pro
