@@ -3,6 +3,9 @@ Delete upstream Makefile to avoid collision with that of debhelper.
 +++ /dev/null
 @@ -1,4 +0,0 @@
 -translations:
+-	@# Create/update ts files
 -	lupdate multiupv2.pro
+-	@# Start Linguist to do the translation work for english
 -	linguist multiupManager_en.ts
--	lrelease multiupv2.pro	
+-	@# Compile the .qm file
+-	lrelease multiupv2.pro
