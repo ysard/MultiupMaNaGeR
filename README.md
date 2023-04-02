@@ -7,6 +7,35 @@ where you will be able to see and download your file on various hosting-file web
 
 <img alt="Website screenshot" src="./doc/prez.png" width="800" />
 
+# Build
+
+## Compilation
+
+The project is based on Qt 5.12.1.
+
+Other requirements for Debian like systems: libcurl4-gnutls-dev or libcurl4-openssl-dev
+
+- Via Qt Creator:
+Just load the multiupv2.pro in the IDE Qt Creator as a new project.
+
+- Manually:
+
+    mkdir build
+    cd build
+    qmake ../multiupv2.pro
+    make
+
+
+## Translations
+
+Strings are translated using the Qt tools like lupdate, linguist & lrelease.
+
+To update locales and translate them, in the current folder, execute :
+
+    make translations
+
+Feel free to adapt these directives to support a new language.
+
 
 # License
 
