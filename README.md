@@ -27,6 +27,23 @@ Just load the multiupv2.pro in the IDE Qt Creator as a new project.
     make
 ```
 
+## Build Debian package
+
+Take the release tarball (Ex: `multiup-manager_0.4.5.orig.tar.gz`),
+then decompress it to the build directory:
+
+	mkdir build
+	tar -xf multiup-manager_0.4.5.orig.tar.gz -C build/
+	cd build
+	dpkg-buildpackage -us -uc -rfakeroot
+
+Get & install your .deb file:
+
+	dpkg -i ../multiup-manager_0.4.5-1_amd64.deb
+
+You may have to change/delete the `override_dh_shlibdeps` directive of `debian/rules`
+according to your installation of Qt framework (installed from system repositories or manually installed).
+
 ## Translations
 
 Strings are translated using the Qt tools like lupdate, linguist & lrelease.
