@@ -1068,10 +1068,10 @@ void MainWindow::on_boutonSavParametres_clicked()
 
     // Sauvegarde des paramètres
     #ifdef WINDOWS
-        QSettings settings(QApplication::applicationDirPath() + "\\config.ini", QSettings::IniFormat);
+        QSettings settings(QApplication::applicationDirPath() + "\\" + SETTINGS_FILE, QSettings::IniFormat);
     #endif
     #ifdef LINUX
-        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/config.ini", QSettings::IniFormat);
+        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/" + SETTINGS_FILE, QSettings::IniFormat);
     #endif
 
     // Sauvegarde des identifiants
@@ -1101,10 +1101,10 @@ void MainWindow::readSettings()
     // Récupère le contenu des clés du fichier config.ini situé dans le répertoire de l'application et remplit les champs et valeurs
 
     #ifdef WINDOWS
-        QString configFile = QApplication::applicationDirPath() + "\\config.ini";
+        QString configFile = QApplication::applicationDirPath() + "\\" + SETTINGS_FILE;
     #endif
     #ifdef LINUX
-        QString configFile = QDir::homePath() + "/" + APP_DIR + "/config.ini";
+        QString configFile = QDir::homePath() + "/" + APP_DIR + "/" + SETTINGS_FILE;
     #endif
 
     qDebug() << "Current config file : " << configFile;

@@ -48,9 +48,11 @@
 // --- User-Agent
 #define USER_AGENT "Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
 
-// --- Custom directory for the application on Linux
+// --- Custom directory in ~/ for the application on GNU/Linux
 #ifdef LINUX
     #define APP_DIR "Multiupv2"
 #endif
+
+#define SETTINGS_FILE "config.ini"
 
 #endif // CONFIG_H
