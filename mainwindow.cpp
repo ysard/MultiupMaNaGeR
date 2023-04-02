@@ -245,6 +245,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     movie->start();
 
     // Rappel des identifiants
+    #ifdef WINDOWS
+        m_cheminSettingsFile = QApplication::applicationDirPath() + "\\" + SETTINGS_FILE;
+    #endif
+    #ifdef LINUX
+        m_cheminSettingsFile = QDir::homePath() + "/" + APP_DIR + "/" + SETTINGS_FILE;
+    #endif
     readSettings();
 
     if (checkBoxCheckUpdate->isChecked())
@@ -1067,12 +1073,7 @@ void MainWindow::on_boutonSavParametres_clicked()
     }
 
     // Sauvegarde des paramètres
-    #ifdef WINDOWS
-        QSettings settings(QApplication::applicationDirPath() + "\\" + SETTINGS_FILE, QSettings::IniFormat);
-    #endif
-    #ifdef LINUX
-        QSettings settings(QDir::homePath() + "/" + APP_DIR + "/" + SETTINGS_FILE, QSettings::IniFormat);
-    #endif
+    QSettings settings(m_cheminSettingsFile, QSettings::IniFormat);
 
     // Sauvegarde des identifiants
     settings.beginGroup("Identifiants");
@@ -1099,20 +1100,12 @@ void MainWindow::on_boutonSavParametres_clicked()
 void MainWindow::readSettings()
 {
     // Récupère le contenu des clés du fichier config.ini situé dans le répertoire de l'application et remplit les champs et valeurs
+    qDebug() << "Current config file : " << m_cheminSettingsFile;
 
-    #ifdef WINDOWS
-        QString configFile = QApplication::applicationDirPath() + "\\" + SETTINGS_FILE;
-    #endif
-    #ifdef LINUX
-        QString configFile = QDir::homePath() + "/" + APP_DIR + "/" + SETTINGS_FILE;
-    #endif
-
-    qDebug() << "Current config file : " << configFile;
-
-    if (!QFile(configFile).exists())
+    if (!QFile(m_cheminSettingsFile).exists())
         return;
 
-    QSettings settings(configFile, QSettings::IniFormat);
+    QSettings settings(m_cheminSettingsFile, QSettings::IniFormat);
 
     m_login->setText(settings.value("Identifiants/Login").toString());
     m_password->setText(settings.value("Identifiants/Password").toString());

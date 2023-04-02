@@ -236,6 +236,7 @@ private:
     QString                 m_liens;
 
     QString                 m_cheminWinRar;
+    QString                 m_cheminSettingsFile;
 
     Connexion               *m_connexion;
     Compression             *m_compression;
