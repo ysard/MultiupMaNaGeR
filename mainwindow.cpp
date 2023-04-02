@@ -1090,7 +1090,7 @@ void MainWindow::on_boutonSavParametres_clicked()
     settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
     settings.setValue("Compression/Password", lineEditCompressMdp->text());
 
-    settings.setValue("Updates/check", checkBoxCheckUpdate->isChecked());
+    settings.setValue("Misc/check_update", checkBoxCheckUpdate->isChecked());
 
     boutonSavParametres->setText(tr("Recharger"));
     m_configParametres = true;
@@ -1122,7 +1122,7 @@ void MainWindow::readSettings()
     lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
     //qDebug() << "Resultats : " << m_login->text() << m_password->text() << m_cheminWinRar;
 
-    checkBoxCheckUpdate->setChecked(settings.value("Updates/check").toBool());
+    checkBoxCheckUpdate->setChecked(settings.value("Misc/check_update").toBool());
 }
 
 void MainWindow::on_boutonCompressSrc_clicked()
