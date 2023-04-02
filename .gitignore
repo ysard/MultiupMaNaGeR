@@ -49,3 +49,11 @@ CMakeLists.txt.user*
 
 # Qt Compilated translation files
 *.qm
+
+# Purge Debian packaging temp files
+debian/files
+debian/*.debhelper*
+debian/*.substvars
+debian/mind-the-gap*
+obj-*/
+.pc
