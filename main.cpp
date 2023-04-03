@@ -26,8 +26,10 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
-    if(locale != "fr")
-        translator.load(QString("multiupManager_en"));
+    bool translation_status = false;
+    if (locale != "fr")
+        translation_status = translator.load(":/i18n/multiupManager_en");
+    qDebug() << "Translations loading status:" << translation_status;
     a.installTranslator(&translator);
 
     MainWindow w;

@@ -109,4 +109,11 @@ RESOURCES += Multiup.qrc
 
 win32:RC_FILE = ressource_win32.rc
 
+# Make translations visible for lrelease & lupdate
+# For lrelease only, use EXTRA_TRANSLATIONS instead.
 TRANSLATIONS = multiupManager_en.ts
+# Embed translations files
+CONFIG += lrelease
+CONFIG += embed_translations
+# Default prefix in resources
+#QM_FILES_RESOURCE_PREFIX=/i18n/
