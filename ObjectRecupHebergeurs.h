@@ -19,6 +19,7 @@
 #define OBJECTRECUPHEBERGEURS_H
 
 #include <QtGui>
+#include <QApplication>
 #include <QtNetwork>
 #include <QJsonDocument>
 #include "ObjectRecupHebergeursIcones.h"

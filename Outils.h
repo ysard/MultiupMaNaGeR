@@ -19,6 +19,7 @@
 #define OUTILS_H
 
 #include <QtGui>
+#include <QApplication>
 #include "Config.h"
 
 double conversion(qint64 valeur);

@@ -90,7 +90,14 @@ void RecupHebergeurs::demarrage()
     // !!!! Slot appelé lorsque on s'est assuré que le thread acceuillant cette classe dérivée de QObject est lancé !!!!
     qDebug() << "RecupHebergeurs :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
 
-    m_listCachedIcons = loadCachedIcons(QDir::homePath() + "/" APP_DIR + "/cache/");
+
+
+    #ifdef WINDOWS
+        m_listCachedIcons = loadCachedIcons(QApplication::applicationDirPath() + "\\cache\\");
+    #endif
+    #ifdef LINUX
+        m_listCachedIcons = loadCachedIcons(QDir::homePath() + "/" + APP_DIR + "/cache/");
+    #endif
 
     // Initialisation du thread des icones
     m_thread = new QThread(this);

@@ -142,8 +142,12 @@ QHash<QString, QByteArray> loadCachedIcons(QString path)
 bool saveIconToCache(QString hostName, QByteArray iconData)
 {
     // Save the given data in the cache
-
-    QFile file(QDir::homePath() + "/" APP_DIR + "/cache/" + hostName + ".png");
+    #ifdef WINDOWS
+        QFile file(QApplication::applicationDirPath() + "\\cache\\" + hostName + ".png");
+    #endif
+    #ifdef LINUX
+        QFile file(QDir::homePath() + "/" APP_DIR + "/cache/" + hostName + ".png");
+    #endif
     if (!file.open(QIODevice::WriteOnly))
         return false;
     file.write(iconData);
