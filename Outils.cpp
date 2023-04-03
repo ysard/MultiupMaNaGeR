@@ -117,6 +117,10 @@ QHash<QString, QByteArray> loadCachedIcons(QString path)
     QHash<QString, QByteArray> table;
     QDir folder;
     folder.setPath(path);
+    if (!folder.mkpath(path)) {
+        qWarning() << "Cache dir not created!";
+        return table;
+    }
     QFileInfoList fileInfoList = folder.entryInfoList(QDir::AllEntries|QDir::NoDotAndDotDot);
     QList<QFileInfo>::const_iterator i = fileInfoList.begin();
     while (i != fileInfoList.constEnd()) {
