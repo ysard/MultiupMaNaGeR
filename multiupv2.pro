@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Multiup MaNaGeR. If not, see <http://www.gnu.org/licenses/>.
 #
-# Copyright 2012-2018 Lex
+# Copyright 2012-2023 Lex
 # Copyright 2013 LuNiKoFf
 #-------------------------------------------------
 #
