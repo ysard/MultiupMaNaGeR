@@ -7,6 +7,23 @@ where you will be able to see and download your file on various hosting-file web
 
 <img alt="Website screenshot" src="./doc/prez.png" width="800" />
 
+# How to use it ?
+
+You should have Qt 5 libraries installed on your system.
+
+Then, just execute `multiup` binary.
+
+For translations, have a look at
+[Translations](https://github.com/ysard/MultiupMaNaGeR#translations) chapter.
+
+You can configure your multiup.org account and get your links online.
+
+Settings of the application are stored in a `config.ini` file, which is on the same
+directory as the executable on Windows, and in `~/Multiupv2/` directory on GNU/Linux.
+
+TODO: Static linking of Qt for Windows systems.
+
+
 # Windows build
 
 The project is based on Qt 5.12.1 (at least).
@@ -87,9 +104,16 @@ Get & install your .deb file:
     dpkg -i ../multiup-manager_0.4.5-1_amd64.deb
 
 You may have to change/delete the `override_dh_shlibdeps` directive of `debian/rules`
-according to your installation of Qt framework (installed from system repositories or manually installed).
+according to your installation of Qt framework (installed from system repositories
+or manually installed).
 
 # Translations
+
+For now, French (default) and English languages are supported.
+`multiupManager_en.qm` must be on the same folder as the executable
+if you want to have a translation of the application.
+
+Note : Anly help about this is appreciated !
 
 Strings are translated using the Qt tools like lupdate, linguist & lrelease.
 
