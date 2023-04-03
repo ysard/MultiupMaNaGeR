@@ -315,7 +315,7 @@ void UpCurl::finProcedure(CURLcode hResult)
                                         emit this->finished();
                                         break;
 
-        default:                        qDebug() << "Curl :: Erreur" << hResult;
+        default:                        qCritical() << "Curl :: Erreur" << curl_easy_strerror(hResult);
                                         emit this->emissionEtatUpCurl(2);
                                         emit this->finished();
                                         break;
