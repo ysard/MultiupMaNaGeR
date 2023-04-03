@@ -21,4 +21,7 @@
         <file>img/interface/firefox_logo.png</file>
         <file>img/interface/spinload.gif</file>
     </qresource>
+    <qresource prefix="/lang">
+        <file>multiupManager_en.qm</file>
+    </qresource>
 </RCC>
