@@ -23,14 +23,14 @@ Currently, the version 7.29 has been tested successfully.
 
 The build command with Mingw32 was:
 
-	cmake -G "MinGW Makefiles" .. \
-		-DCURL_STATICLIB=ON -DHTTP_ONLY=ON -DBUILD_CURL_TESTS=OFF -DBUILD_CURL_EXE=OFF \
-		-DCMAKE_BUILD_TYPE=Release -DCMAKE_USE_LIBSSH2=OFF -DCMAKE_USE_OPENSSL=OFF \
-		-DENABLE_UNIX_SOCKETS=OFF -DCURL_ZLIB=OFF -DENABLE_MANUAL=OFF
-	mingw32-make
+    cmake -G "MinGW Makefiles" .. \
+        -DCURL_STATICLIB=ON -DHTTP_ONLY=ON -DBUILD_CURL_TESTS=OFF -DBUILD_CURL_EXE=OFF \
+        -DCMAKE_BUILD_TYPE=Release -DCMAKE_USE_LIBSSH2=OFF -DCMAKE_USE_OPENSSL=OFF \
+        -DENABLE_UNIX_SOCKETS=OFF -DCURL_ZLIB=OFF -DENABLE_MANUAL=OFF
+    mingw32-make
 
 At this point you should have a `libcurl.a` file which is required for static linking.
-Now, edit the file multiupv2.pro to point to the folders containing the headers and the lib.
+Now, edit the file `multiupv2.pro` to point to the folders containing the headers and the lib.
 
 
 Then compile the project itself:
@@ -41,8 +41,8 @@ Just load the multiupv2.pro in the IDE Qt Creator as a new project.
 - Manually:
 
 ```
-	# If required:
-	set PATH=%PATH%;<path_to_QtSDK>\mingw\bin;<path_to_QtSDK>\Desktop\Qt\<Qt_version>\mingw\bin
+    # If required:
+    set PATH=%PATH%;<path_to_QtSDK>\mingw\bin;<path_to_QtSDK>\Desktop\Qt\<Qt_version>\mingw\bin
 
     mkdir build
     cd build
@@ -58,7 +58,7 @@ Note: Any help to simplify/update this process is appreciated !
 
 The project is based on Qt 5.12.1 (at least).
 
-Other requirements for Debian like systems: libcurl4-gnutls-dev or libcurl4-openssl-dev
+Other requirements for Debian like systems: `libcurl4-gnutls-dev` or `libcurl4-openssl-dev`
 
 - Via Qt Creator:
 Just load the multiupv2.pro in the IDE Qt Creator as a new project.
@@ -77,14 +77,14 @@ Just load the multiupv2.pro in the IDE Qt Creator as a new project.
 Take the release tarball (Ex: `multiup-manager_0.4.5.orig.tar.gz`),
 then decompress it to the build directory:
 
-	mkdir build
-	tar -xf multiup-manager_0.4.5.orig.tar.gz -C build/
-	cd build
-	dpkg-buildpackage -us -uc -rfakeroot
+    mkdir build
+    tar -xf multiup-manager_0.4.5.orig.tar.gz -C build/
+    cd build
+    dpkg-buildpackage -us -uc -rfakeroot
 
 Get & install your .deb file:
 
-	dpkg -i ../multiup-manager_0.4.5-1_amd64.deb
+    dpkg -i ../multiup-manager_0.4.5-1_amd64.deb
 
 You may have to change/delete the `override_dh_shlibdeps` directive of `debian/rules`
 according to your installation of Qt framework (installed from system repositories or manually installed).
