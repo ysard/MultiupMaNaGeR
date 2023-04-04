@@ -11,7 +11,6 @@ Section: web
 Priority: optional
 Architecture: any
 Recommends: rar
-Depends: ${misc:Depends}, ${shlibs:Depends}, libqt5widgets5 (>=5.3.2), libqt5gui5 (>=5.3.2), libqt5network5 (>=5.3.2), libqt5core5a (>=5.3.2), libicu52 (>=52.1-8)
-#libqt5widgets5 (>=5.3.2), libqt5gui5 (>=5.3.2), libqt5network5 (>=5.3.2), libqt5core5a (>=5.3.2), libicu52 (>=52.1-8)
+Depends: ${misc:Depends}, ${shlibs:Depends}, libqt5widgets5 (>=5.12.2), libqt5gui5 (>=5.12.2), libqt5network5 (>=5.12.2), libqt5core5a (>=5.12.2), libicu52 (>=52.1-8)
 Description: Upload manager for multiup.org
  MultiUp MaNaGer is the official upload software to upload on multiup.org.
