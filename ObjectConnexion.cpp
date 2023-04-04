@@ -89,7 +89,7 @@ void Connexion::finLogin()
                                         m_statutConnexion = Bad; // A la base il n'y a pas de connexion:
                                         break;
 
-        default :                       qDebug() << "Connexion :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
+        default :                       qCritical() << "Connexion :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
                                         r->deleteLater();
                                         m_statutConnexion = Error;
                                         this->finProcedure();

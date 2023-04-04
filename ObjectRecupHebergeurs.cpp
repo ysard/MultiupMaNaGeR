@@ -163,7 +163,7 @@ void RecupHebergeurs::finRecupHebergeurs()
                                         m_statutConnexion = Bad; // A la base on est pas sûr d'analyser correctement la chaine...
                                         break;
 
-        default :                       qDebug() << "RecupHebergeurs :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
+        default :                       qCritical() << "RecupHebergeurs :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
                                         r->deleteLater();
                                         m_statutConnexion = Error;
                                         this->finProcedure();

@@ -93,7 +93,7 @@ void SelectionServeur::finSelectionServeur()
                                         m_statutConnexion = Bad; // A la base, pas d'ip trouvée
                                         break;
 
-        default :                       qDebug() << "SelectionServeur :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
+        default :                       qCritical() << "SelectionServeur :: Erreur lors du chargement. Code de l'erreur : " << r->errorString();
                                         r->deleteLater();
                                         m_statutConnexion = Error;
                                         this->finProcedure();
