@@ -1204,7 +1204,7 @@ void MainWindow::on_boutonCompress_clicked()
 
     if (m_cheminWinRar.isEmpty()) {
         QMessageBox::information(this, tr("Erreur"), tr("Vous devez spécifier le chemin de l'application 'rar' dans config.ini !\n"
-                                                        "(Cliquez sur \"Sauvegarder les paramètres\" pour y enregistrer un exemple de configuration."));
+                                                        "(Cliquez sur \"Sauvegarder les paramètres\" pour y enregistrer un exemple de configuration.)"));
         return;
     }
     if (lineEditCompressSrc->text() == "") {
@@ -1626,7 +1626,7 @@ void MainWindow::checkboxHebergeursClicked(QString hebergeur)
             QMessageBox::information(
                         this,
                         tr("Trop d'hébergeurs !"),
-                        tr("Vous avez dépassé la limite du nombre d'hébergeurs autorisés (") + QString::number(m_maxHosts) + tr(").\n\"") +
+                        tr("Vous avez dépassé la limite du nombre d'hébergeurs autorisés (") + QString::number(m_maxHosts) + ").\n\"" +
                         chk->text() + tr("\", ne sera pas conservé."));
             qDebug() << "Trop d'hébergeurs selectionnés" << chk->text();
 
