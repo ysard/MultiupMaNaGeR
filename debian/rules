@@ -29,9 +29,6 @@ PROJECT_NAME=multiup-manager
 %:
 	dh $@ --parallel
 
-	# Build translations (.qm file)
-	lrelease multiupv2.pro
-
 override_dh_auto_configure:
 	# Load environment variables listed by dpkg-buildflags (all dh_auto* make this)
 	dh_auto_configure

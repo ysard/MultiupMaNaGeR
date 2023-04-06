@@ -1,4 +1,3 @@
 multiup usr/bin
 misc/multiup-manager.desktop usr/share/applications
 misc/multiup.png usr/share/pixmaps
-multiupManager_en.qm /usr/share/multiup/locale
