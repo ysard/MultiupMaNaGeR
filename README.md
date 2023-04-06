@@ -10,13 +10,18 @@ where you will be able to see and download your file on various hosting-file web
 # How to use it ?
 
 You should have Qt 5 libraries installed on your system.
+Releases that contain all dependencies are available [here](https://github.com/ysard/MultiupMaNaGeR/releases).
 
 Then, just execute `multiup` binary.
 
-For translations, have a look at
-[Translations](https://github.com/ysard/MultiupMaNaGeR#translations) chapter.
+Simple command line options are available:
+
+    $ multiup --login [account_name] --password [password] --read [files]
 
 You can configure your multiup.org account and get your links online.
+
+For the translations, have a look at
+[Translations](https://github.com/ysard/MultiupMaNaGeR#translations) chapter.
 
 Settings of the application are stored in a `config.ini` file, which is on the same
 directory as the executable on Windows, and in `~/Multiupv2/` directory on GNU/Linux.
@@ -35,7 +40,7 @@ You should definitely read the insructions about it:
 - [Build with vcpkg](https://github.com/curl/curl/blob/master/docs/INSTALL.md#building-using-vcpkg)
 - [libcurl build on Windows](https://github.com/curl/curl/blob/master/docs/INSTALL.md#windows)
 
-The packages of libcurl are here: https://curl.se/download.html
+The packages of libcurl are here: https://curl.se/download.html.
 Currently, the version 7.29 has been tested successfully.
 
 The build command with Mingw32 was:
@@ -109,9 +114,7 @@ or manually installed).
 
 # Translations
 
-For now, French (default) and English languages are supported.
-`multiupManager_en.qm` must be on the same folder as the executable
-if you want to have a translation of the application.
+For now, French (default), English and Spanish languages are supported.
 
 Note : Anly help about this is appreciated !
 
