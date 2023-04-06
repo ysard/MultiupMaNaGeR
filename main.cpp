@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
     bool translation_status = false;
     if (locale == "es")
         translation_status = translator.load(":/i18n/multiupManager_es");
-    if (locale != "fr" || !translation_status)
+    if (locale != "fr" && !translation_status)
         translation_status = translator.load(":/i18n/multiupManager_en");
-    qDebug() << "Translations loading status:" << translation_status;
+    qDebug() << "Translations loading status:" << translation_status << locale;
     a.installTranslator(&translator);
 
     //qDebug()<<"SSL version use for build: "<< QSslSocket::sslLibraryBuildVersionString();
