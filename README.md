@@ -2,10 +2,10 @@ Multiup MaNaGeR is a software written in Qt/C++ that can send files to the multi
 
 The operation is simple: You upload a file on our server, this one is uploaded automatically,
 on several hosting-file websites. At the end, you get a link like:
-<code>https://www.multiup.org/download/RANDOM_NUMBERS/FILE_NAME</code>,
+`https://www.multiup.org/download/RANDOM_NUMBERS/FILE_NAME`,
 where you will be able to see and download your file on various hosting-file websites.
 
-<img alt="Website screenshot" src="./doc/prez.png" width="800" />
+<img alt="screenshot" src="./doc/prez.png" width="800" />
 
 # How to use it ?
 
@@ -17,6 +17,9 @@ Then, just execute `multiup` binary.
 Simple command line options are available:
 
     $ multiup --login [account_name] --password [password] --read [files]
+
+If you are more insterested by a full command line program, take a look at
+[multiup-cli](https://github.com/ysard/multiup-cli).
 
 You can configure your multiup.org account and get your links online.
 
