@@ -1,4 +1,5 @@
 .directory
+poc/*
 
 # C++ objects and libs
 *.slo
@@ -53,7 +54,7 @@ CMakeLists.txt.user*
 # Purge Debian packaging temp files
 debian/files
 debian/*.debhelper*
-debian/*.substvars
+debian/substvars
 debian/mind-the-gap*
 obj-*/
 .pc
