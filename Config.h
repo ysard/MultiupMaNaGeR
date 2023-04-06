@@ -46,7 +46,12 @@
 #define URL_RECUPERATION_ICONES "https://multiup.org/assets/hosts/"
 
 // --- User-Agent
-#define USER_AGENT "Mozilla/5.0 (Windows NT 5.1; rv:10.0.2) Gecko/20100101 Firefox/10.0.2"
+#ifdef LINUX
+    #define USER_AGENT "Mozilla/5.0 (Linux) MultiupMaNaGeR/" VERSION
+#endif
+#ifdef WINDOWS
+    #define USER_AGENT "Mozilla/5.0 (Windows) MultiupMaNaGeR/" VERSION
+#endif
 
 // --- Custom directory in ~/ for the application on GNU/Linux
 #ifdef LINUX
