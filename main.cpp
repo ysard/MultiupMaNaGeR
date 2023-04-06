@@ -17,6 +17,7 @@
  */
 #include "mainwindow.h"
 #include <QtGui>
+#include <QSslSocket>
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +34,10 @@ int main(int argc, char *argv[])
         translation_status = translator.load(":/i18n/multiupManager_en");
     qDebug() << "Translations loading status:" << translation_status;
     a.installTranslator(&translator);
+
+    //qDebug()<<"SSL version use for build: "<< QSslSocket::sslLibraryBuildVersionString();
+    //qDebug()<<"SSL version use for run-time: "<< QSslSocket::sslLibraryVersionNumber();
+
 
     MainWindow w;
     w.show();
