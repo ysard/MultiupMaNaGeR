@@ -30,7 +30,7 @@ win32:QT += winextras
 TARGET = multiup
 TEMPLATE = app
 
-! CONFIG(debug, debug|release) {
+CONFIG(release, debug|release) {
     # Remove logging on Release mode
     DEFINES += QT_NO_DEBUG_OUTPUT
     DEFINES += QT_NO_WARNING_OUTPUT
