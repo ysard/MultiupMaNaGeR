@@ -24,7 +24,7 @@
     #define LINUX
 #endif
 
-#define VERSION "0.4.5"
+#define VERSION "0.4.6_dev"
 #define URL_MULTIUP "https://www.multiup.org/"
 
 // --- GitHub urls
