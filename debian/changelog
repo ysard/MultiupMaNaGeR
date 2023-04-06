@@ -1,3 +1,13 @@
+multiup-manager (0.4.6-dev) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * Updated the code base for Windows
+  * Added translations for Spanish
+  * Automatic inclusion of translations
+  * Fixed creation of cache folder for host icons
+
+ -- Ysard <ysard@users.noreply.github.com>  Thu, 05 Apr 2023 05:21:13 +0200
+
 multiup-manager (0.4.5-1) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
