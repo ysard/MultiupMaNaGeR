@@ -46,4 +46,4 @@ override_dh_auto_install:
 	dh_auto_install
 
 override_dh_shlibdeps:
-	dh_shlibdeps -l/media/DATA/Qt5.7.0/5.7/gcc_64/lib --dpkg-shlibdeps-params=--ignore-missing-info
+	dh_shlibdeps -l/media/DATA/Qt_linux/5.12.2/gcc_64/lib/ --dpkg-shlibdeps-params=--ignore-missing-info
