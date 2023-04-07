@@ -61,25 +61,13 @@ QString randomName()
 {
     // Renvoit un QString comportant une chaine de 12 caractères aléatoires, choisis parmi 62
 
-    //qDebug() << qrand();
     //Chaine de 62 caractères prédéfinis
     QString chaine = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     QString resultat;
 
-    // Initialisation de qsrand() avec une graine,
-    //qrand() récupère a priori cette initialisation pour générer des nombres..
-    // De toute façon sans ça, les nombres générés ne sont pas aléatoire d'un lancement de l'app à l'autre...
-    // => http://www.siteduzero.com/forum-83-415615-p1-qt-generer-un-nombre-au-hasard.html
-    qsrand(QDateTime::currentDateTime().toTime_t());
-
-    for (int i = 0; i< 12; i++)
-    {
-        //qDebug() << qrand() % ((61 + 1) - 0) + 0;
-        resultat.append(chaine.at(qrand() % ((61 + 1) - 0) + 0));
-
+    for (int i = 0; i < 20; i++) {
+        resultat.append(chaine.at(QRandomGenerator::global()->bounded(62)));
     }
-    //qDebug() << resultat;
-
     return resultat;
 }
 
