@@ -221,7 +221,7 @@ private:
     int                     m_row;
     qint64                  m_sizeTot;
     qint64                  m_sizeFaite;
-    QTime                   m_chronometre;
+    QElapsedTimer           m_chronometre;
     QTimer                  *m_timer;
     QProgressBar            *m_item;
 
