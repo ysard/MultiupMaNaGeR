@@ -1081,12 +1081,14 @@ void MainWindow::on_boutonSavParametres_clicked()
     settings.setValue("Password", m_password->text());
     settings.endGroup();
 
-    #ifdef WINDOWS
-        settings.setValue("Compression/rar", "\"C:\\Program Files\\WinRAR\\Rar.exe\"");
-    #endif
-    #ifdef LINUX
-        settings.setValue("Compression/rar", "rar");
-    #endif
+    if (m_cheminWinRar.isEmpty()) {
+        #ifdef WINDOWS
+            settings.setValue("Compression/rar", "C:\\Program Files\\WinRAR\\Rar.exe");
+        #endif
+        #ifdef LINUX
+            settings.setValue("Compression/rar", "rar");
+        #endif
+    }
 
     settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
     settings.setValue("Compression/Password", lineEditCompressMdp->text());
