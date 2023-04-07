@@ -26,17 +26,33 @@ You can configure your multiup.org account and get your links online.
 For the translations, have a look at
 [Translations](https://github.com/ysard/MultiupMaNaGeR#translations) chapter.
 
-Settings of the application are stored in a `config.ini` file, which is on the same
+Settings of the application, once saved, are stored in a `config.ini` file, which is on the same
 directory as the executable on Windows, and in `~/Multiupv2/` directory on GNU/Linux.
-
-TODO: Static linking of Qt for Windows systems.
 
 
 # Windows build
 
-The project is based on Qt 5.12.1 (at least).
+The project is based on Qt 5.12.1 (at least, but should work starting 5.10).
 
-`libcurl` is the only dependency, and it have to be compiled before Multiup MaNaGeR.
+It is VERY strongly recommended to build the application in a stable environment
+like MSYS2, and to use the same compiler for all parts of the project (qt, libcurl,
+openssl). If you do not follow these recommendations, hell will come your way.
+
+**Note about static linking**:
+Note that we compile the application in static mode. You are free to use a shared
+version which will greatly simplify the process.
+Static mode compilations are not for the faint of heart and you could lose many
+days of your life :p
+MSYS2 provides Qt static binaries which saves you from having to compile the framework
+yourself (believe me you don't want to do that).
+
+Some doc here:
+
+- https://wiki.qt.io/Compiling_OpenSSL_with_MinGW
+- https://wiki.qt.io/MinGW-64-bit
+
+
+`libcurl` is the only dependency, that must be compiled before Multiup MaNaGeR.
 You should definitely read the insructions about it:
 
 - <https://curl.se/docs/install.html>
@@ -44,15 +60,28 @@ You should definitely read the insructions about it:
 - [libcurl build on Windows](https://github.com/curl/curl/blob/master/docs/INSTALL.md#windows)
 
 The packages of libcurl are here: https://curl.se/download.html.
-Currently, the version 7.29 has been tested successfully.
+Currently, the versions 7.29 up to 7.88.1 has been tested successfully.
 
-The build command with Mingw32 was:
+Minimal required MSYS2 packages for the whole project:
 
-    cmake -G "MinGW Makefiles" .. \
-        -DCURL_STATICLIB=ON -DHTTP_ONLY=ON -DBUILD_CURL_TESTS=OFF -DBUILD_CURL_EXE=OFF \
-        -DCMAKE_BUILD_TYPE=Release -DCMAKE_USE_LIBSSH2=OFF -DCMAKE_USE_OPENSSL=OFF \
-        -DENABLE_UNIX_SOCKETS=OFF -DCURL_ZLIB=OFF -DENABLE_MANUAL=OFF
-    mingw32-make
+    # Qt specific version was taken here: https://repo.msys2.org/mingw/mingw64/
+    pacman -U mingw-w64-x86_64-qt5-static-5.15.2-4-any.pkg.tar.zst
+    pacman -S make
+    pacman -S mingw-w64-x86_64-toolchain
+
+
+The build command of libcurl was:
+
+    ./configure --disable-shared --enable-static --with-openssl --without-winssl --without-cyassl \
+    --without-gnutls --without-mbedtls --without-axtls --without-libpsl --without-libssh2 \
+    --without-librtmp --without-winidn --without-libidn2 --without-nghttp2 --disable-ldap \
+    --disable-ldaps --disable-unix-sockets --disable-manual --disable-gopher --disable-smtp \
+    --disable-smb --disable-imap --disable-pop3 --disable-tftp --disable-ftp --disable-telnet \
+    --disable-rtsp --disable-dict --disable-mqtt --disable-ntlm --disable-ntlm-wb --disable-tls-srp \
+    --without-brotli
+    make
+    # I personally avoid 'make install' to avoid conflicts with libcurl installed in msys environment...
+
 
 At this point you should have a `libcurl.a` file which is required for static linking.
 Now, edit the file `multiupv2.pro` to point to the folders containing the headers and the lib.
@@ -66,13 +95,15 @@ Just load the multiupv2.pro in the IDE Qt Creator as a new project.
 - Manually:
 
 ```
-    # If required:
-    set PATH=%PATH%;<path_to_QtSDK>\mingw\bin;<path_to_QtSDK>\Desktop\Qt\<Qt_version>\mingw\bin
+    # If required, update your path:
+    #set PATH=%PATH%;<path_to_QtSDK>\mingw\bin;<path_to_QtSDK>\Desktop\Qt\<Qt_version>\mingw\bin
+    #or in msys2:
+    #export PATH="/e/msys64/mingw64/bin:/e/msys64/mingw64/qt5-static/bin/:$PATH"
 
     mkdir build
     cd build
     qmake ../multiupv2.pro
-    mingw32-make release
+    make release
 ```
 
 Note: Any help to simplify/update this process is appreciated !
@@ -81,7 +112,7 @@ Note: Any help to simplify/update this process is appreciated !
 
 ## Compilation
 
-The project is based on Qt 5.12.1 (at least).
+The project is based on Qt 5.12.1 (at least, but should work starting 5.10).
 
 Other requirements for Debian like systems: `libcurl4-gnutls-dev` or `libcurl4-openssl-dev`
 
@@ -113,7 +144,7 @@ Get & install your .deb file:
 
 You may have to change/delete the `override_dh_shlibdeps` directive of `debian/rules`
 according to your installation of Qt framework (installed from system repositories
-or manually installed).
+(remove it) or manually installed (update it)).
 
 # Translations
 
