@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
     qDebug() << "Translations loading status:" << translation_status << locale;
     a.installTranslator(&translator);
 
-    //qDebug()<<"SSL version use for build: "<< QSslSocket::sslLibraryBuildVersionString();
-    //qDebug()<<"SSL version use for run-time: "<< QSslSocket::sslLibraryVersionNumber();
+    qDebug()<<"SSL version use for build: "<< QSslSocket::sslLibraryBuildVersionString();
+    qDebug()<<"SSL version use for run-time: "<< QSslSocket::sslLibraryVersionNumber();
 
 
     MainWindow w;
