@@ -24,7 +24,7 @@ clean:
 deb:
 	./make_deb_package.sh
 
-gnulinux_archive: poc
+gnulinux_archive: compile poc
 	@echo Build archive for $(RELEASE_NAME)
 	tar cjvf poc/multiup-manager_gnulinux_$(RELEASE_NAME).tar.gz ./build/multiup
 
