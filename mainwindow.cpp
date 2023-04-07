@@ -1076,24 +1076,24 @@ void MainWindow::on_boutonSavParametres_clicked()
     QSettings settings(m_cheminSettingsFile, QSettings::IniFormat);
 
     // Sauvegarde des identifiants
-    settings.beginGroup("Identifiants");
-    settings.setValue("Login", m_login->text());
-    settings.setValue("Password", m_password->text());
+    settings.beginGroup("login");
+    settings.setValue("username", m_login->text());
+    settings.setValue("password", m_password->text());
     settings.endGroup();
 
     if (m_cheminWinRar.isEmpty()) {
         #ifdef WINDOWS
-            settings.setValue("Compression/rar", "C:\\Program Files\\WinRAR\\Rar.exe");
+            settings.setValue("compression/rar_binary_path", "C:\\Program Files\\WinRAR\\Rar.exe");
         #endif
         #ifdef LINUX
-            settings.setValue("Compression/rar", "rar");
+            settings.setValue("compression/rar_binary_path", "rar");
         #endif
     }
 
-    settings.setValue("Compression/Dossier_Sortie", lineEditCompressDest->text());
-    settings.setValue("Compression/Password", lineEditCompressMdp->text());
+    settings.setValue("compression/output_path", lineEditCompressDest->text());
+    settings.setValue("compression/password", lineEditCompressMdp->text());
 
-    settings.setValue("Misc/check_update", checkBoxCheckUpdate->isChecked());
+    settings.setValue("misc/check_update", checkBoxCheckUpdate->isChecked());
 
     boutonSavParametres->setText(tr("Recharger"));
     m_configParametres = true;
@@ -1109,15 +1109,15 @@ void MainWindow::readSettings()
 
     QSettings settings(m_cheminSettingsFile, QSettings::IniFormat);
 
-    m_login->setText(settings.value("Identifiants/Login").toString());
-    m_password->setText(settings.value("Identifiants/Password").toString());
+    m_login->setText(settings.value("login/username").toString());
+    m_password->setText(settings.value("login/password").toString());
 
-    m_cheminWinRar = settings.value("Compression/rar").toString();
-    lineEditCompressDest->setText(settings.value("Compression/Dossier_Sortie").toString());
-    lineEditCompressMdp->setText(settings.value("Compression/Password").toString());
-    //qDebug() << "Resultats : " << m_login->text() << m_password->text() << m_cheminWinRar;
+    m_cheminWinRar = settings.value("compression/rar_binary_path").toString();
+    lineEditCompressDest->setText(settings.value("compression/output_path").toString());
+    lineEditCompressMdp->setText(settings.value("compression/password").toString());
+    qDebug() << "Settings loaded : " << m_login->text() << m_password->text() << m_cheminWinRar;
 
-    checkBoxCheckUpdate->setChecked(settings.value("Misc/check_update").toBool());
+    checkBoxCheckUpdate->setChecked(settings.value("misc/check_update").toBool());
 }
 
 void MainWindow::on_boutonCompressSrc_clicked()
