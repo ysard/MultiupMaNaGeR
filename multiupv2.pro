@@ -36,46 +36,67 @@ CONFIG(release, debug|release) {
     DEFINES += QT_NO_WARNING_OUTPUT
     message(Release mode is active!)
 }
+# Known platforms
+# - win32 mingw
+# - linux unix posix
+message(Platform detected : $$QMAKE_PLATFORM)
 
-#CURL unix
-#unix:INCLUDEPATH += /usr/include/curl
-#unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include
-#unix:INCLUDEPATH += /media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/include/curl
-#unix:LIBS += -L/media/DATA/Projets/multiupv2/dependances-developpement/curl-7.29.0/lib
+# Detection & configuration of MSYS env
+QTPREFIX=$$[QT_INSTALL_PREFIX]
+# Ex: E:/msys64/mingw64/qt5-static
+message(Qt kit used: $$QTPREFIX)
+MSYS_DETECTION = $$find(QTPREFIX, "msys")
+count(MSYS_DETECTION, 1) {
+    message(MSYS env detected!)
+    MSYS_PREFIX = "$$QTPREFIX/../.."
+    message(MSYS_PREFIX: $$MSYS_PREFIX)
+}
+
+# Curl dependency for Windows
+# Note: Depending on the options used when compilation of curl you may be
+# expected to use the following flags:
+# -lidn -lssl -lcrypto -lrt -lssl -lz -lrtmp -lwldap32 -lws2_32
+count(MSYS_DETECTION, 1) {
+    # Use manually compiled version of libcurl, without useless dependencies
+    # This lib is NOT installed in msys env (to avoid conflicts).
+    win32:INCLUDEPATH += E:\curl-7.88.1\include \
+    win32:INCLUDEPATH += E:\curl-7.88.1\include\curl
+    win32:LIBS += -L'E:\curl-7.88.1\lib\.libs'
+    win32:LIBS += -lcurl -lbcrypt -ladvapi32 -lcrypt32 -lssl -lcrypto -lssl -lcrypto -lgdi32 -lzstd -lz -lws2_32
+} else {
+    # Legacy compilation toolchain
+    # With mingw32 :
+    win32:INCLUDEPATH += dependances-developpement\curl-7.28.1-devel-mingw32\include
+    win32:INCLUDEPATH += dependances-developpement\curl-7.28.1-devel-mingw32\include\curl
+    # Absolute path is mandatory for linking step
+    win32:LIBS += -L"D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\lib"
+    win32:LIBS += -L"Z:\media\DATA\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\lib"
+    win32:LIBS += -lcurl -lwldap32 -lws2_32
+
+    # With msvc (draft):
+    #win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc \
+    #win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\include\curl \
+    #win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\lib\Release
+}
+
+# Curl dependency for Unix systems
+# Use system dev version
 unix:LIBS += -lcurl
-#-lidn -lssl -lcrypto -lrt -lssl -lz -lrtmp (selon les restrictions lors de la compilation de curl..)
 
-
-#CURL windows
-# Avec mingw32 :
-win32:INCLUDEPATH += D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\include \
-win32:INCLUDEPATH += D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\include\curl
-
-# Avec msvc :
-#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc \
-#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\include\curl \
-#win32:INCLUDEPATH += libcurl-7.19.3-win32-ssl-msvc\lib\Release
-
-win32:LIBS += -L"D:\Projets\multiupv2\dependances-developpement\curl-7.28.1-devel-mingw32\lib"
-#revoir la lib ici..-lws2_32  ptetre aussi... -lwldap32 ??
-win32:LIBS += -lcurl -lwldap32 -lws2_32
-
-# Pour les libraries CURL en static Windows/Linux
+# Mandatory for static libcurl
+# Works for Windows & GNU/Linux, but we make a static compilation only for Windows.
 win32:DEFINES += CURL_STATICLIB
-win32:DEFINES += HTTP_ONLY
 
-
-
-
-#QT
-# A VOIR
-##win32:LIBS += -L"G:\QtSDK\mingw\lib"
-#CONFIG += static
-#QMAKESPEC=win32-g++
-#QMAKE_LFLAGS += -static-libgcc
+# Global paths for MSYS env
+count(MSYS_DETECTION, 1) {
+    win32:INCLUDEPATH += $$MSYS_PREFIX/usr/include
+    win32:INCLUDEPATH += $$MSYS_PREFIX/usr/include/openssl
+    win32:LIBS += -L'$$MSYS_PREFIX/usr/lib'
+    win32:LIBS += -L'$$MSYS_PREFIX/mingw64/lib'
+}
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     Outils.cpp \
     fenvoirmiseajour.cpp \
     FenLiens.cpp \
@@ -87,7 +108,7 @@ SOURCES += main.cpp\
     ObjectRecupHebergeursIcones.cpp \
     InfoNewVersion.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS += mainwindow.h \
     Outils.h \
     fenvoirmiseajour.h \
     FenLiens.h \
@@ -101,7 +122,7 @@ HEADERS  += mainwindow.h \
     version.h \
     InfoNewVersion.h
 
-FORMS    += mainwindow.ui \
+FORMS += mainwindow.ui \
     fenvoirmiseajour.ui \
     InfoNewVersion.ui
 
