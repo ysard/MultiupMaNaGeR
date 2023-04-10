@@ -31,7 +31,7 @@ namespace Ui {
 class FenVoirMiseAJour : public QDialog {
     Q_OBJECT
 public:
-    FenVoirMiseAJour(QWidget *parent = 0);
+    FenVoirMiseAJour(QWidget *parent = nullptr);
     ~FenVoirMiseAJour();
 
 protected:

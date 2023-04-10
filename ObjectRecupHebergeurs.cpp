@@ -168,7 +168,6 @@ void RecupHebergeurs::finRecupHebergeurs()
                                         m_statutConnexion = Error;
                                         this->finProcedure();
                                         return;
-                                        break;
     }
 
     /* V4

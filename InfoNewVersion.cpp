@@ -36,15 +36,18 @@ InfoNewVersion::InfoNewVersion(bool hidden, QWidget *parent) : QDialog(parent), 
     check_update();
 }
 
+
 InfoNewVersion::~InfoNewVersion()
 {
     delete ui;
 }
 
+
 void InfoNewVersion::check_update()
 {
     // Build query
     QNetworkRequest query;
+
     query.setRawHeader("User-Agent", USER_AGENT);
     query.setRawHeader("Accept-Language", "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
     query.setRawHeader("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
@@ -57,9 +60,9 @@ void InfoNewVersion::check_update()
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(endOfQuery(QNetworkReply*)));
 }
 
+
 void InfoNewVersion::endOfQuery(QNetworkReply *reply)
 {
-
     qDebug() << "InfoNewVersion :: EndOfQuery";
 
     switch (reply->error()) {
@@ -70,7 +73,6 @@ void InfoNewVersion::endOfQuery(QNetworkReply *reply)
         default :                       qDebug() << "InfoNewVersion :: Error : " << reply->errorString();
                                         reply->deleteLater();
                                         return;
-                                        break;
     }
 
     // Parse the webpage
