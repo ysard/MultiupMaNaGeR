@@ -22,6 +22,7 @@
 #include <QPushButton>
 #include <QDialog>
 #include <QtNetwork>
+#include <QJsonDocument>
 #include "ui_InfoNewVersion.h"
 #include "Config.h"
 
@@ -40,7 +41,7 @@ public:
 
 private slots:
     void endOfQuery(QNetworkReply *reply);
-    void parseWebpage(QString data);
+    void parseWebpage(QByteArray data);
 
 private:
     Ui::InfoNewVersion      *ui;

@@ -43,10 +43,10 @@ void InfoNewVersion::check_update()
     // Build query
     QNetworkRequest query;
     query.setRawHeader("User-Agent", USER_AGENT);
-    query.setRawHeader("Accept-Language","fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
-    query.setRawHeader("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-    query.setRawHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    query.setUrl(QString(URL_GITHUB_RELEASES));
+    query.setRawHeader("Accept-Language", "fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3");
+    query.setRawHeader("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+    query.setRawHeader("Content-Type", "application/json");
+    query.setUrl(QString(URL_API_GITHUB_RELEASES));
 
     // Init QNetworkAccessManager
     m_networkAccessManager = new QNetworkAccessManager;
@@ -71,34 +71,69 @@ void InfoNewVersion::endOfQuery(QNetworkReply *reply)
     }
 
     // Parse the webpage
-    QString temp = reply->readAll();
+    QByteArray temp = reply->readAll();
     reply->deleteLater();
     parseWebpage(temp);
 }
 
-void InfoNewVersion::parseWebpage(QString data)
+
+void InfoNewVersion::parseWebpage(QByteArray data)
 {
-    // Extract versions from the webpage, and update the current QDialog.
+    // Extract release informations from the given JSON doc and update the current QDialog.
+    // The last release is always the first in the list (index 0)
+    // The version is in the 'tag_name' key. The changelog message is in the 'body' key.
+    // Ex: tag_name: "0.4.6-dev"
+    // Assets are listed in 'assets' key. Each of them has a 'browser_download_url' key
+    // with the full url link.
 
-    //qDebug() << data;
-    QRegularExpression re(REGEX_VERSION_GITHUB);
-    // find all the occurrences of a given regular expression
-    QRegularExpressionMatchIterator i = re.globalMatch(data);
-    QRegularExpressionMatch match;
-    while (i.hasNext()) {
-        match = i.next();
-        // Full link, version:
-        // qDebug() << match.captured(1) << match.captured(2);
+    QJsonDocument json_data = QJsonDocument::fromJson(data);
+    //qDebug() << json_data;
 
-        // Check if the new version is greater than current version
-        // (in lexicographic order)
-        if (match.captured(2) > VERSION) {
-            ui->label->setText(
-                        tr("Une mise à jour a été trouvée !<br>"
-                           "Cliquez <a href=\"%1\">ici</a> pour télécharger la nouvelle version.").arg(URL_GITHUB_RELEASES));
-            return;
-        }
+    if (json_data.isNull()) {
+        ui->label->setText(tr("Une erreur a été rencontrée. Veuillez réessayer plus tard."));
+        return;
     }
 
+    QJsonObject lastRelease = json_data[0].toObject();
+    QString     lastVersion = lastRelease["tag_name"].toString();
+    QJsonArray  assets      = lastRelease["assets"].toArray();
+
+    qDebug() << "Last version published:" << lastVersion;
+
+    QVersionNumber version = QVersionNumber::fromString(lastVersion, nullptr);
+    if (version <= QVersionNumber::fromString(VERSION, nullptr)) {
+        ui->label->setText(tr("Multiup MaNaGeR est à jour."));
+        return;
+    }
+
+    // Use a string pattern to detect if the release contains
+    // an asset compatible with the current platform
+#ifdef LINUX
+    QString searchedPattern = "linux";
+#elif WINDOWS
+    QString searchedPattern = "win";
+#endif
+
+    QJsonArray::const_iterator assets_it = assets.constBegin();
+    while (assets_it != assets.constEnd()) {
+        QJsonObject asset    = assets_it->toObject();
+        QString     assetUrl = asset["browser_download_url"].toString();
+        qDebug() << assetUrl;
+
+        ++assets_it;
+
+        if (!assetUrl.contains(searchedPattern, Qt::CaseInsensitive)) {
+            continue;
+        }
+
+        ui->label->setText(
+            tr("Une mise à jour a été trouvée !<br>"
+               "Cliquez <a href=\"%1\">ici</a> pour télécharger la nouvelle version.").arg(
+                    lastRelease["html_url"].toString()
+                )
+            );
+        return;
+    }
+    // No update available for this platform
     ui->label->setText(tr("Multiup MaNaGeR est à jour."));
 }

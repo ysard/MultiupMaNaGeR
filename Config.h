@@ -29,13 +29,7 @@
 
 // --- GitHub urls
 #define URL_GITHUB_LICENSE "https://github.com/ysard/MultiupMaNaGeR/blob/master/LICENSE"
-#define URL_GITHUB_RELEASES "https://github.com/ysard/MultiupMaNaGeR/releases"
-#ifdef LINUX
-    #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*linux-v(.*)\\.zip)\""
-#endif
-#ifdef WINDOWS
-    #define REGEX_VERSION_GITHUB "<a href=\"([\\/\\w \\.-]*windows-v(.*)\\.zip)\""
-#endif
+#define URL_API_GITHUB_RELEASES "https://api.github.com/repos/ysard/MultiupMaNaGeR/releases"
 
 // --- ObjectConnexion.cpp
 #define URL_CONNEXION_UTILISATEUR "https://www.multiup.org/api/login"
