@@ -35,7 +35,7 @@ class InfoNewVersion : public QDialog
     Q_OBJECT
 
 public:
-    explicit InfoNewVersion(QWidget *parent = 0);
+    explicit InfoNewVersion(bool hidden=false, QWidget *parent = nullptr);
     ~InfoNewVersion();
     void check_update();
 
@@ -44,6 +44,7 @@ private slots:
     void parseWebpage(QByteArray data);
 
 private:
+    bool                    m_hidden;
     Ui::InfoNewVersion      *ui;
     QNetworkAccessManager   *m_networkAccessManager;
 };

@@ -254,7 +254,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     readSettings();
 
     if (checkBoxCheckUpdate->isChecked())
-        checkUpdateWindow();
+        checkUpdateWindow(true);
 
     // Actualisation des champs et auto-connexion
     // Pas d'alerte si l'utilisateur n'a pas configuré config.ini
@@ -993,12 +993,12 @@ void MainWindow::on_descriptionText_linkActivated(const QString &link)
         checkUpdateWindow();
 }
 
-void MainWindow::checkUpdateWindow()
+void MainWindow::checkUpdateWindow(bool hidden)
 {
     // Display the QDialog that checks if there is an available update
-    InfoNewVersion *window = new InfoNewVersion(this);
+    InfoNewVersion *window = new InfoNewVersion(hidden, this);
     connect(window, SIGNAL(finished(int)), window, SLOT(deleteLater()));
-    window->show();
+    window->hide();
 }
 
 void MainWindow::readCommandLineArguments()

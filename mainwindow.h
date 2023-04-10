@@ -123,7 +123,7 @@ public slots:
     void receptionSelectionServeurEtat(int etatSelectionServeur);
 
     void on_descriptionText_linkActivated(const QString &link);
-    void checkUpdateWindow();
+    void checkUpdateWindow(bool hidden=false);
 
     void on_boutonCompressSrc_clicked();
     void on_boutonCompressDest_clicked();

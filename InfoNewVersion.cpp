@@ -17,11 +17,14 @@
  */
 #include "InfoNewVersion.h"
 
-InfoNewVersion::InfoNewVersion(QWidget *parent) : QDialog(parent), ui(new Ui::InfoNewVersion)
+InfoNewVersion::InfoNewVersion(bool hidden, QWidget *parent) : QDialog(parent), ui(new Ui::InfoNewVersion)
 {
     ui->setupUi(this);
 
     // qDebug() << "InfoNewVersion :: Nous sommes dans :" << Q_FUNC_INFO << QThread::currentThreadId();
+
+    // Determines whether or not the interface should be displayed
+    m_hidden = hidden;
 
     // Open links using QDesktopServices::openUrl()
     // instead of emitting the linkActivated() signal
@@ -86,6 +89,9 @@ void InfoNewVersion::parseWebpage(QByteArray data)
     // Assets are listed in 'assets' key. Each of them has a 'browser_download_url' key
     // with the full url link.
 
+    if (!m_hidden)
+        this->setHidden(false);
+
     QJsonDocument json_data = QJsonDocument::fromJson(data);
     //qDebug() << json_data;
 
@@ -103,6 +109,8 @@ void InfoNewVersion::parseWebpage(QByteArray data)
     QVersionNumber version = QVersionNumber::fromString(lastVersion, nullptr);
     if (version <= QVersionNumber::fromString(VERSION, nullptr)) {
         ui->label->setText(tr("Multiup MaNaGeR est à jour."));
+        if (m_hidden)
+            this->close();
         return;
     }
 
@@ -132,8 +140,15 @@ void InfoNewVersion::parseWebpage(QByteArray data)
                     lastRelease["html_url"].toString()
                 )
             );
+
+        // In hidden mode, we must show the dialog
+        if (m_hidden)
+            this->setHidden(false);
+
         return;
     }
     // No update available for this platform
     ui->label->setText(tr("Multiup MaNaGeR est à jour."));
+    if (m_hidden)
+        this->close();
 }
