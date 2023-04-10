@@ -98,6 +98,10 @@ p, li { white-space: pre-wrap; }
         <source>Multiup MaNaGeR est à jour.</source>
         <translation>Multiup MaNaGeR is up to date.</translation>
     </message>
+    <message>
+        <source>Une erreur a été rencontrée. Veuillez réessayer plus tard.</source>
+        <translation>An error has been encountered. Please try again later.</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

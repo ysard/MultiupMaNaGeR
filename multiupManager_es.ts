@@ -107,12 +107,18 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Búsqueda de actualizaciones...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="InfoNewVersion.cpp" line="97"/>
+        <location filename="InfoNewVersion.cpp" line="101"/>
+        <source>Une erreur a été rencontrée. Veuillez réessayer plus tard.</source>
+        <translation>Se ha detectado un error. Por favor, inténtelo de nuevo más tarde.</translation>
+    </message>
+    <message>
+        <location filename="InfoNewVersion.cpp" line="140"/>
         <source>Une mise à jour a été trouvée !&lt;br&gt;Cliquez &lt;a href=&quot;%1&quot;&gt;ici&lt;/a&gt; pour télécharger la nouvelle version.</source>
         <translation>¡Se ha encontrado una actualización! &lt;br&gt; Haga clic en &lt;a href=&quot;%1&quot;&gt; aquí &lt;/a&gt; para descargar la nueva versión.</translation>
     </message>
     <message>
-        <location filename="InfoNewVersion.cpp" line="103"/>
+        <location filename="InfoNewVersion.cpp" line="113"/>
+        <location filename="InfoNewVersion.cpp" line="153"/>
         <source>Multiup MaNaGeR est à jour.</source>
         <translation>MultiUp Manager está actualizado.</translation>
     </message>
@@ -122,7 +128,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainwindow.ui" line="20"/>
         <source>MainWindow</source>
-        <translation>MainWindow</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="39"/>
@@ -136,9 +142,9 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="62"/>
-        <location filename="mainwindow.cpp" line="1659"/>
-        <location filename="mainwindow.cpp" line="1740"/>
-        <location filename="mainwindow.cpp" line="1749"/>
+        <location filename="mainwindow.cpp" line="1661"/>
+        <location filename="mainwindow.cpp" line="1742"/>
+        <location filename="mainwindow.cpp" line="1751"/>
         <source>Upload Anonyme</source>
         <translation>Cargar anónimo</translation>
     </message>
@@ -174,7 +180,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="134"/>
-        <location filename="mainwindow.cpp" line="1840"/>
+        <location filename="mainwindow.cpp" line="1842"/>
         <source>Lancer l&apos;upload !</source>
         <translation>¡Inicie la carga!</translation>
     </message>
@@ -599,7 +605,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.cpp" line="159"/>
-        <location filename="mainwindow.cpp" line="1901"/>
+        <location filename="mainwindow.cpp" line="1903"/>
         <source>MultiUp MaNaGeR : au repos</source>
         <translation>MultiUp MaNaGeR : en reposo</translation>
     </message>
@@ -649,8 +655,8 @@ Les tâches en cours seront perdues !</source>
     <message>
         <location filename="mainwindow.cpp" line="757"/>
         <location filename="mainwindow.cpp" line="762"/>
-        <location filename="mainwindow.cpp" line="1130"/>
-        <location filename="mainwindow.cpp" line="1135"/>
+        <location filename="mainwindow.cpp" line="1132"/>
+        <location filename="mainwindow.cpp" line="1137"/>
         <source>Ouvrir un fichier</source>
         <translation>Abrir un archivo</translation>
     </message>
@@ -686,183 +692,183 @@ MultiUp.exe --login [nom] --read [fichiers]</source>
 MultiUp.exe --login [nombre] --read [archivos]</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1096"/>
+        <location filename="mainwindow.cpp" line="1098"/>
         <source>Recharger</source>
         <translation>Recargar</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1131"/>
-        <location filename="mainwindow.cpp" line="1136"/>
+        <location filename="mainwindow.cpp" line="1133"/>
+        <location filename="mainwindow.cpp" line="1138"/>
         <source>Tous les fichiers (*.*);;Archives (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vidéos (*.avi *.mpg *.mpeg *.mkv *.flv);;Images (*jpg *.jpeg *.png *.bmp)</source>
         <translation>Todos los archivos (*.*);; Archivos (*.rar *.zip *.7z *.iso *.tar *.gz *.bz *.bz2);;Vídeos (*.avi *.mpg *.mpeg *.mkv *.flv);;Imágenes (*jpg *.jpeg *.png *.bmp)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1185"/>
+        <location filename="mainwindow.cpp" line="1187"/>
         <source>Choisir un dossier...</source>
         <translation>Elige una carpeta ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1206"/>
-        <location filename="mainwindow.cpp" line="1211"/>
-        <location filename="mainwindow.cpp" line="1215"/>
-        <location filename="mainwindow.cpp" line="1219"/>
-        <location filename="mainwindow.cpp" line="1223"/>
-        <location filename="mainwindow.cpp" line="1489"/>
+        <location filename="mainwindow.cpp" line="1208"/>
+        <location filename="mainwindow.cpp" line="1213"/>
+        <location filename="mainwindow.cpp" line="1217"/>
+        <location filename="mainwindow.cpp" line="1221"/>
+        <location filename="mainwindow.cpp" line="1225"/>
+        <location filename="mainwindow.cpp" line="1491"/>
         <source>Erreur</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1206"/>
+        <location filename="mainwindow.cpp" line="1208"/>
         <source>Vous devez spécifier le chemin de l&apos;application &apos;rar&apos; dans config.ini !
 (Cliquez sur &quot;Sauvegarder les paramètres&quot; pour y enregistrer un exemple de configuration.)</source>
         <translation>¡Debe especificar la ruta de la aplicación &apos;rar&apos; en config.ini!
 (Haga clic en &quot;Guardar configuración&quot; para guardar allí una configuración de ejemplo.)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1211"/>
+        <location filename="mainwindow.cpp" line="1213"/>
         <source>Veuillez choisir un fichier source !</source>
         <translation>¡Seleccione un archivo de origen!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1215"/>
+        <location filename="mainwindow.cpp" line="1217"/>
         <source>Veuillez choisir un répertoire de destination !</source>
         <translation>¡Elija un directorio de destinos!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1219"/>
+        <location filename="mainwindow.cpp" line="1221"/>
         <source>Veuillez choisir un nom de sortie !</source>
         <translation>¡Seleccione un nombre de archivo!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1223"/>
+        <location filename="mainwindow.cpp" line="1225"/>
         <source>Veuillez choisir le nombre de parties pour le fichier découpé !</source>
         <translation>¡Elija el número de elementos del archivo cortado!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1312"/>
+        <location filename="mainwindow.cpp" line="1314"/>
         <source>Compression échouée</source>
         <translation>Error de compresión</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1312"/>
+        <location filename="mainwindow.cpp" line="1314"/>
         <source>La compression a échoué !</source>
         <translation>¡La compresión ha fallado!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1489"/>
+        <location filename="mainwindow.cpp" line="1491"/>
         <source>Echec de récupération des hébergeurs !
 Veuillez relancer le logiciel.</source>
         <translation>Error en la recuperación de los proveedores.
 Por favor, reinicie el software.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1628"/>
+        <location filename="mainwindow.cpp" line="1630"/>
         <source>Trop d&apos;hébergeurs !</source>
         <translation>¡Demasiados proveedores!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1629"/>
+        <location filename="mainwindow.cpp" line="1631"/>
         <source>Vous avez dépassé la limite du nombre d&apos;hébergeurs autorisés (</source>
         <translation>Ha superado el límite de proveedores permitidos (</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1630"/>
+        <location filename="mainwindow.cpp" line="1632"/>
         <source>&quot;, ne sera pas conservé.</source>
         <translation>&quot;, no se conservará.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1687"/>
+        <location filename="mainwindow.cpp" line="1689"/>
         <source>Erreur login</source>
         <translation>Error de login</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1687"/>
+        <location filename="mainwindow.cpp" line="1689"/>
         <source>Veuillez remplir tous les champs pour vous connecter !</source>
         <translation>¡Llene todos los campos para conectarse!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1739"/>
+        <location filename="mainwindow.cpp" line="1741"/>
         <source>Authentification échouée</source>
         <translation>La autenticación falló</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1739"/>
+        <location filename="mainwindow.cpp" line="1741"/>
         <source>Mauvais login ou mauvais mot de passe</source>
         <translation>Mal inicio de sesión o contraseña mala</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1744"/>
+        <location filename="mainwindow.cpp" line="1746"/>
         <source>Upload en tant que </source>
         <translation>Cargar como </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1748"/>
+        <location filename="mainwindow.cpp" line="1750"/>
         <source>Erreur de connexion</source>
         <translation>Error de conexión</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1748"/>
+        <location filename="mainwindow.cpp" line="1750"/>
         <source>Vérifiez votre connexion internet ou la disponibilité du site...</source>
         <translation>Consulte su conexión a Internet o disponibilidad del sitio ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1781"/>
+        <location filename="mainwindow.cpp" line="1783"/>
         <source>Info</source>
         <translation>Información</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1781"/>
+        <location filename="mainwindow.cpp" line="1783"/>
         <source>Veuillez ajouter des fichiers svp !</source>
         <translation>¡Agregue archivos por favor!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1816"/>
+        <location filename="mainwindow.cpp" line="1818"/>
         <source>Arreter l&apos;upload !</source>
         <translation>¡Detente la carga!</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1912"/>
-        <location filename="mainwindow.cpp" line="1918"/>
+        <location filename="mainwindow.cpp" line="1914"/>
+        <location filename="mainwindow.cpp" line="1920"/>
         <source>&quot;Fin d&apos;upload; Extinction programmée de l&apos;ordinateur...&quot;</source>
         <translation>&quot;Fin de la carga; extinción programada de computadora ...&quot;</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1988"/>
+        <location filename="mainwindow.cpp" line="1990"/>
         <source>Erreur sur multiup.org...</source>
         <translation>Error en multiup.org ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2008"/>
+        <location filename="mainwindow.cpp" line="2010"/>
         <source>Erreur de connexion au site...</source>
         <translation>Error al conectar con el sitio...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2186"/>
+        <location filename="mainwindow.cpp" line="2188"/>
         <source>Temps restant : </source>
         <translation>Tiempo restante : </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2187"/>
+        <location filename="mainwindow.cpp" line="2189"/>
         <source>Fichier en cours : </source>
         <translation>Archivo actual : </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2188"/>
+        <location filename="mainwindow.cpp" line="2190"/>
         <source>Total : </source>
         <translation>Total : </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2189"/>
+        <location filename="mainwindow.cpp" line="2191"/>
         <source>Vitesse moyenne : </source>
         <translation>Velocidad media : </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2333"/>
+        <location filename="mainwindow.cpp" line="2335"/>
         <source>Effacement réussi</source>
         <translation>Supresión correcta</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2335"/>
+        <location filename="mainwindow.cpp" line="2337"/>
         <source>Effacement non fait</source>
         <translation>Supresión no efectuada</translation>
     </message>
