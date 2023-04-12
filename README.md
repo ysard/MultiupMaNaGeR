@@ -26,8 +26,28 @@ You can configure your multiup.org account and get your links online.
 For the translations, have a look at
 [Translations](https://github.com/ysard/MultiupMaNaGeR#translations) chapter.
 
+## Settings
+
 Settings of the application, once saved, are stored in a `config.ini` file, which is on the same
 directory as the executable on Windows, and in `~/Multiupv2/` directory on GNU/Linux.
+
+Example of `config.ini`:
+
+    [compression]
+    output_path=/media/windows
+    password=v3Ry_s3cR3t_p455w0rD
+    rar_binary_path=C:/Program Files/WinRAR/Rar.exe
+
+    [login]
+    password=louisXVI
+    username=macron
+
+    [misc]
+    check_update=true
+
+Note: If you want to use native Windows paths with `\` delimiter, you will have to escape
+them with a second backslash (ex: `C:\\my_directory`. You can write them in a simpler way
+like in the example, i.e. with slash delimiters.
 
 
 # Windows build
