@@ -166,6 +166,15 @@ You may have to change/delete the `override_dh_shlibdeps` directive of `debian/r
 according to your installation of Qt framework (installed from system repositories
 (remove it) or manually installed (update it)).
 
+## Release process
+
+For GNU/Linux, just enter:
+
+    make release
+
+And get the archives in `./poc/` folder.
+
+
 # Translations
 
 For now, French (default), English and Spanish languages are supported.
