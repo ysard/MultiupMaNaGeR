@@ -120,7 +120,7 @@ void InfoNewVersion::parseWebpage(QByteArray data)
     // an asset compatible with the current platform
 #ifdef LINUX
     QString searchedPattern = "linux";
-#elif WINDOWS
+#elif defined(WINDOWS)
     QString searchedPattern = "win";
 #endif
 
