@@ -122,7 +122,7 @@ Just load the multiupv2.pro in the IDE Qt Creator as a new project.
 
     mkdir build
     cd build
-    qmake ../multiupv2.pro
+    qmake ../MultiupMaNaGeR/multiupv2.pro
     make release
 ```
 
