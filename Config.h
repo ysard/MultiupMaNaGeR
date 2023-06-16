@@ -18,6 +18,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "qglobal.h"
 #ifdef Q_OS_WIN
     #define WINDOWS
 #else
