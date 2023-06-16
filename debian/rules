@@ -29,6 +29,11 @@ PROJECT_NAME=multiup-manager
 %:
 	dh $@ --parallel
 
+override_dh_auto_clean:
+	# Delete upstream Makefile to avoid collision with that of debhelper.
+	rm Makefile
+	dh_auto_clean -O--parallel
+
 override_dh_auto_configure:
 	# Load environment variables listed by dpkg-buildflags (all dh_auto* make this)
 	dh_auto_configure
