@@ -1,4 +1,4 @@
-RELEASE_NAME := $(shell git tag | tail -n 1 | head -c -1)
+RELEASE_NAME := $(shell git tag --sort=committerdate | tail -n 1 | head -c -1)
 
 translations:
 	@# Create/update ts files
