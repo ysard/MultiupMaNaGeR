@@ -17,7 +17,7 @@
 #define VER_ORIGINALFILENAME_STR    "multiup.exe"
 #define VER_PRODUCTNAME_STR         "Multiup MaNaGeR"
 
-#define VER_COMPANYDOMAIN_STR       "multiup.org"
+#define VER_COMPANYDOMAIN_STR       "multiup.io"
 
 #endif // VERSION_H
 

@@ -26,19 +26,19 @@
 #endif
 
 #define VERSION "0.4.6"
-#define URL_MULTIUP "https://www.multiup.org/"
+#define URL_MULTIUP "https://multiup.io/"
 
 // --- GitHub urls
 #define URL_GITHUB_LICENSE "https://github.com/ysard/MultiupMaNaGeR/blob/master/LICENSE"
 #define URL_API_GITHUB_RELEASES "https://api.github.com/repos/ysard/MultiupMaNaGeR/releases"
 
 // --- ObjectConnexion.cpp
-#define URL_CONNEXION_UTILISATEUR "https://www.multiup.org/api/login"
-#define URL_RECUPERATION_DROITS "https://www.multiup.org/api/get-list-hosts"
-#define URL_SELECTION_SERVEUR "https://www.multiup.org/api/get-fastest-server"
+#define URL_CONNEXION_UTILISATEUR "https://multiup.io/api/login"
+#define URL_RECUPERATION_DROITS "https://multiup.io/api/get-list-hosts"
+#define URL_SELECTION_SERVEUR "https://multiup.io/api/get-fastest-server"
 
 // --- ObjectRecupIcones.cpp
-#define URL_RECUPERATION_ICONES "https://multiup.org/assets/hosts/"
+#define URL_RECUPERATION_ICONES "https://multiup.io/assets/hosts/"
 
 // --- User-Agent
 #ifdef LINUX

@@ -179,7 +179,7 @@ void searchPrezFile(QString prezFile, QString link)
 
         QTextStream out(&file);
         out << data;
-        out << "\nUp by Multiup MaNaGeR on http://multiup.org\n";
+        out << "\nUp by Multiup MaNaGeR on http://multiup.io\n";
 
     }
 

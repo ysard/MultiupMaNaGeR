@@ -132,8 +132,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="39"/>
-        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur multiup.org</source>
-        <translation>MultiUp MaNaGeR: Cargar software en multiup.org</translation>
+        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur multiup.io</source>
+        <translation>MultiUp MaNaGeR: Cargar software en multiup.io</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="59"/>
@@ -257,8 +257,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="299"/>
-        <source>Permet l&apos;upload sur un compte crée sur multiup.org</source>
-        <translation>Permite cargar a una cuenta creada en multiup.org</translation>
+        <source>Permet l&apos;upload sur un compte crée sur multiup.io</source>
+        <translation>Permite cargar a una cuenta creada en multiup.io</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="320"/>
@@ -431,7 +431,7 @@ p, li { white-space: pre-wrap; }
     &lt;p&gt;&lt;span&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l&apos;état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c&apos;est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c&apos;est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.io.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
     &lt;p&gt;Les comptes premiums sont maintenant disponibles sur la page premium :&lt;/p&gt;
@@ -475,7 +475,7 @@ p, li { white-space: pre-wrap; }
     &lt;p&gt;&lt;span&gt;No, en absoluto. Aquí todo es gratis. Este servicio se le proporciona tal cual y su uso es completamente gratuito. Este servicio se autofinancia con publicidad.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;¿Cómo ayudarnos?&lt;/span&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;span&gt;La financiación es lo que más nos falta en el sitio. En efecto, la infraestructura es cara. Los anuncios nos permiten pagar los servidores, pero a menudo no es suficiente. Puedes ayudarnos haciéndote miembro premium. Esto nos permitirá invertir en nuevos servidores y aumentar las funcionalidades de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;La financiación es lo que más nos falta en el sitio. En efecto, la infraestructura es cara. Los anuncios nos permiten pagar los servidores, pero a menudo no es suficiente. Puedes ayudarnos haciéndote miembro premium. Esto nos permitirá invertir en nuevos servidores y aumentar las funcionalidades de MultiUp.io.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Acerca de las cuentas premium :&lt;/span&gt;&lt;/p&gt;
     &lt;p&gt;Las cuentas premium ya están disponibles en la página premium:&lt;/p&gt;
@@ -676,8 +676,8 @@ Les tâches en cours seront perdues !</source>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="990"/>
-        <source>https://www.multiup.org/fr/premium</source>
-        <translation>https://www.multiup.org/fr/premium</translation>
+        <source>https://multiup.io/fr/premium</source>
+        <translation>https://multiup.io/fr/premium</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="1016"/>
@@ -834,8 +834,8 @@ Por favor, reinicie el software.</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="1990"/>
-        <source>Erreur sur multiup.org...</source>
-        <translation>Error en multiup.org ...</translation>
+        <source>Erreur sur multiup.io...</source>
+        <translation>Error en multiup.io ...</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="2010"/>

@@ -103,7 +103,7 @@ void SelectionServeur::finSelectionServeur()
 
 
     //V3
-    //{"error":"success","server":"http:\/\/sarge.multiup.org\/upload\/index.php"}
+    //{"error":"success","server":"http:\/\/sarge.multiup.io\/upload\/index.php"}
 
     QJsonDocument loadDoc(QJsonDocument::fromJson(temp));
 

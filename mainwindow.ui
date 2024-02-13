@@ -36,7 +36,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>MultiUp MaNaGeR : Logiciel d'upload sur multiup.org</string>
+         <string>MultiUp MaNaGeR : Logiciel d'upload sur multiup.io</string>
         </property>
        </widget>
       </item>
@@ -296,7 +296,7 @@
                   </sizepolicy>
                  </property>
                  <property name="statusTip">
-                  <string>Permet l'upload sur un compte crée sur multiup.org</string>
+                  <string>Permet l'upload sur un compte crée sur multiup.io</string>
                  </property>
                  <property name="text">
                   <string>Connexion</string>
@@ -660,7 +660,7 @@
     &lt;p&gt;&lt;span&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l'état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l'infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c'est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d'investir dans de nouveaux serveurs, et d'accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l'infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c'est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d'investir dans de nouveaux serveurs, et d'accroître les fonctionnalités de MultiUp.io.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
     &lt;p&gt;Les comptes premiums sont maintenant disponibles sur la page premium :&lt;/p&gt;

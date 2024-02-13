@@ -203,8 +203,8 @@ p, li { white-space: pre-wrap; }
         <translation>Login</translation>
     </message>
     <message>
-        <source>Permet l&apos;upload sur un compte crée sur multiup.org</source>
-        <translation>Allows to upload to an account created on multiup.org</translation>
+        <source>Permet l&apos;upload sur un compte crée sur multiup.io</source>
+        <translation>Allows to upload to an account created on multiup.io</translation>
     </message>
     <message>
         <source>Sauvegarder</source>
@@ -558,8 +558,8 @@ Please restart the software.</translation>
         <translation>Stop upload !</translation>
     </message>
     <message>
-        <source>Erreur sur multiup.org...</source>
-        <translation>Error on multiup.org...</translation>
+        <source>Erreur sur multiup.io...</source>
+        <translation>Error on multiup.io...</translation>
     </message>
     <message>
         <source>Erreur de connexion au site...</source>
@@ -586,8 +586,8 @@ Please restart the software.</translation>
         <translation>Unsuccessfully erased</translation>
     </message>
     <message>
-        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur multiup.org</source>
-        <translation>MultiUp MaNaGeR : Upload tool for multiup.org</translation>
+        <source>MultiUp MaNaGeR : Logiciel d&apos;upload sur multiup.io</source>
+        <translation>MultiUp MaNaGeR : Upload tool for multiup.io</translation>
     </message>
     <message>
         <source>Affiche une fenêtre de mise à jour au démarrage de l&apos;application</source>
@@ -602,8 +602,8 @@ Please restart the software.</translation>
         <translation>About</translation>
     </message>
     <message>
-        <source>https://www.multiup.org/fr/premium</source>
-        <translation>https://www.multiup.org/en/premium</translation>
+        <source>https://multiup.io/fr/premium</source>
+        <translation>https://multiup.io/en/premium</translation>
     </message>
     <message>
         <source>&lt;html&gt;
@@ -629,7 +629,7 @@ Please restart the software.</translation>
     &lt;p&gt;&lt;span&gt;Non, absolument pas. Tout ce qui est ici est gratuit. Ce service vous est fourni dans l&apos;état et son utilisation est entièrement gratuite. Ce service est auto-financé par les publicités.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;Comment nous aider ?&lt;/span&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c&apos;est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Le financement est ce qui nous manque le plus au site. En effet, l&apos;infrastructure coûte cher. Les publicités permettent en partie de payer les serveurs mais c&apos;est souvent insuffisant. Vous pouvez nous aider en devenant membre premium. Cela nous permettra d&apos;investir dans de nouveaux serveurs, et d&apos;accroître les fonctionnalités de MultiUp.io.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;À propos des comptes premium :&lt;/span&gt;&lt;/p&gt;
     &lt;p&gt;Les comptes premiums sont maintenant disponibles sur la page premium :&lt;/p&gt;
@@ -673,7 +673,7 @@ Please restart the software.</translation>
     &lt;p&gt;&lt;span&gt;No, absolutely not. Everything here is free. This service is provided to you in the state and its use is completely free. This service is in part self-financed by advertisements.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;How to help us?&lt;/span&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;span&gt;Funding is what we lack most at the site. Infrastructure is expensive. Advertisements partly pay for servers, but this is often not enough. You can help us by becoming a premium member. This will allow us to invest in new servers, and increase the functionality of MultiUp.org.&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;span&gt;Funding is what we lack most at the site. Infrastructure is expensive. Advertisements partly pay for servers, but this is often not enough. You can help us by becoming a premium member. This will allow us to invest in new servers, and increase the functionality of MultiUp.io.&lt;/span&gt;&lt;/p&gt;
 
     &lt;p&gt;&lt;span class=&quot;h1&quot;&gt;About premium accounts:&lt;/span&gt;&lt;/p&gt;
     &lt;p&gt;Premium accounts are now available on the premium page:&lt;/p&gt;

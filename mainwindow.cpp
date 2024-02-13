@@ -987,7 +987,7 @@ void MainWindow::on_descriptionText_linkActivated(const QString &link)
 
     if(link == "#support")
         // Ouvre l'url du site
-        QDesktopServices::openUrl(QUrl(tr("https://www.multiup.org/fr/premium")));
+        QDesktopServices::openUrl(QUrl(tr("https://multiup.io/fr/premium")));
 
     if(link == "#check_update")
         checkUpdateWindow();
@@ -1987,7 +1987,7 @@ void MainWindow::receptionSelectionServeurEtat(int etatSelectionServeur)
 
     switch(etatSelectionServeur)
     {
-        case 0:     m_liensFichiers[m_row] = tr("Erreur sur multiup.org...");
+        case 0:     m_liensFichiers[m_row] = tr("Erreur sur multiup.io...");
                     break;
 
         case 1:     // Poursuite de la procédure de préparation des fichiers.
@@ -2076,7 +2076,7 @@ void MainWindow::uploadCurl()
     // Création et envoi de l'objet dans le thread
     std::string curlFileName = m_cheminsFichiers.at(m_row).toStdString();
 
-    // Url V2 : http://SERVER.multiup.org/upload/index.php
+    // Url V2 : http://SERVER.multiup.io/upload/index.php
     qDebug() << "URL!!!" << m_adresseIpServeur;
     m_adresseIpServeur.replace(QString("https"), QString("http"));
     qDebug() << "URL apres!!!" << m_adresseIpServeur;
